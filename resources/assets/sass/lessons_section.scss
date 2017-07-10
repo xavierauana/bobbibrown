@@ -1,0 +1,15 @@
+.lessons_section {
+  h2 {
+    margin-left: 5px;
+  }
+  .lesson_wrapper {
+    padding: 5px;
+    .lesson_item {
+      height: 150px;
+      padding-left: 5px;
+      border: 1px gray dashed;
+      border-radius: 5px;
+    }
+  }
+  
+}

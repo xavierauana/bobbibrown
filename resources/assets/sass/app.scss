@@ -1,0 +1,66 @@
+// Fonts
+//@import url("https://fonts.googleapis.com/css?family=Raleway:300,400,600");
+@import url("https://fonts.googleapis.com/css?family=Heebo:300,400,700|Hind+Madurai:300,400,600");
+@import url("https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css");
+// Variables
+@import "variables";
+// Bootstrap
+@import "node_modules/bootstrap-sass/assets/stylesheets/bootstrap";
+
+$pink: #ff4661;
+
+.btn-primary:hover {
+  background-color: $pink;
+  border-color: $pink;
+}
+
+.had-error {
+  .form-control {
+    border-color: $pink;
+  }
+  .help-block {
+    color: $pink
+  }
+}
+
+.form-control:focus {
+  border-color: $pink;
+  box-shadow: none;
+}
+
+.navbar-default {
+  .navbar-toggle {
+    border-color: transparent;
+    &:hover,
+    &:active {
+      background-color: transparent;
+    }
+    
+    .icon-bar {
+      background-color: white;
+    }
+  }
+  
+  .navbar-nav > li > a {
+    color: white;
+    
+    &:hover,
+    &:focus {
+      color: lightgrey;
+    }
+  }
+  .navbar-brand {
+    color: white
+  }
+}
+
+.dropdown-menu > li > a {
+  &:hover,
+  &:focus {
+    color: $pink;
+    background-color: transparent;
+  }
+}
+
+@import "collection_section";
+@import "lessons_section";

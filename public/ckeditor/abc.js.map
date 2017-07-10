@@ -1,0 +1,10 @@
+{
+  "version": 3,
+  "file": "abc.js",
+  "sourceRoot": "",
+  "sources": [
+    "abc.coffee"
+  ],
+  "names": [],
+  "mappings": ";AAAA;EAAA,QAAQ,CAAC,YAAT,GAAwB,SAAC,MAAD;IACtB,MAAM,CAAC,UAAP,GACE,0FAAA,GACE,uEADF,GAEE,kGAFF,GAGE,4GAHF,GAIE,QAAQ,CAAC,MAAM,CAAC;WACpB;EAPsB;AAAxB"
+}

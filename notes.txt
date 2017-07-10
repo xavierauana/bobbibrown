@@ -1,0 +1,7 @@
+Main Module - eLearning
+1. Create Lesson
+2. Create Test
+3. Record Test Attempt
+4. Show result
+5. Create Lesson Collection
+6. User has Permission and Roles
