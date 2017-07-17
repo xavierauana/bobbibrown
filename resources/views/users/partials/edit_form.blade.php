@@ -24,7 +24,7 @@
     <label for="role_ids">Roles</label>
 	<select id="role_ids" name="role_ids" class="form-control" required>
 		<option value="">-- Please Select One --</option>
-		@foreach($user->roles as $role)
+		@foreach(App\Role::all() as $role)
 			<option value="{{$role->id}}"
 			        @if(in_array($role->id, $user->roles->pluck('id')->toArray())) selected @endif>{{$role->label}}</option>
 		@endforeach
