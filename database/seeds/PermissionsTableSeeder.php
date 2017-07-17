@@ -16,6 +16,10 @@ class PermissionsTableSeeder extends Seeder
                 'label' => 'General',
                 'code'  => 'general',
             ],
+            [
+                'label' => 'Trainee',
+                'code'  => 'trainee',
+            ],
 
         ];
 
