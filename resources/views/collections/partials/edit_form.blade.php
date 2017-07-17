@@ -1,14 +1,17 @@
 <form class="form" action="{{route('collections.update', $collection->id)}}" method="POST">
 	{{csrf_field()}}
 	<input type='hidden' name="_method" value="PATCH">
-	<div class="form-group">
-		<label>Collection Title</label>
-		<input type="text" name="title" class="form-control" value="{{$collection->title}}" />
-	</div>
-	<div class="form-group">
-		<label>Collection Description</label>
-		<textarea name="body" id="description" class="form-control">{{$collection->description}}</textarea>
-	</div>
+	@include('elements.inputs.text', [
+'label'=>"Collection Title",
+'field'=>"title",
+'autofocus'=>true,
+'value'=>$collection->title
+])
+	@include('elements.inputs.textarea', [
+	'label'=>"Collection Description",
+	'field'=>"description",
+	'value'=>$collection->description
+	])
 	<div class="form-group">
 		<label>Permission</label>
 		<select name="permission_id" class="form-control">

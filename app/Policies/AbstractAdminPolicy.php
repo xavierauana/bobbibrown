@@ -9,7 +9,6 @@ namespace App\Policies;
 
 
 use Anacreation\MultiAuth\Model\Admin;
-use Anacreation\MultiAuth\Model\AdminPermission;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class AbstractAdminPolicy
@@ -20,16 +19,17 @@ class AbstractAdminPolicy
         return $admin->hasPermission("index" . $this->shortName);
     }
 
+    public function show(Admin $admin): bool {
+        return $admin->hasPermission("show" . $this->shortName);
+    }
 
     public function create(Admin $admin): bool {
         return $admin->hasPermission("create" . $this->shortName);
     }
 
-
     public function edit(Admin $admin): bool {
         return $admin->hasPermission("edit" . $this->shortName);
     }
-
 
     public function delete(Admin $admin): bool {
         return $admin->hasPermission("delete" . $this->shortName);

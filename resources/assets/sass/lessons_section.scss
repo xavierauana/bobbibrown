@@ -1,3 +1,5 @@
+$lessons_section_check_width: 30px;
+
 .lessons_section {
   h2 {
     margin-left: 5px;
@@ -5,11 +7,26 @@
   .lesson_wrapper {
     padding: 5px;
     .lesson_item {
+      background-color: grey;
       height: 150px;
       padding-left: 5px;
       border: 1px gray dashed;
       border-radius: 5px;
+      
+      a {
+        position: relative;
+        color: white;
+        font-size: 2em;
+      }
+      
+      span.check {
+        display: inline-block;
+        line-height: $lessons_section_check_width;
+        width: $lessons_section_check_width;
+        height: $lessons_section_check_width;
+        background-color: white;
+        border-radius: $lessons_section_check_width/2;
+      }
     }
   }
-  
 }

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Events\UserRegistration;
 use App\Http\Controllers\Controller;
+use App\Role;
 use App\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Http\Request;
@@ -29,7 +30,7 @@ class RegisterController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/home';
+    protected $redirectTo = '/login';
 
     /**
      * Create a new controller instance.
@@ -72,11 +73,20 @@ class RegisterController extends Controller
 
     public function registered(Request $request, User $user) {
 
+        // Create email token
         $user->email_token = str_random(32);
 
         $user->save();
 
+        // Assign role to user
+        $user->roles()->save(Role::whereCode('general')->first());
+
         event(new UserRegistration($user));
+
+        auth()->logout();
+
+        session()->flash('message',
+            'Thank for registration! A confirmation email will send to you shortly. Please confirm!');
 
         return redirect($this->redirectPath());
     }

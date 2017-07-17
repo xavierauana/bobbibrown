@@ -24,4 +24,10 @@ class Collection extends Model
     public function menus(): Relation {
         return $this->morphMany(Menu::class, 'has_menu');
     }
+
+
+    // Mutators
+    public function setDescriptionAttribute($value) {
+        $this->attributes['description'] = trim($value);
+    }
 }

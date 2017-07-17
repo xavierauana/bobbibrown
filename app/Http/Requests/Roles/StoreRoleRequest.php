@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Roles;
 
+use App\Role;
 use Illuminate\Foundation\Http\FormRequest;
 
 class StoreRoleRequest extends FormRequest
@@ -11,9 +12,8 @@ class StoreRoleRequest extends FormRequest
      *
      * @return bool
      */
-    public function authorize()
-    {
-        return auth('admin')->check() && auth('admin')->user()->hasPermission('createUserRole');
+    public function authorize() {
+        return auth('admin')->check() && auth('admin')->user()->can('create', Role::class);
     }
 
     /**
@@ -21,10 +21,10 @@ class StoreRoleRequest extends FormRequest
      *
      * @return array
      */
-    public function rules()
-    {
+    public function rules() {
         return [
-            //
+            'label' => 'required',
+            'code'  => 'required|unique:roles,code',
         ];
     }
 }

@@ -4,6 +4,7 @@ namespace App;
 
 use Anacreation\Etvtest\Contracts\TestableInterface;
 use Anacreation\Etvtest\Contracts\TestableTraits;
+use Anacreation\Etvtest\Models\Test;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\Relation;
 
@@ -32,5 +33,9 @@ class Lesson extends Model implements TestableInterface
 
     public function hasTest(): bool {
         return $this->tests->count() > 0;
+    }
+
+    public function getTestAttribute(): ?Test {
+        return $this->tests()->first();
     }
 }

@@ -19,6 +19,7 @@ class CreateUsersTable extends Migration
             $table->string('password');
             $table->string('employee_id')->unique();
             $table->boolean('is_verified')->default(false);
+            $table->boolean('is_approved')->default(false);
             $table->string('email_token')->nullable();
             $table->rememberToken();
             $table->timestamps();

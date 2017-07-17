@@ -28,6 +28,8 @@ Auth::routes();
 Route::group(['middleware' => "auth:admin", 'prefix' => 'admin', 'guard' => 'admin'], function () {
 
     Route::resource("events", "EventsController");
+    Route::resource("users", "UsersController");
+    Route::post("users/{user}/approve", "UsersController@approve");
     Route::resource("collections", "CollectionsController");
     Route::post("collections/{collection}/updateOrder", "CollectionsController@updateLessonsOrder");
     Route::get("collections/{collection}/lessons", "CollectionsController@editLessonsIndex")
@@ -41,6 +43,8 @@ Route::group(['middleware' => "auth:admin", 'prefix' => 'admin', 'guard' => 'adm
     Route::post("lessons/{lesson}/tests", "LessonsController@updateTests");
     Route::resource("permissions", "PermissionsController");
     Route::resource("roles", "RolesController");
+    Route::get("roles/{role}/permissions", "RolesController@showPermissions");
+    Route::post("roles/{role}/permissions", "RolesController@updatePermissions");
     Route::resource("tests", "TestsController");
     Route::resource("tests.questions", "QuestionsController");
     Route::post("questions/updateOrder", "QuestionsController@updateOrder");
@@ -48,7 +52,9 @@ Route::group(['middleware' => "auth:admin", 'prefix' => 'admin', 'guard' => 'adm
         return response()->json(QuestionType::all());
     });
 
-    Route::resource('menus', 'MenusController');
+    Route::get('settings', 'SettingsController@index')->name('settings.index');
+    Route::get('settings/{setting}/edit', 'SettingsController@edit')->name('settings.edit');
+    Route::put('settings/{setting}', 'SettingsController@update')->name('settings.update');
 });
 
 Route::group(['middleware' => "auth"], function () {
@@ -62,8 +68,11 @@ Route::group(['middleware' => "auth"], function () {
 
     Route::get('/lessons/{lesson}', 'HomeController@showLesson')->name("show.lesson");
     Route::get('/lessons/{lesson}/test', 'HomeController@showLessonTest')->name("show.lesson.test");
-
+    Route::post('/tests/{test}/grade', 'HomeController@gradeTest')->name("grade.test");
+    Route::get('/home', 'HomeController@index')->name('home');
+    Route::get('/events', 'HomeController@showEvents')->name('show.events');
+    Route::get('/events/{event}', 'HomeController@showEventDetail')->name('show.event.detail');
+    Route::post('/events/{event}/register', 'HomeController@registerEvent')->name('register.event');
 });
 
 
-Route::get('/home', 'HomeController@index')->name('home');

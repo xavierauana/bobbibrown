@@ -76,7 +76,6 @@ class EventsController extends Controller
      */
     public function edit(Event $event) {
         $this->authorize('edit', Event::class);
-
         return view('events.edit', compact('event'));
     }
 

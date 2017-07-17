@@ -12,7 +12,7 @@
                    <td v-text="event.start_datetime"></td>
                    <td v-text="event.currentVacancies"></td>
                     <td>
-                        <a :href="urls.update(event.id)" class="btn btn-sm btn-info">Edit</a>
+                        <a :href="urls.edit(event.id)" class="btn btn-sm btn-info">Edit</a>
                         <button class="btn btn-sm btn-danger" @click.prevent="deleteEvent(index)">Delete</button>
                     </td>
                </tr>

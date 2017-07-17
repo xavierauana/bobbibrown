@@ -50,6 +50,7 @@ Vue.mixin({
 Vue.component('example', require('./components/Example.vue'));
 Vue.component('test_table', require('./components/TestsTable.vue'));
 Vue.component('event_table', require('./components/EventsTable.vue'));
+Vue.component('user_events_table', require('./components/UserEventsTable.vue'));
 Vue.component('lesson_table', require('./components/LessonsTable.vue'));
 Vue.component('collection_table', require('./components/CollectionsTable.vue'));
 Vue.component('collection_lessons', require('./components/CollectionLessons.vue'));
@@ -59,6 +60,10 @@ Vue.component('permission_table', require('./components/PermissionsTable.vue'));
 Vue.component('create_question', require('./questions/components/CreateQuestionPage.vue'));
 Vue.component('edit_question', require('./questions/EditQuestion/components/main.vue'));
 Vue.component('menu_table', require('./components/MenuTable.vue'));
+Vue.component('user_table', require('./components/UsersTable.vue'));
+Vue.component('role_table', require('./components/RolesTable.vue'));
+Vue.component('role_permissions', require('./components/RolePermissions.vue'));
+Vue.component('test', require('./attempt/components/attempt.vue'))
 
 const app = new Vue({
                       el: '#app'

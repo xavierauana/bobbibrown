@@ -1,13 +1,16 @@
 <form class="form" action="{{route('collections.store')}}" method="POST">
 	{{csrf_field()}}
-	<div class="form-group">
-		<label>Collection Title</label>
-		<input type="text" name="title" class="form-control" />
-	</div>
-	<div class="form-group">
-		<label>Collection Description</label>
-		<textarea name="body" id="description" class="form-control"></textarea>
-	</div>
+	
+	@include('elements.inputs.text', [
+	'label'=>"Collection Title",
+	'field'=>"title",
+	'autofocus'=>true
+	])
+	@include('elements.inputs.textarea', [
+	'label'=>"Collection Description",
+	'field'=>"description",
+	])
+	
 	<div class="form-group">
 		<label>Permission</label>
 		<select name="permission_id" class="form-control">

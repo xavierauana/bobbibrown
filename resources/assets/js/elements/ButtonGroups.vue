@@ -9,7 +9,7 @@
 
         <div class="btn-group-vertical btn-group-sm hidden-md hidden-lg" role="group" aria-label="...">
             <button class="btn btn-sm"
-                    @click.prevent="clickButton(indexs)"
+                    @click.prevent="clickButton(index)"
                     v-for="(label, index) in labels" v-text="label.label"
                     :class="label.class"></button>
         </div>

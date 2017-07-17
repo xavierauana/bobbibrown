@@ -26,13 +26,15 @@ class AdminPermissionsTableSeeder extends Seeder
         $objects = [
             "Test",
             "User",
-            "Event",
-            "Admin",
-            "Admin Role",
             "Menu",
+            "Admin",
+            "Event",
             "Lesson",
+            "Setting",
             "User Role",
             "Collection",
+            "Admin Role",
+            "User Permission",
             "User Permission",
         ];
 

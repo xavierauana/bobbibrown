@@ -2,13 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Collection;
-use App\Http\Requests\Menus\StoreMenuRequest;
-use App\Lesson;
-use App\Menu;
+use App\User;
 use Illuminate\Http\Request;
 
-class MenusController extends Controller
+class UsersController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,12 +13,10 @@ class MenusController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index() {
-        $this->authorize('view', Menu::class);
+        $this->authorize('view', User::class);
+        $users = User::all();
 
-        $menus = Menu::all();
-
-        return view('menus.index', compact('menus'));
-        //
+        return view('users.index', compact('users'));
     }
 
     /**
@@ -30,11 +25,7 @@ class MenusController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function create() {
-        $options = new \Illuminate\Support\Collection();
-        $options = $options->merge(Collection::all());
-        $options = $options->merge(Lesson::all());
-
-        return view('menus.create', compact('options'));
+        //
     }
 
     /**
@@ -43,14 +34,8 @@ class MenusController extends Controller
      * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreMenuRequest $request) {
-        Menu::create([
-            'title'         => $request->get('title'),
-            'url'           => $request->get('url'),
-            'has_menu_type' => $request->get('type'),
-            'has_menu_id'   => $request->get('id'),
-            'is_active'     => $request->get('is_active')
-        ]);
+    public function store(Request $request) {
+        //
     }
 
     /**
@@ -59,8 +44,10 @@ class MenusController extends Controller
      * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id) {
-        //
+    public function show(User $user) {
+        $this->authorize('show', User::class);
+
+        return view('users.show', compact('user'));
     }
 
     /**
@@ -69,8 +56,8 @@ class MenusController extends Controller
      * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id) {
-        //
+    public function edit(User $user) {
+        return view('users.edit', compact('user'));
     }
 
     /**
@@ -92,5 +79,14 @@ class MenusController extends Controller
      */
     public function destroy($id) {
         //
+    }
+
+    public function approve(User $user) {
+        $this->authorize('edit', User::class);
+
+        $user->is_approved = true;
+        $user->save();
+
+        return response('completed');
     }
 }

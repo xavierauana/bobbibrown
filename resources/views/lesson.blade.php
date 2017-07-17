@@ -9,9 +9,15 @@
 	            <div>{!! $lesson->body !!}</div>
 	        </div>
 			@if($lesson->hasTest())
-				<div class="panel-footer clearfix">
-					<a class="btn btn-primary pull-right" href="{{route('show.lesson.test', $lesson->id)}}">Test</a>
-				</div>
+				@if(auth()->user()->passTest($lesson->test))
+					<div class="panel-footer clearfix text-success">
+						<h5><i class="fa fa-check" aria-hidden="true"></i> You have pass the Test</h5>
+					</div>
+				@else
+					<div class="panel-footer clearfix">
+						<a class="btn btn-primary pull-right" href="{{route('show.lesson.test', $lesson->id)}}">Test</a>
+					</div>
+				@endif
 			@endif
 	    </div>
 	</div>

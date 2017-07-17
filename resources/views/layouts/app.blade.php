@@ -29,7 +29,7 @@
                     </button>
 
                     <!-- Branding Image -->
-                    <a class="navbar-brand" href="{{ url('/') }}">
+                    <a class="navbar-brand" href="{{ url('/home') }}">
                         {{ config('app.name', 'Laravel') }}
                     </a>
                 </div>
@@ -37,7 +37,10 @@
                 <div class="collapse navbar-collapse" id="app-navbar-collapse">
                     <!-- Left Side Of Navbar -->
                     <ul class="nav navbar-nav">
-                        &nbsp;
+                        @if (Auth::check())
+		                    <li><a href="{{ route('home') }}">Learning</a></li>
+		                    <li><a href="{{ route('show.events') }}">Events</a></li>
+	                    @endif
                     </ul>
 
                     <!-- Right Side Of Navbar -->
@@ -77,6 +80,7 @@
     </div>
 
     <!-- Scripts -->
-    <script src="{{ asset('js/app.js') }}"></script>
+    <script src="{{ mix('js/app.js') }}"></script>
+    @yield('scripts')
 </body>
 </html>

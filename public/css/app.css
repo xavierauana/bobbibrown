@@ -8410,10 +8410,26 @@ button.close {
 }
 
 .collection_section .collection_item_wrapper .collection_item {
+  background-color: black;
   height: 150px;
   padding-left: 5px;
   border: 1px gray dashed;
   border-radius: 5px;
+}
+
+.collection_section .collection_item_wrapper .collection_item a {
+  position: relative;
+  color: white;
+  font-size: 2em;
+}
+
+.collection_section .collection_item_wrapper .collection_item a span.check {
+  display: inline-block;
+  line-height: 30px;
+  width: 30px;
+  height: 30px;
+  background-color: white;
+  border-radius: 15px;
 }
 
 .lessons_section h2 {
@@ -8425,9 +8441,70 @@ button.close {
 }
 
 .lessons_section .lesson_wrapper .lesson_item {
+  background-color: grey;
   height: 150px;
   padding-left: 5px;
   border: 1px gray dashed;
   border-radius: 5px;
+}
+
+.lessons_section .lesson_wrapper .lesson_item a {
+  position: relative;
+  color: white;
+  font-size: 2em;
+}
+
+.lessons_section .lesson_wrapper .lesson_item span.check {
+  display: inline-block;
+  line-height: 30px;
+  width: 30px;
+  height: 30px;
+  background-color: white;
+  border-radius: 15px;
+}
+
+.collection_lesson {
+  border: 1px solid darkgray;
+  border-radius: 5px;
+  min-height: 70px;
+  margin-bottom: 15px;
+  vertical-align: center;
+}
+
+.collection_lesson span.check {
+  line-height: 70px;
+  font-size: 1.5em;
+}
+
+.collection_lesson .index,
+.collection_lesson a {
+  line-height: 70px;
+  font-size: 1.5em;
+}
+
+.collection_lesson .index a {
+  display: block;
+  margin: 0;
+  line-height: 50px;
+  margin-top: 10px;
+  width: 50px;
+  height: 50px;
+  border: 1px solid black;
+  border-radius: 25px;
+}
+
+.collection_lesson .index a span.check {
+  line-height: 50px;
+  font-size: 1.2em;
+  border-color: green;
+}
+
+.test input {
+  border: none;
+}
+
+.test .form-control {
+  margin-bottom: 5px;
+  border: 1px solid #e3e3e3;
 }
 

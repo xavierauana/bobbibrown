@@ -1,0 +1,42 @@
+$top-margin: 10px;
+$collection_lesson_height: 50px;
+$total_height: $collection_lesson_height + 2 * $top-margin;
+
+.collection_lesson {
+  border: 1px solid darkgray;
+  border-radius: 5px;
+  min-height: $total_height;
+  margin-bottom: 15px;
+  vertical-align: center;
+  
+  span.check {
+    line-height: 70px;
+    font-size: 1.5em;
+  }
+  
+  .index,
+  a {
+    line-height: $total_height;
+    font-size: 1.5em;
+  }
+  
+  .index a {
+    display: block;
+    margin: 0;
+    line-height: $collection_lesson_height;
+    margin-top: $top-margin;
+    width: $collection_lesson_height;
+    height: $collection_lesson_height;
+    border: 1px solid black;
+    border-radius: $collection_lesson_height/2;
+  
+    span.check {
+      line-height: $collection_lesson_height;
+      font-size: 1.2em;
+      border-color: green ;
+    }
+  }
+  
+  
+  
+}

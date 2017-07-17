@@ -1,7 +1,4 @@
 @if(auth('admin')->check())
-	@can('view', new App\Menu())
-		<li><a href="{{route('menus.index')}}">Menus</a></li>
-	@endcan
 	@if(auth('admin')->user()->hasPermission('showCollection'))
 		<li><a href="{{route('collections.index')}}">Collections</a></li>
 	@endif
@@ -14,6 +11,9 @@
 	@if(auth('admin')->user()->hasPermission('showEvent'))
 		<li><a href="{{route('events.index')}}">Events</a></li>
 	@endif
+	@if(auth('admin')->user()->hasPermission('showSetting'))
+		<li><a href="{{route('settings.index')}}">Setting</a></li>
+	@endif
 	
 	
 	<li class="dropdown">
@@ -23,10 +23,10 @@
         </a>
         <ul class="dropdown-menu" role="menu">
 			@if(auth('admin')->user()->hasPermission('showUser'))
-		        <li><a href="#">Users</a></li>
+		        <li><a href="{{route('users.index')}}">Users</a></li>
 	        @endif
 	        @if(auth('admin')->user()->hasPermission('showUserRole'))
-		        <li><a href="#">Roles</a></li>
+		        <li><a href="{{route('roles.index')}}">Roles</a></li>
 	        @endif
 	        @if(auth('admin')->user()->hasPermission('showUserPermission'))
 		        <li><a href="{{route("permissions.index")}}">Permissions</a></li>

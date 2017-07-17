@@ -51,8 +51,8 @@ export default{
     },
     updateLessons(){
       axios.post(this.urls.lessons(this.collection.id), this.selected)
-//           .then(() => window.location.href = '/admin/collections/' + this.collection.id + "/lessons")
-//           .catch(res => console.log(res))
+           .then(() => window.location.href = '/admin/collections/' + this.collection.id + "/lessons")
+           .catch(res => console.log(res))
     }
   }
 

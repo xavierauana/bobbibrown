@@ -14,8 +14,12 @@ use App\Policies\LessonPolicy;
 use App\Policies\MenuPolicy;
 use App\Policies\PermissionPolicy;
 use App\Policies\RolePolicy;
+use App\Policies\SettingPolicy;
 use App\Policies\TestPolicy;
+use App\Policies\UserPolicy;
 use App\Role;
+use App\Setting;
+use App\User;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 
 class AuthServiceProvider extends ServiceProvider
@@ -32,7 +36,8 @@ class AuthServiceProvider extends ServiceProvider
         Permission::class => PermissionPolicy::class,
         Role::class       => RolePolicy::class,
         Test::class       => TestPolicy::class,
-        Menu::class       => MenuPolicy::class,
+        User::class       => UserPolicy::class,
+        Setting::class    => SettingPolicy::class,
     ];
 
     /**

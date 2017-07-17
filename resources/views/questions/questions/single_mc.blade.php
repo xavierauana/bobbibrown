@@ -6,7 +6,7 @@
 		@foreach($question->choices->shuffle() as $choice)
 			<div class="form-control">
 				<label>
-					<input type="radio" value="{{$choice->id}}" /> {{$choice->content}}
+					<input type="radio" name="{{$question->id}}" value="{{$choice->id}}" /> {{$choice->content}}
 				</label>
 			</div>
 		@endforeach
