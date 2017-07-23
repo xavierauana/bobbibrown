@@ -5,6 +5,7 @@ namespace App;
 use Anacreation\Etvtest\Models\Attempt;
 use Anacreation\Etvtest\Models\Test;
 use App\Events\UserSuccessfullyRegisterEvent;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -148,6 +149,18 @@ class User extends Authenticatable
         }
 
         return false;
+    }
+
+    public function hasLessonPermission(Lesson $lesson): bool {
+        return $this->hasObjectCollection($lesson);
+    }
+
+    public function hasCollectionPermission(\App\Collection $collection): bool {
+        return $this->hasObjectCollection($collection);
+    }
+
+    private function hasObjectCollection(Model $model): bool {
+        return in_array($model->permission_id, $this->permissions->pluck('id')->toArray());
     }
 
 }

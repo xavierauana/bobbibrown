@@ -32,34 +32,44 @@ class HomeController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index() {
-        $collections = Collection::all();
-        $lessons = Lesson::whereIsStandalone(true)->get();
+        $collections = Collection::available(auth()->user())->get();
+        $lessons = Lesson::whereIsStandalone(true)->available(auth()->user())->get();
 
         return view('home', compact('collections', 'lessons'));
     }
 
     public function showCollection(Collection $collection) {
-        $collection->load([
-            'lessons' => function ($query) {
-                return $query->orderBy('pivot_order');
-            }
-        ]);
 
-        return view('collection', compact('collection'));
+        if (auth()->user()->hasCollectionPermission($collection)) {
+            $collection->load([
+                'lessons' => function ($query) {
+                    return $query->orderBy('pivot_order')->available(auth()->user());
+                }
+            ]);
+
+            return view('collection', compact('collection'));
+        }
+
+        session()->flash('message', 'You are not allow to accessing this series!');
+
+        return redirect()->back();
+
     }
 
     public function showCollectionLesson(Collection $collection, $lessonId) {
 
-        $lesson = $collection->lessons()->findOrFail($lessonId);
+        $lesson = $collection->lessons()->available(auth()->user())->findOrFail($lessonId);
 
         return view('lesson', compact('collection', 'lesson'));
     }
 
     public function showLesson(Lesson $lesson) {
 
-        if ($lesson->is_standalone) {
+        if ($lesson->is_standalone and auth()->user()->hasLessonPermission($lesson)) {
             return view('lesson', compact('lesson'));
         }
+
+        session()->flash('message', 'You are not allow to accessing this lesson!');
 
         return redirect()->back();
     }

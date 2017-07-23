@@ -5,11 +5,14 @@ namespace App;
 use Anacreation\Etvtest\Contracts\TestableInterface;
 use Anacreation\Etvtest\Contracts\TestableTraits;
 use Anacreation\Etvtest\Models\Test;
+use App\Scopes\WithinPermissions;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\Relation;
 
 class Lesson extends Model implements TestableInterface
 {
+    use WithinPermissions;
+
     protected $fillable = [
         "permission_id",
         "title",
@@ -38,4 +41,6 @@ class Lesson extends Model implements TestableInterface
     public function getTestAttribute(): ?Test {
         return $this->tests()->first();
     }
+
+
 }

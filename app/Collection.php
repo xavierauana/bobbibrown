@@ -2,11 +2,14 @@
 
 namespace App;
 
+use App\Scopes\WithinPermissions;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\Relation;
 
 class Collection extends Model
 {
+    use WithinPermissions;
+
     protected $fillable = [
         'title',
         'description',
