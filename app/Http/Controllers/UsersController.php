@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Users\StoreUserRequest;
+use App\Http\Requests\Users\UpdateUserRequest;
 use App\User;
 use Illuminate\Http\Request;
 
@@ -34,7 +36,7 @@ class UsersController extends Controller
      * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request) {
+    public function store(StoreUserRequest $request) {
         //
     }
 
@@ -67,8 +69,22 @@ class UsersController extends Controller
      * @param  int                      $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id) {
-        //
+    public function update(UpdateUserRequest $request, User $user) {
+        $user->update([
+            'name'        => $request->get('name'),
+            'email'       => $request->get('email'),
+            'employee_id' => $request->get('employee_id'),
+        ]);
+
+        $role_ids = $request->get('role_ids');
+        $role_ids = is_array($role_ids) ? $role_ids : [$role_ids];
+
+        $user->roles()->sync($role_ids);
+
+        session()->flash('message', "{$user->name} has been updated");
+
+        return redirect()->route('users.index');
+
     }
 
     /**
@@ -77,8 +93,12 @@ class UsersController extends Controller
      * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id) {
-        //
+    public function destroy(User $user) {
+        $this->authorize('delete', User::class);
+        session()->flash('message', "{$user->name} has been deleted");
+        $user->delete();
+
+        return redirect()->route('users.index');
     }
 
     public function approve(User $user) {

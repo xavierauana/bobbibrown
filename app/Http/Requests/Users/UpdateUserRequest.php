@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Users;
 
+use App\Role;
 use Illuminate\Foundation\Http\FormRequest;
 
 class UpdateUserRequest extends FormRequest
@@ -11,9 +12,8 @@ class UpdateUserRequest extends FormRequest
      *
      * @return bool
      */
-    public function authorize()
-    {
-        return false;
+    public function authorize() {
+        return auth('admin')->check() && auth("admin")->user()->hasPermission('updateUser');
     }
 
     /**
@@ -21,10 +21,12 @@ class UpdateUserRequest extends FormRequest
      *
      * @return array
      */
-    public function rules()
-    {
+    public function rules() {
         return [
-            //
+            "name"        => "required",
+            "email"       => "required|email|unique:users,email," . $this->route('user')->id,
+            "employee_id" => "required",
+            "role_ids"    => "required|in:" . implode(',', Role::pluck('id')->toArray()),
         ];
     }
 }
