@@ -57,6 +57,8 @@ Route::group(['middleware' => "auth:admin", 'prefix' => 'admin', 'guard' => 'adm
     Route::put('settings/{setting}', 'SettingsController@update')->name('settings.update');
 });
 
+Route::post("/CKEditorFileUploader/upload", "CKEditorController@upload")->middleware('auth:admin');
+
 Route::group(['middleware' => "auth"], function () {
 
     Route::post("/events/{event}/registration", "EventsController@registration")->name("user.event.registration");
