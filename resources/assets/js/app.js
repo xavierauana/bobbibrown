@@ -50,6 +50,7 @@ Vue.mixin({
 Vue.component('example', require('./components/Example.vue'));
 Vue.component('test_table', require('./components/TestsTable.vue'));
 Vue.component('event_table', require('./components/EventsTable.vue'));
+Vue.component('event_detail', require('./components/frontEnd/EventDetail.vue'));
 Vue.component('user_events_table', require('./components/UserEventsTable.vue'));
 Vue.component('lesson_table', require('./components/LessonsTable.vue'));
 Vue.component('collection_table', require('./components/CollectionsTable.vue'));

@@ -1,10 +1,7 @@
 @extends("MultiAuth::layouts.admin")
 
-@section('styles')
-	<style href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker.min.css"></style>
-@endsection
-
 @section("content")
+	@include('partials.alert')
 	<div class="container">
     <div class="row">
         <div class="col-md-8 col-md-offset-2">

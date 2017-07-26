@@ -1,3 +1,8 @@
+@section('styles')
+	@parent
+	<style href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker.min.css"></style>
+@endsection
+
 <form class="form" action="{{route('events.update', $event->id)}}" method="POST">
 	{{csrf_field()}}
 	<input type='hidden' name="_method" value="PATCH">

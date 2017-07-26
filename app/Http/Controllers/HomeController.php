@@ -17,6 +17,9 @@ use Illuminate\Http\Request;
 
 class HomeController extends Controller
 {
+
+    private $eventTransformer;
+
     /**
      * Create a new controller instance.
      *
@@ -24,6 +27,17 @@ class HomeController extends Controller
      */
     public function __construct() {
         $this->middleware('auth');
+
+        $this->eventTransformer = function (Event $event) {
+            return [
+                'id'           => $event->id,
+                'title'        => $event->title,
+                'startDate'    => $event->start_datetime,
+                'can_register' => auth()->user()->canRegisterEvent($event),
+                'vacancies'    => $event->vacancies,
+                'participants' => $event->participants->count(),
+            ];
+        };
     }
 
     /**
@@ -108,20 +122,14 @@ class HomeController extends Controller
 
     public function showEvents() {
         $events = Event::where('start_datetime', '>', Carbon::now())->orderBy('start_datetime')->with('users')->get()
-                       ->map(function (Event $event) {
-                           return [
-                               'id'           => $event->id,
-                               'title'        => $event->title,
-                               'can_register' => auth()->user()->canRegisterEvent($event),
-                               'vacancies'    => $event->vacancies,
-                               'participants' => $event->participants->count(),
-                           ];
-                       });
+                       ->map($this->eventTransformer);
 
         return view('events', compact('events'));
     }
 
     public function showEventDetail(Event $event) {
+        $event->body = nl2br($event->body);
+
         return view('event_detail', compact('event'));
     }
 

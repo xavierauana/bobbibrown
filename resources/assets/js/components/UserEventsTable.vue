@@ -2,6 +2,7 @@
     <table class="table">
 		            <thead>
 		                <th>Event</th>
+		                <th>Date and Time</th>
 		                <th>Vacancy</th>
 		                <th>Register</th>
 		            </thead>
@@ -9,6 +10,9 @@
 			                <tr v-for="event in events">
 			                    <td>
 				                    <a :href="showEventDetail(event)" v-text="event.title"></a>
+			                    </td>
+			                    <td v-text="event.startDate">
+
 			                    </td>
 			                    <td>
 				                    <span class="label"

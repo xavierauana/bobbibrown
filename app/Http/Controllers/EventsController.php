@@ -8,6 +8,7 @@ use App\Http\Requests\Events\DeleteEventRequest;
 use App\Http\Requests\Events\EditEventRequest;
 use App\Http\Requests\Events\StoreEventRequest;
 use App\Http\Requests\Events\UpdateEventRequest;
+use App\User;
 use Carbon\Carbon;
 
 class EventsController extends Controller
@@ -76,6 +77,7 @@ class EventsController extends Controller
      */
     public function edit(Event $event) {
         $this->authorize('edit', Event::class);
+
         return view('events.edit', compact('event'));
     }
 
@@ -112,5 +114,16 @@ class EventsController extends Controller
 
     public function registration(EventRegistrationRequest $request, Event $event) {
         $request->user()->register($event);
+
+        return response()->json(['status' => 'Completed', 'user' => $request->user()]);
+    }
+
+    public function removeParticipant(Event $event, User $user) {
+        $this->authorize('edit', Event::class);
+        $event->removeUser($user);
+
+        session()->flash('message', "{$user->name} remove from the event.");
+
+        return redirect()->back();
     }
 }

@@ -39,4 +39,8 @@ class Event extends Model
         return ($this->vacancies - $this->participants->count()) . "/" . $this->vacancies;
     }
 
+    public function removeUser(User $user) {
+        $this->users()->detach($user->id);
+    }
+
 }

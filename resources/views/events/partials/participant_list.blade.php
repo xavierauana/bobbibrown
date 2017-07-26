@@ -12,7 +12,10 @@
 			<td>{{$participant->employee_id}}</td>
 			<td>{{$participant->name}}</td>
 			<td>
-				<button class="btn btn-sm btn-danger">Remove</button>
+				<form action="{{route('events.participants.remove', [$event->id, $participant->id])}}" method="post">
+					{{csrf_field()}}
+					<input type="submit" value="Remove" class="btn btn-sm btn-danger">
+				</form>
 				<button class="btn btn-sm btn-primary">Reminder</button>
 			</td>
 		</tr>

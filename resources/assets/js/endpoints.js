@@ -1,7 +1,9 @@
 export const Events = {
-  edit  : eventId => "/admin/events/" + eventId + "/edit",
-  update: eventId => "/admin/events/" + eventId,
-  delete: eventId => "/admin/events/" + eventId,
+  edit        : eventId => "/admin/events/" + eventId + "/edit",
+  update      : eventId => "/admin/events/" + eventId,
+  delete      : eventId => "/admin/events/" + eventId,
+  frontEnd    : "/events",
+  registration: eventId => "/events/" + eventId + "/registration"
 }
 export const Users = {
   show   : userId => "/admin/users/" + userId,
