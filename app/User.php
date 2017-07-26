@@ -97,6 +97,14 @@ class User extends Authenticatable
         return $this->belongsToMany(Role::class);
     }
 
+    // Scope
+    public function scopeIsActive($query) {
+        return $query->where([
+            'is_verified' => true,
+            'is_approved' => true,
+        ]);
+    }
+
     // Methods
     public function passCollection(\App\Collection $collection = null): bool {
 

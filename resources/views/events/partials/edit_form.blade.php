@@ -3,22 +3,50 @@
 	<style href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker.min.css"></style>
 @endsection
 
-<form class="form" action="{{route('events.update', $event->id)}}" method="POST">
+<form class="form" action="{{route('events.update', $event->id)}}" method="POST" enctype="multipart/form-data">
 	{{csrf_field()}}
-	<input type='hidden' name="_method" value="PATCH">
+	@if($event->photo)
+		<img src="{{$event->photo}}" class="img-thumbnail img-responsive">
+	@endif
+	
 	<div class="form-group">
-		<label>Event Title</label>
-		<input type="text" name="title" class="form-control" value="{{$event->title}}" />
+		<label for="photo">Photo</label>
+		<input type="file" id="photo" name="photo" class="form-control">
+		@if ($errors->has("photo"))
+			<span class="help-block">
+                <strong>{{ $errors->first("photo") }}</strong>
+            </span>
+		@endif
 	</div>
-	<div class="form-group">
-		<label>Event Description</label>
-		<textarea name="body" class="form-control"> {{$event->body}} </textarea>
-	</div>
-	<div class="form-group">
-		<label>Vacancy</label>
-		<input type="number" step="1" name="vacancies" class="form-control" value="{{$event->vacancies}}" />
-	</div>
-		
+	
+	@include('elements.inputs.text',[
+	'field'=>'title',
+	'label'=>'Event Name',
+	'required'=>true,
+	'autofocus'=>true,
+	'value'=>$event->title
+	])
+	@include('elements.inputs.text',[
+	'field'=>'venue',
+	'label'=>'Venue',
+	'required'=>true,
+	'value'=>$event->venue
+	])
+	@include('elements.inputs.textarea',[
+	'field'=>'body',
+	'label'=>'Description',
+	'required'=>true,
+	'value'=>$event->body
+	])
+	
+	@include('elements.inputs.number',[
+	'field'=>'vacancies',
+	'label'=>'Vacancy',
+	'step'=>1,
+	'required'=>true,
+	'value'=>$event->vacancies
+	])
+	
 	<div class="form-group">
 		<label>Event Start Date and Time</label>
 		<div class='input-group date' id='start_datetime'>

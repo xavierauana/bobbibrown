@@ -12,6 +12,8 @@
                    <td v-text="event.start_datetime"></td>
                    <td v-text="event.currentVacancies"></td>
                     <td>
+                        <button class="btn btn-sm btn-default"
+                                @click.prevent="publish(event)">Publish</button>
                         <a :href="urls.edit(event.id)" class="btn btn-sm btn-info">Edit</a>
                         <button class="btn btn-sm btn-danger" @click.prevent="deleteEvent(index)">Delete</button>
                     </td>
@@ -44,7 +46,11 @@
                  .then(response => this.events.splice(index, 1))
                  .catch(response => console.log(response))
           }
-
+        },
+        publish(event){
+          axios.post(this.urls.publish(event.id))
+               .then(response => alert('Email will send to all active users.'))
+               .catch(() => alert('something wrong! Pls try again later!'))
         }
       }
     }

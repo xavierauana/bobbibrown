@@ -1,41 +1,50 @@
 <template lang="html">
-    <table class="table">
-		            <thead>
-		                <th>Event</th>
-		                <th>Date and Time</th>
-		                <th>Vacancy</th>
-		                <th>Register</th>
-		            </thead>
-		            <tbody>
-			                <tr v-for="event in events">
-			                    <td>
-				                    <a :href="showEventDetail(event)" v-text="event.title"></a>
-			                    </td>
-			                    <td v-text="event.startDate">
+    <!--<table class="table">-->
+    <!--<thead>-->
+    <!--<th>Event</th>-->
+    <!--<th>Date and Time</th>-->
+    <!--<th>Vacancy</th>-->
+    <!--<th>Register</th>-->
+    <!--</thead>-->
+    <!--<tbody>-->
+    <!--<tr v-for="event in events">-->
+    <!--<td>-->
+    <!--<a :href="showEventDetail(event)" v-text="event.title"></a>-->
+    <!--</td>-->
+    <!--<td v-text="event.startDate">-->
 
-			                    </td>
-			                    <td>
-				                    <span class="label"
-                                          :class="{'label-success':hasVacancy(event), 'label-danger':!hasVacancy(event)}"
-                                          v-text="event.participants + ' / ' + event.vacancies">
-				                    </span>
-			                    </td>
-				                <td>
-					                <button @click="register(event.id)" class="btn btn-sm btn-success"
-                                            :disabled="!event.can_register">Register</button>
-				                </td>
-		                    </tr>
-		            </tbody>
-	            </table>
+    <!--</td>-->
+    <!--<td>-->
+    <!--<span class="label"-->
+    <!--:class="{'label-success':hasVacancy(event), 'label-danger':!hasVacancy(event)}"-->
+    <!--v-text="event.participants + ' / ' + event.vacancies">-->
+    <!--</span>-->
+    <!--</td>-->
+    <!--<td>-->
+    <!--<button @click="register(event.id)" class="btn btn-sm btn-success"-->
+    <!--:disabled="!event.can_register">Register</button>-->
+    <!--</td>-->
+    <!--</tr>-->
+    <!--</tbody>-->
+    <!--</table>-->
+    <div>
+        <detail v-for="event in events" :event="event"></detail>
+    </div>
+
+
 </template>
 
 <script type="text/babel">
+	import Detail from "./EventTile.vue"
     export default{
-      props: {
+      props     : {
         initialEvents: {
           type    : Array,
           required: true
         }
+      },
+      components: {
+        Detail
       },
       data(){
         return {
@@ -57,7 +66,6 @@
                    event.participants += 1
                    event.can_register = false
                    alert('Event Register!')
-
                  } else {
                    alert(response.data.message)
                  }

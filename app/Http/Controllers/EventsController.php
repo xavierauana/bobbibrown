@@ -3,11 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Event;
+use App\Helpers\FileHandler;
 use App\Http\Requests\EventRegistrationRequest;
 use App\Http\Requests\Events\DeleteEventRequest;
 use App\Http\Requests\Events\EditEventRequest;
 use App\Http\Requests\Events\StoreEventRequest;
 use App\Http\Requests\Events\UpdateEventRequest;
+use App\Jobs\PublishEvent;
+use App\Media;
 use App\User;
 use Carbon\Carbon;
 
@@ -47,13 +50,35 @@ class EventsController extends Controller
      */
     public function store(StoreEventRequest $request) {
 
-        Event::create([
+        if ($request->hasFile('photo')) {
+            $value = $request->file('photo');
+            $fh = new FileHandler();
+            $link = str_replace(public_path(), '', $fh->move($value));
+            $mediaRecord = Media::whereLink($link)->first();
+
+            if (!$mediaRecord) {
+                $fields['link'] = $link;
+                $fields['name'] = $value->getClientOriginalName();
+                $fields['type'] = $value->getClientMimeType();
+                $mediaRecord = Media::create($fields);
+            } else {
+                $mediaRecord->touch();
+            }
+        }
+
+        $data = [
             'title'          => $request->get('title'),
+            'venue'          => $request->get('venue'),
             'body'           => $request->get('body'),
             'vacancies'      => $request->get('vacancies'),
             'start_datetime' => new Carbon($request->get('start_datetime')),
             'end_datetime'   => new Carbon($request->get('end_datetime')),
-        ]);
+        ];
+        if (isset($mediaRecord)) {
+            $data['photo'] = $mediaRecord->link;
+        }
+
+        Event::create($data);
 
         return redirect()->route('events.index');
 
@@ -107,7 +132,10 @@ class EventsController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function destroy(Event $event) {
+
         $this->authorize('delete', Event::class);
+
+        $event->delete();
 
         return response(200);
     }
@@ -125,5 +153,13 @@ class EventsController extends Controller
         session()->flash('message', "{$user->name} remove from the event.");
 
         return redirect()->back();
+    }
+
+    public function publish(Event $event) {
+        $users = User::isActive()->get();
+        foreach ($users as $user) {
+            $job = new PublishEvent($event, $user);
+            $this->dispatch($job);
+        }
     }
 }

@@ -24,6 +24,8 @@ class StoreEventRequest extends FormRequest
         return [
             'title'          => "required",
             'body'           => "required",
+            'photo'          => "image",
+            'venue'          => "required",
             'vacancies'      => "required|integer|min:1",
             'start_datetime' => "required",
             'end_datetime'   => "required",

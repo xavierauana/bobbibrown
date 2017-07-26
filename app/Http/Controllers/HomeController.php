@@ -31,6 +31,8 @@ class HomeController extends Controller
         $this->eventTransformer = function (Event $event) {
             return [
                 'id'           => $event->id,
+                'photo'        => $event->photo,
+                'venue'        => $event->venue,
                 'title'        => $event->title,
                 'startDate'    => $event->start_datetime,
                 'can_register' => auth()->user()->canRegisterEvent($event),

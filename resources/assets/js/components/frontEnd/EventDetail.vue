@@ -47,7 +47,7 @@
       },
       computed: {
         canRegister(){
-          return !_.find(this.event.users, {'id': this.user.id})
+          return !_.find(this.event.users, {'id': this.user.id}) && this.event.users.length < this.event.vacancies
         }
       },
       methods : {

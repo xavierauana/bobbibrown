@@ -8,10 +8,14 @@
 
 Route::group(['middleware' => "auth:admin", 'prefix' => 'admin', 'guard' => 'admin'], function () {
 
+    Route::post('events/{event}/publish', "EventsController@publish")->name('events.publish');
     Route::resource("events", "EventsController");
-    Route::post('events/{event}/participants/{user}/remove', "EventsController@removeParticipant")->name('events.participants.remove');
+    Route::post('events/{event}/participants/{user}/remove', "EventsController@removeParticipant")
+         ->name('events.participants.remove');
+
     Route::resource("users", "UsersController");
     Route::post("users/{user}/approve", "UsersController@approve");
+
     Route::resource("collections", "CollectionsController");
     Route::post("collections/{collection}/updateOrder", "CollectionsController@updateLessonsOrder");
     Route::get("collections/{collection}/lessons", "CollectionsController@editLessonsIndex")

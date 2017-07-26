@@ -3,7 +3,7 @@
 namespace App\Listeners;
 
 use App\Events\UserRegistration as Event;
-use App\Mail\UserRegistration as Mail;
+use App\Jobs\EmailJob;
 use App\Services\SendEmail;
 
 class UserRegistrationListener
@@ -30,6 +30,10 @@ class UserRegistrationListener
      * @return void
      */
     public function handle(Event $event) {
-        $this->mailOperator->send($event->user, new Mail($event->user));
+
+        $job = new EmailJob($event->user);
+
+        dispatch($job);
+
     }
 }

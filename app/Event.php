@@ -16,7 +16,9 @@ class Event extends Model
         'start_datetime',
         'end_datetime',
         'publish_datetime',
-        'remind_days'
+        'remind_days',
+        'venue',
+        'photo',
     ];
 
     protected $appends = [

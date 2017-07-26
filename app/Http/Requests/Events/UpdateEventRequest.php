@@ -21,7 +21,14 @@ class UpdateEventRequest extends FormRequest
      * @return array
      */
     public function rules() {
-        return [//
+        return [
+            'title'          => "required",
+            'body'           => "required",
+            'photo'          => "image",
+            'venue'          => "required",
+            'vacancies'      => "required|integer|min:1",
+            'start_datetime' => "required",
+            'end_datetime'   => "required",
         ];
     }
 }

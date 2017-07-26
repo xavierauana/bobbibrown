@@ -1,18 +1,39 @@
-<form class="form" action="{{route('events.store')}}" method="POST">
+<form class="form" action="{{route('events.store')}}" method="POST" enctype="multipart/form-data">
 	{{csrf_field()}}
+	
 	<div class="form-group">
-		<label>Event Title</label>
-		<input type="text" name="title" class="form-control" />
+		<label for="photo">Photo</label>
+		<input type="file" id="photo" name="photo" class="form-control">
+		@if ($errors->has("photo"))
+			<span class="help-block">
+                <strong>{{ $errors->first("photo") }}</strong>
+            </span>
+		@endif
 	</div>
-	<div class="form-group">
-		<label>Event Description</label>
-		<textarea name="body" class="form-control"></textarea>
-	</div>
-	<div class="form-group">
-		<label>Vacancy</label>
-		<input type="number" step="1" name="vacancies" class="form-control" />
-	</div>
-		
+	
+	@include('elements.inputs.text',[
+	'field'=>'title',
+	'label'=>'Event Name',
+	'required'=>true,
+	'autofocus'=>true,
+	])
+	@include('elements.inputs.text',[
+	'field'=>'venue',
+	'label'=>'Venue',
+	'required'=>true,
+	])
+	@include('elements.inputs.textarea',[
+	'field'=>'body',
+	'label'=>'Description',
+	'required'=>true,
+	])
+	
+	@include('elements.inputs.number',[
+	'field'=>'vacancies',
+	'label'=>'Vacancy',
+	'step'=>1,
+	'required'=>true,
+	])
 	<div class="form-group">
 		<label>Event Start Date and Time</label>
 		<div class='input-group date' id='start_datetime'>

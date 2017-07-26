@@ -2,7 +2,9 @@ export const Events = {
   edit        : eventId => "/admin/events/" + eventId + "/edit",
   update      : eventId => "/admin/events/" + eventId,
   delete      : eventId => "/admin/events/" + eventId,
+  publish     : eventId => "/admin/events/" + eventId + "/publish",
   frontEnd    : "/events",
+  detail      : eventId => "/events/" + eventId,
   registration: eventId => "/events/" + eventId + "/registration"
 }
 export const Users = {
