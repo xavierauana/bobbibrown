@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Console\Commands;
+namespace Anacreation\Scaffold;
 
 use Illuminate\Console\Command;
 
