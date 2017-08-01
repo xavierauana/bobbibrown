@@ -130,7 +130,7 @@ class User extends Authenticatable
 
     public function passTest(Test $test = null): bool {
         if ($test) {
-            $attempt = Attempt::whereNotNull('score')->whereTestId($test->id)->whereUserId($this->id)->first();
+            $attempt = Attempt::whereNotNull('score')->whereTestId($test->id)->latest()->whereUserId($this->id)->first();
             if ($attempt) {
                 $passingRate = intval(Setting::whereCode('test_passing_rate')->first()->value) / 100;
 

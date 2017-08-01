@@ -159,7 +159,7 @@
         },
 
         submit() {
-          const uri = window.href.location
+          const uri = window.location.href
           if (this.answers.length === this.numberOfMarks || confirm('you still have question haven\'t filled, you are sure to submit?')) {
             axios.post(uri, this.answers)
                  .then(this.responseClosure)

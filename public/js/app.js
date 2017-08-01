@@ -72456,7 +72456,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       window.location.href = window.location.href.replace("/test", '');
     },
     submit: function submit() {
-      var uri = window.href.location;
+      var uri = window.location.href;
       if (this.answers.length === this.numberOfMarks || confirm('you still have question haven\'t filled, you are sure to submit?')) {
         axios.post(uri, this.answers).then(this.responseClosure).catch(this.failClosure);
       }
