@@ -60,7 +60,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 388);
+/******/ 	return __webpack_require__(__webpack_require__.s = 393);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -31118,32 +31118,6 @@ module.exports = function isAbsoluteURL(url) {
 
 /***/ }),
 
-/***/ 388:
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports = __webpack_require__(389);
-
-
-/***/ }),
-
-/***/ 389:
-/***/ (function(module, exports, __webpack_require__) {
-
-/**
- * Created by Xavier on 15/7/2017.
- */
-/**
- * First we will load all of this project's JavaScript dependencies which
- * includes Vue and other libraries. It is a great starting point when
- * building robust, powerful web applications using Vue and Laravel.
- */
-
-__webpack_require__(20);
-
-window.Vue = __webpack_require__(42);
-
-/***/ }),
-
 /***/ 39:
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -31161,6 +31135,32 @@ module.exports = function combineURLs(baseURL, relativeURL) {
   return baseURL.replace(/\/+$/, '') + '/' + relativeURL.replace(/^\/+/, '');
 };
 
+
+/***/ }),
+
+/***/ 393:
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = __webpack_require__(394);
+
+
+/***/ }),
+
+/***/ 394:
+/***/ (function(module, exports, __webpack_require__) {
+
+/**
+ * Created by Xavier on 15/7/2017.
+ */
+/**
+ * First we will load all of this project's JavaScript dependencies which
+ * includes Vue and other libraries. It is a great starting point when
+ * building robust, powerful web applications using Vue and Laravel.
+ */
+
+__webpack_require__(20);
+
+window.Vue = __webpack_require__(42);
 
 /***/ }),
 

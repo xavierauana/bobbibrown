@@ -13,8 +13,8 @@
 
 
 Route::get('/', function () {
-    return view('auth/login');
-});
+    return auth()->check() ? redirect('home') : view('auth.login');
+})->name('home');
 
 Route::get('register/verify/{confirmationCode}', [
     'as'   => 'email.confirmation',
@@ -26,6 +26,9 @@ Auth::routes();
 include_once(app_path('Http/routes/backend.php'));
 
 Route::group(['middleware' => "auth"], function () {
+
+    Route::get('profile', 'HomeController@getProfile')->name('profile');
+    Route::post('profile', 'HomeController@postProfile')->name('profile.update');
 
     Route::post("/events/{event}/registration", "EventsController@registration")->name("user.event.registration");
 

@@ -1,13 +1,14 @@
 <template lang="html">
     <div>
-        <h5>Event Start Date and Time: {{event.start_datetime}}</h5>
-		<h5>Event End Date and Time: {{event.end_datetime}}</h5>
+        <h4>Event Start Date Time: {{event.start_datetime}}</h4>
+		<h4>Event End Date Time: {{event.end_datetime}}</h4>
 		<section>
-			<h4>Description</h4>
+			<h4>Description:</h4>
 			<div v-html="event.body"></div>
 		</section>
+		<br>
 
-		<div class="panel-footer">
+		<div class="">
 			<a :href="urls.frontEnd" class="btn btn-sm btn-info">Back</a>
 			<button class="btn btn-sm btn-success" :disabled="!canRegister" @click="register">Register</button>
 		</div>

@@ -28,7 +28,7 @@
     <!--</tbody>-->
     <!--</table>-->
     <div>
-        <detail v-for="event in events" :event="event"></detail>
+        <detail v-for="event in events" :event="event" :key="event.id"></detail>
     </div>
 
 

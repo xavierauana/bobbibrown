@@ -6,6 +6,8 @@
  */
 
 
+use Anacreation\Etvtest\Models\QuestionType;
+
 Route::group(['middleware' => "auth:admin", 'prefix' => 'admin', 'guard' => 'admin'], function () {
 
     Route::post('events/{event}/publish', "EventsController@publish")->name('events.publish');

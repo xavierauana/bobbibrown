@@ -2,6 +2,8 @@
 
 namespace App\Policies;
 
+use App\User;
+
 class UserPolicy extends AbstractAdminPolicy
 {
 
@@ -13,4 +15,5 @@ class UserPolicy extends AbstractAdminPolicy
     public function __construct() {
         $this->shortName = 'User';
     }
+
 }

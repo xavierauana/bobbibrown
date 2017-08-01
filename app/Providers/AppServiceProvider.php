@@ -17,6 +17,7 @@ class AppServiceProvider extends ServiceProvider
 
         if (app()->environment() != "production") {
             app()->register(\Barryvdh\Debugbar\ServiceProvider::class);
+            app()->register(\Anacreation\Scaffold\ScaffoldServiceProvider::class);
         }
     }
 

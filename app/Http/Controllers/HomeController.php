@@ -9,6 +9,7 @@ use Anacreation\Etvtest\Services\GradingService;
 use Anacreation\Etvtest\Services\QuestionTypeServices;
 use App\Collection;
 use App\Event;
+use App\Http\Requests\Users\UpdateProfileRequest;
 use App\Lesson;
 use App\Setting;
 use App\User;
@@ -145,6 +146,28 @@ class HomeController extends Controller
         return response()->json(['register' => false, 'message' => 'The event id full!']);
     }
 
+    public function getProfile() {
+        return view('profile', ['user' => auth()->user()]);
+    }
+
+    public function postProfile(UpdateProfileRequest $request) {
+        $user = auth()->user();
+
+        $data = [
+            'name'  => $request->get('name'),
+            'email' => $request->get('email'),
+        ];
+        if ($request->get('password')) {
+            $data['password'] = $request->get('password');
+        }
+
+        $user->update($data);
+
+        session()->flash('message', 'Profile has been updated!');
+
+        return redirect()->route('home');
+    }
+
     /**
      * @param $testId
      * @param $user
@@ -177,4 +200,6 @@ class HomeController extends Controller
 
         return $attempt_data;
     }
+
+
 }
