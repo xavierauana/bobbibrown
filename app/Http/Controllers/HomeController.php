@@ -111,16 +111,20 @@ class HomeController extends Controller
         return redirect()->back();
     }
 
-    public function gradeTest(Request $request, Test $test, GradingService $service) {
-        $service->grade($test, $request->all());
-        $this->createUserAttemptRecord($test, $service, auth()->user());
+    public function gradeTest(Request $request, Lesson $lesson, GradingService $service) {
+        if ($test = $lesson->test) {
+            $service->grade($test, $request->all());
+            $this->createUserAttemptRecord($test, $service, auth()->user());
 
-        return response()->json([
-            'result'    => $service->result,
-            'summary'   => $service->summary,
-            'is_passed' => ($service->summary["correct"] / count($service->result)) > (intval(Setting::whereCode('test_passing_rate')
-                                                                                                     ->first()->value) / 100)
-        ]);
+            return response()->json([
+                'result'    => $service->result,
+                'summary'   => $service->summary,
+                'is_passed' => ($service->summary["correct"] / count($service->result)) > (intval(Setting::whereCode('test_passing_rate')
+                                                                                                         ->first()->value) / 100)
+            ]);
+        }
+
+        return response('No test!', 404);
     }
 
     public function showEvents() {

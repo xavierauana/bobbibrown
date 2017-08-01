@@ -38,8 +38,8 @@
     import InlineFillInBlanks from "./InlineFillInBlanksQuestionView.vue"
     import {Tests as urls} from "./../../endpoints"
 
-    export default{
-      created(){
+    export default {
+      created() {
         const uri = this.getUri()
         axios(uri)
           .then(
@@ -67,7 +67,7 @@
             response => console.log(response)
           )
       },
-      data(){
+      data() {
         return {
           current_page : 1,
           answers      : [],
@@ -78,7 +78,7 @@
         }
       },
       computed  : {
-        numberOfMarks(){
+        numberOfMarks() {
           if (this.questions.length > 0) {
             return _.reduce(this.questions, (previous, question) => {
               return previous += (question.sub_questions && question.sub_questions.length > 0) ? question.sub_questions.length : 1
@@ -86,13 +86,13 @@
           }
           return 0
         },
-        current_questions(){
+        current_questions() {
           return this.questions.filter(question => question.page_number == this.current_page)
         },
-        has_next_page(){
+        has_next_page() {
           return this.questions.filter(question => question.page_number > this.current_page).length > 0
         },
-        has_previous_page(){
+        has_previous_page() {
           return this.questions.filter(question => question.page_number < this.current_page).length > 0
         }
       },
@@ -107,7 +107,7 @@
         MultipleMultipleChoice,
       },
       methods   : {
-        computeIndex(index){
+        computeIndex(index) {
           let start = 0,
               end   = 0
           for (let i = 0; i < index; i++) {
@@ -129,13 +129,13 @@
           }
           return [start, end].join(" - ")
         },
-        in_current_page(question){
+        in_current_page(question) {
           return !!question.page_number == this.currentPage
         },
-        getUri(){
+        getUri() {
           return window.location.href + "?ajax=1"
         },
-        updateAnswer(questionId, updateAnswer){
+        updateAnswer(questionId, updateAnswer) {
           updateAnswer = _.isArray(updateAnswer) ? updateAnswer : [updateAnswer]
 
           let answer = _.find(this.answers, {"id": questionId})
@@ -145,10 +145,10 @@
             this.answers.push({id: questionId, answer: updateAnswer})
           }
         },
-        getComponent(questionTypeId){
+        getComponent(questionTypeId) {
           return _.find(this.questionTypes, {"id": questionTypeId}).code
         },
-        responseClosure (response){
+        responseClosure(response) {
           if (response.data.is_passed) {
             alert('Congratulations! You pass the test!')
           } else {
@@ -158,26 +158,24 @@
           window.location.href = window.location.href.replace("/test", '')
         },
 
-        submit(){
+        submit() {
           const uri = urls.grade(this.getTestIdFromUrl());
-
-          if (this.answers.length < this.numberOfMarks) {
-            if (confirm('you still have question haven\'t filled, you are sure to submit?')) {
-              axios.post(uri, this.answers)
-                   .then(this.responseClosure)
-            }
-          } else {
+          if (this.answers.length === this.numberOfMarks || confirm('you still have question haven\'t filled, you are sure to submit?')) {
             axios.post(uri, this.answers)
                  .then(this.responseClosure)
+                 .catch(this.failClosure)
           }
         },
-        getTestIdFromUrl(){
+        getTestIdFromUrl() {
           let segments = window.location.href.split("/"),
               test_id  = segments[segments.length - 2]
           return test_id
         },
-        get_previous_attempt(question){
+        get_previous_attempt(question) {
           return null
+        },
+        failClosure(response) {
+          console.log("failed, ", response)
         }
       }
     }

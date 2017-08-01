@@ -39,7 +39,8 @@ Route::group(['middleware' => "auth"], function () {
 
     Route::get('/lessons/{lesson}', 'HomeController@showLesson')->name("show.lesson");
     Route::get('/lessons/{lesson}/test', 'HomeController@showLessonTest')->name("show.lesson.test");
-    Route::post('/tests/{test}/grade', 'HomeController@gradeTest')->name("grade.test");
+    Route::post('/lessons/{lesson}/test', 'HomeController@gradeTest')->name("grade.lesson.test");
+//    Route::post('/tests/{test}/grade', 'HomeController@gradeTest')->name("grade.test");
     Route::get('/home', 'HomeController@index')->name('home');
     Route::get('/events', 'HomeController@showEvents')->name('show.events');
     Route::get('/events/{event}', 'HomeController@showEventDetail')->name('show.event.detail');
