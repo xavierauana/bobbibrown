@@ -175,7 +175,7 @@
           return null
         },
         failClosure(response) {
-          console.log("failed, ", response)
+          console.log("failed to grade, ", response)
         }
       }
     }
