@@ -100,6 +100,8 @@ class HomeController extends Controller
 
             $testData = ConverterManager::convert($test)->getData();
 
+            $this->randomPickTestQuestions($testData, $test->question_number);
+
             return response()->json([
                 'test'          => $testData,
                 'questionTypes' => (new QuestionTypeServices())->getQuestionTypes(),
@@ -113,7 +115,7 @@ class HomeController extends Controller
 
     public function gradeTest(Request $request, Lesson $lesson, GradingService $service) {
         if ($test = $lesson->test) {
-            $service->grade($test, $request->all());
+            $service->grade($test, $request->get('answers'), $request->get('questionIds'));
             $this->createUserAttemptRecord($test, $service, auth()->user());
 
             return response()->json([
@@ -205,5 +207,25 @@ class HomeController extends Controller
         return $attempt_data;
     }
 
+    private function randomPickTestQuestions(array &$testData, int $question_number) {
+
+        if ($question_number and $question_number < count($testData['questions'])) {
+
+            $array_keys = array_rand($testData['questions'], $question_number);
+
+            if (is_array($array_keys)) {
+                $questions = [];
+                foreach ($array_keys as $key) {
+                    $questions[] = $testData['questions'][$key];
+                }
+
+                $testData['questions'] = $questions;
+            } else {
+                $testData['questions'] = [$testData['questions'][$array_keys]];
+            }
+
+        }
+
+    }
 
 }

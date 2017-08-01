@@ -22,7 +22,8 @@ class StoreTestRequest extends FormRequest
      */
     public function rules() {
         return [
-            'title' => "required"
+            'title'           => "required",
+            'question_number' => "required|integer|min:0",
         ];
     }
 }

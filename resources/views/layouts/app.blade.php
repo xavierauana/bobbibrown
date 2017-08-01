@@ -29,8 +29,9 @@
                     </button>
 
                     <!-- Branding Image -->
-                    <a class="navbar-brand" href="{{ url('/home') }}">
-                        {{ config('app.name', 'Laravel') }}
+                    <a class="navbar-brand" href="{{ url('/home') }}" style="position: relative">
+                        <img src="{{asset('files/logo.png')}}" class="img-responsive" width="100" style="display: inline">
+{{--	                    {{ config('app.name', 'Laravel') }}--}}
                     </a>
                 </div>
 

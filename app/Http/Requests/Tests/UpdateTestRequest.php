@@ -25,7 +25,8 @@ class UpdateTestRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'title'           => "required",
+            'question_number' => "required|integer|min:0",
         ];
     }
 }

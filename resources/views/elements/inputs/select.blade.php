@@ -1,7 +1,8 @@
 <div class="form-group{{ $errors->has($field) ? ' has-error' : '' }}">
     <label for="{{$field}}">{{$label}}</label>
-	<select id="{{$field}}" name="{{$field}}" class="form-control" required
-	        @if(isset($autofocus) && $autofocus == true) autofocus @endif>
+	<select id="{{$field}}" name="{{$field}}" class="form-control"
+	        @if(isset($required) && $required === true) required @endif
+	        @if(isset($autofocus) && $autofocus === true) autofocus @endif>
 		<option value="">-- Please Select One --</option>
 		@foreach($options as $option)
 			<option value="{{$option->id}}">{{$option->title}}</option>

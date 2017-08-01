@@ -2447,7 +2447,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     submit: function submit() {
       var uri = window.location.href;
       if (this.answers.length === this.numberOfMarks || confirm('you still have question haven\'t filled, you are sure to submit?')) {
-        axios.post(uri, this.answers).then(this.responseClosure).catch(this.failClosure);
+        var data = {
+          questionIds: this.questions.map(function (question) {
+            return question.id;
+          }),
+          answers: this.answers
+        };
+        axios.post(uri, data).then(this.responseClosure).catch(this.failClosure);
       }
     },
     getTestIdFromUrl: function getTestIdFromUrl() {

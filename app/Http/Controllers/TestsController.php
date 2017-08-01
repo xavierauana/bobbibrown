@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use Anacreation\Etvtest\Models\Test;
 use App\Http\Requests\Tests\StoreTestRequest;
 use App\Http\Requests\Tests\UpdateTestRequest;
+use App\Test;
 
 class TestsController extends Controller
 {
@@ -40,9 +40,9 @@ class TestsController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(StoreTestRequest $request) {
-
         Test::create([
-            'title' => $request->get('title')
+            'title'           => $request->get('title'),
+            'question_number' => $request->get('question_number')
         ]);
 
         return redirect()->route('tests.index');
@@ -67,6 +67,7 @@ class TestsController extends Controller
      */
     public function edit(Test $test) {
         $this->authorize('edit', Test::class);
+
         return view('tests.edit', compact('test'));
     }
 
@@ -77,7 +78,16 @@ class TestsController extends Controller
      * @param  int                      $id
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateTestRequest $request, $id) {
+    public function update(UpdateTestRequest $request, Test $test) {
+
+        $test->update([
+            'title'           => $request->get('title'),
+            'question_number' => $request->get('question_number')
+        ]);
+
+        session()->flash('message', $test->title . " has been updated!");
+
+        return redirect()->route('tests.index');
     }
 
     /**

@@ -159,7 +159,11 @@
         submit() {
           const uri = window.location.href
           if (this.answers.length === this.numberOfMarks || confirm('you still have question haven\'t filled, you are sure to submit?')) {
-            axios.post(uri, this.answers)
+            let data = {
+              questionIds: this.questions.map(question => question.id),
+              answers    : this.answers,
+            }
+            axios.post(uri, data)
                  .then(this.responseClosure)
                  .catch(this.failClosure)
           }
@@ -178,6 +182,7 @@
       }
     }
 </script>
+
 <style>
     body {
         color: black
