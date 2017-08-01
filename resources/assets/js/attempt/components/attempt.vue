@@ -149,13 +149,11 @@
           return _.find(this.questionTypes, {"id": questionTypeId}).code
         },
         responseClosure(response) {
-          if (response.data.is_passed) {
-            alert('Congratulations! You pass the test!')
-          } else {
-            alert('Sorry! You cannot pass the test. Please try again')
-          }
+          let message = response.data.is_passed ? 'Congratulations! You pass the test!' : 'Sorry! You cannot pass the test. Please try again'
 
-          window.location.href = window.location.href.replace("/test", '')
+          alert(message)
+
+          window.history.back()
         },
 
         submit() {

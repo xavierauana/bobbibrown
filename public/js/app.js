@@ -2438,13 +2438,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       return __WEBPACK_IMPORTED_MODULE_0_lodash___default.a.find(this.questionTypes, { "id": questionTypeId }).code;
     },
     responseClosure: function responseClosure(response) {
-      if (response.data.is_passed) {
-        alert('Congratulations! You pass the test!');
-      } else {
-        alert('Sorry! You cannot pass the test. Please try again');
-      }
+      var message = response.data.is_passed ? 'Congratulations! You pass the test!' : 'Sorry! You cannot pass the test. Please try again';
 
-      window.location.href = window.location.href.replace("/test", '');
+      alert(message);
+
+      window.history.back();
     },
     submit: function submit() {
       var uri = window.location.href;
