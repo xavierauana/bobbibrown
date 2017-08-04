@@ -1,5 +1,32 @@
 @import url(https://fonts.googleapis.com/css?family=Heebo:300,400,700|Hind+Madurai:300,400,600);@import url(https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css);@charset "UTF-8";
 
+@font-face {
+  font-family: "Brandon Text";
+  src: url(/fonts/brandontext_regular-webfont.ttf) format("truetype");
+  font-weight: normal;
+}
+
+@font-face {
+  font-family: "Brandon Text";
+  src: url(/fonts/brandontext_regularitalic-webfont.ttf) format("truetype");
+  font-weight: normal;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: "Brandon Text";
+  src: url(/fonts/brandontext_bold-webfont.ttf) format("truetype");
+  font-weight: bold;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Brandon Text";
+  src: url(/fonts/brandontext_bolditalic-webfont.ttf) format("truetype");
+  font-weight: bold;
+  font-style: italic;
+}
+
 /*!
  * Bootstrap v3.3.7 (http://getbootstrap.com)
  * Copyright 2011-2016 Twitter, Inc.
@@ -1402,7 +1429,7 @@ html {
 }
 
 body {
-  font-family: "Hind Madurai", sans-serif;
+  font-family: "Brandon Text", sans-serif;
   font-size: 14px;
   line-height: 1.6;
   color: #000000;
@@ -7499,7 +7526,7 @@ button.close {
   position: absolute;
   z-index: 1070;
   display: block;
-  font-family: "Hind Madurai", sans-serif;
+  font-family: "Brandon Text", sans-serif;
   font-style: normal;
   font-weight: normal;
   letter-spacing: normal;
@@ -7633,7 +7660,7 @@ button.close {
   display: none;
   max-width: 276px;
   padding: 1px;
-  font-family: "Hind Madurai", sans-serif;
+  font-family: "Brandon Text", sans-serif;
   font-style: normal;
   font-weight: normal;
   letter-spacing: normal;
