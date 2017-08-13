@@ -4,23 +4,18 @@ namespace App\Listeners;
 
 use App\Events\UserRegistration as Event;
 use App\Jobs\EmailJob;
-use App\Services\SendEmail;
 
 class UserRegistrationListener
 {
-    /**
-     * @var \App\Services\SendEmail
-     */
-    private $mailOperator;
+
 
     /**
      * Create the event listener.
      *
      * @return void
      */
-    public function __construct(SendEmail $mailOperator) {
+    public function __construct() {
         //
-        $this->mailOperator = $mailOperator;
     }
 
     /**

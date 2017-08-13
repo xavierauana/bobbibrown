@@ -4,9 +4,9 @@
  * building robust, powerful web applications using Vue and Laravel.
  */
 
-require('./bootstrap');
+require('./bootstrap')
 
-window.Vue = require('vue');
+window.Vue = require('vue')
 
 
 /**FillInTheBlankMultipleQuestion.vue
@@ -17,14 +17,14 @@ window.Vue = require('vue');
 
 Vue.mixin({
             methods: {
-              _removeOneChoice(choices, choice){
+              _removeOneChoice(choices, choice) {
                 let theChoice = _.find(choices, {"id": choice.id})
                 if (theChoice) {
                   theChoice.active = false
                 }
                 return choices
               },
-              _removeAllChoiceEditors(escape_key = 'content'){
+              _removeAllChoiceEditors(escape_key = 'content') {
                 _.forEach(Object.keys(CKEDITOR.instances), key => {
                   if (key.indexOf(escape_key) < 0 && key.indexOf('prefix')) {
                     CKEDITOR.instances[key].destroy(true)
@@ -33,39 +33,39 @@ Vue.mixin({
                   }
                 })
               },
-              _removeCKEditor(editorName){
+              _removeCKEditor(editorName) {
                 console.log(editorName)
               },
-              validation(validationClosure){
+              validation(validationClosure) {
                 var validation = validationClosure()
                 if (validation.check) return true
                 var message = validation.messages.join("! ")
-                alert(message);
+                alert(message)
                 return false
               },
             }
           })
 
 
-Vue.component('example', require('./components/Example.vue'));
-Vue.component('test_table', require('./components/TestsTable.vue'));
-Vue.component('event_table', require('./components/EventsTable.vue'));
-Vue.component('event_detail', require('./components/frontEnd/EventDetail.vue'));
-Vue.component('user_events_table', require('./components/UserEventsTable.vue'));
-Vue.component('lesson_table', require('./components/LessonsTable.vue'));
-Vue.component('collection_table', require('./components/CollectionsTable.vue'));
-Vue.component('collection_lessons', require('./components/CollectionLessons.vue'));
-Vue.component('lesson_list', require('./components/LessonsList.vue'));
-Vue.component('question_list', require('./components/QuestionList.vue'));
-Vue.component('permission_table', require('./components/PermissionsTable.vue'));
-Vue.component('create_question', require('./questions/components/CreateQuestionPage.vue'));
-Vue.component('edit_question', require('./questions/EditQuestion/components/main.vue'));
-Vue.component('menu_table', require('./components/MenuTable.vue'));
-Vue.component('user_table', require('./components/UsersTable.vue'));
-Vue.component('role_table', require('./components/RolesTable.vue'));
-Vue.component('role_permissions', require('./components/RolePermissions.vue'));
+Vue.component('example', require('./components/Example.vue'))
+Vue.component('test_table', require('./components/TestsTable.vue'))
+Vue.component('event_table', require('./components/EventsTable.vue'))
+Vue.component('event_detail', require('./components/frontEnd/EventDetail.vue'))
+Vue.component('user_events_table', require('./components/UserEventsTable.vue'))
+Vue.component('collection_lessons', require('./components/CollectionLessons.vue'))
+Vue.component('lesson_list', require('./components/LessonsList.vue'))
+Vue.component('lesson_table', require('./components/LessonsTable.vue'))
+Vue.component('question_list', require('./components/QuestionList.vue'))
+Vue.component('permission_table', require('./components/PermissionsTable.vue'))
+Vue.component('create_question', require('./questions/components/CreateQuestionPage.vue'))
+Vue.component('edit_question', require('./questions/EditQuestion/components/main.vue'))
+Vue.component('menu_table', require('./components/MenuTable.vue'))
+Vue.component('user_table', require('./components/UsersTable.vue'))
+Vue.component('role_table', require('./components/RolesTable.vue'))
+Vue.component('role_permissions', require('./components/RolePermissions.vue'))
 Vue.component('test', require('./attempt/components/attempt.vue'))
+Vue.component('event_sign_in', require('./components/frontEnd/EventSignIn.vue'))
 
 const app = new Vue({
                       el: '#app'
-                    });
+                    })

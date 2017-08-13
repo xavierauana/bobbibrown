@@ -4,10 +4,10 @@ namespace App;
 
 use Anacreation\Etvtest\Models\Attempt;
 use Anacreation\Etvtest\Models\Test;
-use App\Events\UserSuccessfullyRegisterEvent;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Http\Request;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Collection;
 
@@ -42,26 +42,7 @@ class User extends Authenticatable
         'remember_token',
     ];
 
-    public function verify(): void {
-        $this->is_verified = true;
-        $this->save();
-    }
-
-    public function register(Event $event): bool {
-        if ($event->hasVacancy) {
-
-            $event->users()->attach($this->id);
-
-            event(new UserSuccessfullyRegisterEvent($this, $event));
-
-            return true;
-        }
-
-        return false;
-
-    }
-
-    // Accessors
+    #region Accessors
 
     public function getAvailableLessonsAttribute(): Collection {
         // this user has permission
@@ -82,8 +63,9 @@ class User extends Authenticatable
     public function getIsActiveAttribute(): bool {
         return $this->is_verified and $this->is_approved;
     }
+    #endregion
 
-    // Relation
+    #region Relation
 
     public function events(): Relation {
         return $this->belongsToMany(Event::class);
@@ -97,15 +79,69 @@ class User extends Authenticatable
         return $this->belongsToMany(Role::class);
     }
 
-    // Scope
+    public function eventActivities(): Relation {
+        return $this->hasMany(EventActivity::class);
+    }
+    #endregion
+
+    #region Scope
     public function scopeIsActive($query) {
         return $query->where([
             'is_verified' => true,
             'is_approved' => true,
         ]);
     }
+    #endregion
 
-    // Methods
+    #region Public Methods
+    public function verify(): void {
+        $this->is_verified = true;
+        $this->save();
+    }
+
+    public function register(Event $event): bool {
+        if ($event->hasVacancy) {
+
+            $event->users()->attach($this->id);
+
+            return true;
+        }
+
+        return false;
+
+    }
+
+    public function cancel(Event $event): bool {
+
+        if ($this->events()->whereId($event->id)->count()) {
+            $event->users()->detach($this->id);
+
+            return true;
+        }
+
+        return false;
+
+    }
+
+    public function signin(Event $event): bool {
+
+        if ($this->events()->whereId($event->id)->count()) {
+
+            return true;
+        }
+
+        return false;
+
+    }
+
+    public function logEventActivity($type, Event $event, Request $request) {
+        $this->eventActivities()->create([
+            'type'     => $type,
+            'event_id' => $event->id,
+            'ip'       => $request->ip()
+        ]);
+    }
+
     public function passCollection(\App\Collection $collection = null): bool {
 
         if ($collection) {
@@ -130,9 +166,9 @@ class User extends Authenticatable
 
     public function passTest(Test $test = null): bool {
         if ($test) {
-            $attempt = Attempt::whereNotNull('score')->whereTestId($test->id)->latest()->whereUserId($this->id)->first();
+            $attempt = $this->attempts()->whereNotNull('score')->whereTestId($test->id)->latest()->first();
             if ($attempt) {
-                $passingRate = intval(Setting::whereCode('test_passing_rate')->first()->value) / 100;
+                $passingRate = doubleval(intval(Setting::whereCode('test_passing_rate')->first()->value) / 100);
 
                 return $attempt->score > $passingRate;
             }
@@ -167,8 +203,18 @@ class User extends Authenticatable
         return $this->hasObjectCollection($collection);
     }
 
+    public function latestPassedAttempts(Test $test): Collection {
+        $passingRate = doubleval(intval(Setting::whereCode('test_passing_rate')->first()->value) / 100);
+
+        return $this->attempts()->whereTestId($test->id)->whereNotNull('score')->where('score', ">", $passingRate)
+                    ->get();
+    }
+
+    #endregion
+
     private function hasObjectCollection(Model $model): bool {
         return in_array($model->permission_id, $this->permissions->pluck('id')->toArray());
     }
+
 
 }

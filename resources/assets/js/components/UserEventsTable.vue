@@ -1,42 +1,13 @@
 <template lang="html">
-    <!--<table class="table">-->
-    <!--<thead>-->
-    <!--<th>Event</th>-->
-    <!--<th>Date and Time</th>-->
-    <!--<th>Vacancy</th>-->
-    <!--<th>Register</th>-->
-    <!--</thead>-->
-    <!--<tbody>-->
-    <!--<tr v-for="event in events">-->
-    <!--<td>-->
-    <!--<a :href="showEventDetail(event)" v-text="event.title"></a>-->
-    <!--</td>-->
-    <!--<td v-text="event.startDate">-->
-
-    <!--</td>-->
-    <!--<td>-->
-    <!--<span class="label"-->
-    <!--:class="{'label-success':hasVacancy(event), 'label-danger':!hasVacancy(event)}"-->
-    <!--v-text="event.participants + ' / ' + event.vacancies">-->
-    <!--</span>-->
-    <!--</td>-->
-    <!--<td>-->
-    <!--<button @click="register(event.id)" class="btn btn-sm btn-success"-->
-    <!--:disabled="!event.can_register">Register</button>-->
-    <!--</td>-->
-    <!--</tr>-->
-    <!--</tbody>-->
-    <!--</table>-->
     <div>
         <detail v-for="event in events" :event="event" :key="event.id"></detail>
     </div>
-
-
 </template>
 
 <script type="text/babel">
 	import Detail from "./EventTile.vue"
-    export default{
+
+    export default {
       props     : {
         initialEvents: {
           type    : Array,
@@ -46,18 +17,18 @@
       components: {
         Detail
       },
-      data(){
+      data() {
         return {
           events: JSON.parse(JSON.stringify(this.initialEvents))
         }
       },
 
       methods: {
-        hasVacancy     (event) {
+        hasVacancy(event) {
           return event.vacancies > event.participants
         }
         ,
-        register       (eventId) {
+        register(eventId) {
           let url = this._getUrl(eventId)
           axios.post(url)
                .then(response => {
@@ -79,7 +50,7 @@
           return window.location.href + "/" + eventId + '/register'
         }
         ,
-        showEventDetail (event) {
+        showEventDetail(event) {
           return window.location.href + "/" + event.id
         }
       }

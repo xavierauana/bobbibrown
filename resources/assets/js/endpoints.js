@@ -5,7 +5,8 @@ export const Events = {
   publish     : eventId => "/admin/events/" + eventId + "/publish",
   frontEnd    : "/events",
   detail      : eventId => "/events/" + eventId,
-  registration: eventId => "/events/" + eventId + "/registration"
+  registration: eventId => "/events/" + eventId + "/registration",
+  cancel      : eventId => "/events/" + eventId + "/cancel"
 }
 export const Users = {
   show   : userId => "/admin/users/" + userId,
@@ -23,6 +24,7 @@ export const Lessons = {
   tests : lessonId => "/admin/lessons/" + lessonId + "/tests",
   update: lessonId => "/admin/lessons/" + lessonId,
   delete: lessonId => "/admin/lessons/" + lessonId,
+  users : lessonId => "/admin/lessons/" + lessonId + "/users",
 }
 export const Collections = {
   edit         : collectionId => "/admin/collections/" + collectionId + "/edit",

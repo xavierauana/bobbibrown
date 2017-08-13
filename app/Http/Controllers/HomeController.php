@@ -9,6 +9,10 @@ use Anacreation\Etvtest\Services\GradingService;
 use Anacreation\Etvtest\Services\QuestionTypeServices;
 use App\Collection;
 use App\Event;
+use App\Events\UserCancelEventRegistration;
+use App\Events\UserSignInEvent;
+use App\Events\UserSuccessfullyRegisterEvent;
+use App\Http\Requests\EventRegistrationRequest;
 use App\Http\Requests\Users\UpdateProfileRequest;
 use App\Lesson;
 use App\Setting;
@@ -142,14 +146,29 @@ class HomeController extends Controller
         return view('event_detail', compact('event'));
     }
 
-    public function registerEvent(Event $event) {
-        if ($event->hasVacancy) {
-            if (auth()->user()->registerEvent($event)) {
-                return response()->json(['register' => true]);
-            }
+    public function registration(EventRegistrationRequest $request, Event $event) {
+
+        if (auth()->user()->register($event)) {
+            event(new UserSuccessfullyRegisterEvent(auth()->user(), $event, $request));
+
+            return response()->json(['status' => 'Completed', 'user' => $request->user()]);
         }
 
-        return response()->json(['register' => false, 'message' => 'The event id full!']);
+        return response("Cannot register!", 501);
+
+    }
+
+    public function cancelEvent(Request $request, Event $event) {
+
+
+        if ($request->user()->cancel($event)) {
+            event(new UserCancelEventRegistration($request->user(), $event, $request));
+
+            return response()->json(["user" => $request->user()]);
+        }
+
+        return response('cannot cancel registration', 501);
+
     }
 
     public function getProfile() {
@@ -172,6 +191,24 @@ class HomeController extends Controller
         session()->flash('message', 'Profile has been updated!');
 
         return redirect()->route('home');
+    }
+
+    public function eventSignIn(Request $request, Event $event) {
+        $token = $request->get('token');
+
+        return view('event_sign_in', compact("event", "token"));
+    }
+
+    public function logSignIn(Request $request, Event $event) {
+
+        if ($request->user()->signin($event)) {
+
+            event(new UserSignInEvent($request->user(), $event, $request));
+
+            return response(\Carbon\Carbon::now()->toDateTimeString());
+        }
+
+        return response("Sorry! You cannot sign in the event!", 501);
     }
 
     /**

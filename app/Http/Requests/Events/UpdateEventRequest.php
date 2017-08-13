@@ -29,6 +29,7 @@ class UpdateEventRequest extends FormRequest
             'vacancies'      => "required|integer|min:1",
             'start_datetime' => "required",
             'end_datetime'   => "required",
+            'remove_photo'   => "required|boolean",
         ];
     }
 }

@@ -4,9 +4,20 @@
 @endsection
 
 <form class="form" action="{{route('events.update', $event->id)}}" method="POST" enctype="multipart/form-data">
+	
 	{{csrf_field()}}
+	<input hidden name="_method" value="PATCH">
 	@if($event->photo)
-		<img src="{{$event->photo}}" class="img-thumbnail img-responsive">
+		<div id="preview-container">
+			<img src="{{$event->photo}}" class="img-thumbnail img-responsive">
+			<button class="btn btn-danger" onclick="removePhoto(event)">Remove Image</button>
+		</div>
+	@endif
+	<input type='hidden' name="remove_photo" id="remove_photo" value="0">
+	@if ($errors->has("remove_photo"))
+		<span class="help-block">
+                <strong>{{ $errors->first("remove_photo") }}</strong>
+            </span>
 	@endif
 	
 	<div class="form-group">
@@ -100,5 +111,12 @@
         $("#end_datetime").on("dp.change", function (e) {
           $('#start_datetime').data("DateTimePicker").maxDate(e.date);
         });
+
+        function removePhoto(e) {
+          e.preventDefault()
+          $("#preview-container").hide()
+          $("#remove_photo").val("1")
+          console.log(e)
+        }
     </script>
 @endsection

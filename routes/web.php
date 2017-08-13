@@ -29,8 +29,7 @@ Route::group(['middleware' => "auth"], function () {
 
     Route::get('profile', 'HomeController@getProfile')->name('profile');
     Route::post('profile', 'HomeController@postProfile')->name('profile.update');
-
-    Route::post("/events/{event}/registration", "EventsController@registration")->name("user.event.registration");
+    Route::resourece('profile', '')->name('profile.update');
 
     Route::get('/collections/{collection}', 'HomeController@showCollection')->name("show.collection");
 
@@ -40,9 +39,13 @@ Route::group(['middleware' => "auth"], function () {
     Route::get('/lessons/{lesson}', 'HomeController@showLesson')->name("show.lesson");
     Route::get('/lessons/{lesson}/test', 'HomeController@showLessonTest')->name("show.lesson.test");
     Route::post('/lessons/{lesson}/test', 'HomeController@gradeTest')->name("grade.lesson.test");
-//    Route::post('/tests/{test}/grade', 'HomeController@gradeTest')->name("grade.test");
     Route::get('/home', 'HomeController@index')->name('home');
+
     Route::get('/events', 'HomeController@showEvents')->name('show.events');
+    Route::post('/events/{event}/cancel', 'HomeController@cancelEvent')->name('user.event.cancel');
+    Route::post('/events/{event}/registration', 'HomeController@registration')->name('user.event.registration');
+    Route::get('/events/{event}/signin', 'HomeController@eventSignIn')->name('signin.event');
+    Route::post('/events/{event}/signin', 'HomeController@logSignIn')->name('log.signin.event');
     Route::get('/events/{event}', 'HomeController@showEventDetail')->name('show.event.detail');
     Route::post('/events/{event}/register', 'HomeController@registerEvent')->name('register.event');
 });

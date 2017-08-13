@@ -27,6 +27,8 @@ class UpdateLessonRequest extends FormRequest
             'body'          => "required",
             'is_standalone' => "required|boolean",
             'permission_id' => "required|in:" . implode(",", Permission::pluck('id')->toArray()),
+            'schedule.compare' =>"required|in:lesson,user",
+            'schedule.days' =>"required|integer",
         ];
     }
 }

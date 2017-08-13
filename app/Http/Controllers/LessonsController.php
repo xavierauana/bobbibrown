@@ -8,8 +8,10 @@ use App\Http\Requests\Lessons\EditLessonRequest;
 use App\Http\Requests\Lessons\ShowLessonRequest;
 use App\Http\Requests\Lessons\StoreLessonRequest;
 use App\Http\Requests\Lessons\UpdateLessonRequest;
+use App\Jobs\SendLessonReminder;
 use App\Lesson;
 use App\Permission;
+use App\User;
 
 class LessonsController extends Controller
 {
@@ -45,11 +47,18 @@ class LessonsController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(StoreLessonRequest $request) {
-        Lesson::create([
+
+        $newLesson = Lesson::create([
             'title'         => $request->get('title'),
             'body'          => $request->get('content'),
             'is_standalone' => $request->get('is_standalone'),
             'permission_id' => $request->get('permission'),
+        ]);
+
+        $scheduleData = $request->get('schedule');
+        $newLesson->schedule()->create([
+            'days'    => $scheduleData["days"],
+            'compare' => $scheduleData["compare"],
         ]);
 
         return redirect()->route('lessons.index');
@@ -92,6 +101,11 @@ class LessonsController extends Controller
             'is_standalone' => $request->get('is_standalone'),
             'permission_id' => $request->get('permission_id'),
         ]);
+        $scheduleData = $request->get('schedule');
+        $lesson->schedule->update([
+            'days'    => $scheduleData["days"],
+            'compare' => $scheduleData["compare"],
+        ]);
 
         return redirect()->route('lessons.index');
     }
@@ -132,5 +146,20 @@ class LessonsController extends Controller
 
         return redirect()->route('lessons.index');
 
+    }
+
+    public function getUsersForTest(Lesson $lesson) {
+        $test = $lesson->test;
+        $users = User::all();
+
+        return view('tests.users', compact("users", "test", "lesson"));
+
+    }
+
+    public function sendLessonReminder(Lesson $lesson, User $user) {
+        $job = new SendLessonReminder($lesson, $user);
+        $this->dispatch($job);
+
+        return response('queued!');
     }
 }

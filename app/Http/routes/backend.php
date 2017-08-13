@@ -11,6 +11,7 @@ use Anacreation\Etvtest\Models\QuestionType;
 Route::group(['middleware' => "auth:admin", 'prefix' => 'admin', 'guard' => 'admin'], function () {
 
     Route::post('events/{event}/publish', "EventsController@publish")->name('events.publish');
+    Route::get('events/{event}/qrcode', "EventsController@getQrCode")->name('events.publish');
     Route::resource("events", "EventsController");
     Route::post('events/{event}/participants/{user}/remove', "EventsController@removeParticipant")
          ->name('events.participants.remove');
@@ -29,12 +30,17 @@ Route::group(['middleware' => "auth:admin", 'prefix' => 'admin', 'guard' => 'adm
     Route::resource("lessons", "LessonsController");
     Route::get("lessons/{lesson}/tests", "LessonsController@editTests");
     Route::post("lessons/{lesson}/tests", "LessonsController@updateTests");
+    Route::post("lessons/{lesson}/users/{user}/reminder", "LessonsController@sendLessonReminder");
+    Route::get("lessons/{lesson}/users", "LessonsController@getUsersForTest");
+
     Route::resource("permissions", "PermissionsController");
     Route::resource("roles", "RolesController");
     Route::get("roles/{role}/permissions", "RolesController@showPermissions");
     Route::post("roles/{role}/permissions", "RolesController@updatePermissions");
     Route::resource("tests", "TestsController");
+
     Route::resource("tests.questions", "QuestionsController");
+
     Route::post("questions/updateOrder", "QuestionsController@updateOrder");
     Route::get("questionTypes", function () {
         return response()->json(QuestionType::all());

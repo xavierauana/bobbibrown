@@ -25,9 +25,6 @@ class Event extends Model
         'currentVacancies'
     ];
 
-    public function users(): Relation {
-        return $this->belongsToMany(User::class);
-    }
 
     public function getParticipantsAttribute(): Collection {
         return $this->users;
@@ -43,6 +40,16 @@ class Event extends Model
 
     public function removeUser(User $user) {
         $this->users()->detach($user->id);
+    }
+
+    // Relation
+
+    public function users(): Relation {
+        return $this->belongsToMany(User::class);
+    }
+
+    public function activities(): Relation {
+        return $this->hasMany(EventActivity::class);
     }
 
 }

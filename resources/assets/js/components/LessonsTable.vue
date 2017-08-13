@@ -19,7 +19,9 @@
 <script type="text/babel">
     import {Lessons as urls} from "../endpoints"
     import ButtonGroup from "../elements/ButtonGroups.vue"
-    export default{
+
+    export default {
+      name:"lessons-table",
       components: {
         ButtonGroup
       },
@@ -35,26 +37,28 @@
           lessons         : JSON.parse(JSON.stringify(this.initialLessons)),
           onClickFunctions: [
             this.goToTestPage,
+            this.goToUserPage,
             this.goToEditPage,
             this.deleteLesson
           ],
           labels          : [
             {label: "Test", "class": "btn-default"},
+            {label: "Users", "class": "btn-primary"},
             {label: "Edit", "class": "btn-info"},
             {label: "Delete", "class": "btn-danger"},
           ],
         }
       },
       methods   : {
-        goToTestPage(index){
+        goToTestPage(index) {
           const lesson = this.lessons[index]
           window.location.href = this.urls.tests(lesson.id);
         },
-        goToEditPage(index){
+        goToEditPage(index) {
           const lesson = this.lessons[index]
           window.location.href = this.urls.edit(lesson.id);
         },
-        deleteLesson(index){
+        deleteLesson(index) {
           let lesson = this.lessons[index],
               url    = this.urls.delete(lesson.id)
           if (confirm('going to delete' + lesson.title)) {
@@ -62,7 +66,10 @@
                  .then(response => this.lessons.splice(index, 1))
                  .catch(response => console.log(response))
           }
-
+        },
+        goToUserPage(index) {
+          const lesson = this.lessons[index]
+          window.location.href = this.urls.users(lesson.id)
         }
       }
     }

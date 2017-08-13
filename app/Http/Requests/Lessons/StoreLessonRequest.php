@@ -28,6 +28,8 @@ class StoreLessonRequest extends FormRequest
             'content'       => "required",
             'is_standalone' => "required|boolean",
             'permission'    => "required|in:" . implode(",", Permission::pluck('id')->toArray()),
+            'schedule.compare' =>"required|in:lesson,user",
+            'schedule.days' =>"required|integer",
         ];
     }
 }

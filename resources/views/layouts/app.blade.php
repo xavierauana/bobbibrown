@@ -12,6 +12,15 @@
 	
 	<!-- Styles -->
     <link href="{{ mix('css/app.css') }}" rel="stylesheet">
+    
+    <style>
+        body{
+            background-image: url(/files/mono.svg);
+            background-size: 250px;
+            background-color: white;
+            background-repeat: inital;
+        }
+    </style>
 </head>
 <body>
     <div id="app">
@@ -30,7 +39,7 @@
 
                     <!-- Branding Image -->
                     <a class="navbar-brand" href="{{ url('/home') }}" style="position: relative">
-                        <img src="{{asset('files/logo.png')}}" class="img-responsive" width="100" style="display: inline">
+                        <img src="{{asset('files/logo.svg')}}" class="img-responsive" width="100" style="display: inline">
 {{--	                    {{ config('app.name', 'Laravel') }}--}}
                     </a>
                 </div>

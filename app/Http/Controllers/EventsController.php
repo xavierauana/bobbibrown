@@ -4,15 +4,15 @@ namespace App\Http\Controllers;
 
 use App\Event;
 use App\Helpers\FileHandler;
-use App\Http\Requests\EventRegistrationRequest;
-use App\Http\Requests\Events\DeleteEventRequest;
-use App\Http\Requests\Events\EditEventRequest;
 use App\Http\Requests\Events\StoreEventRequest;
 use App\Http\Requests\Events\UpdateEventRequest;
 use App\Jobs\PublishEvent;
 use App\Media;
+use App\Services\EventToken;
+use App\Services\QRCodeGenerator;
 use App\User;
 use Carbon\Carbon;
+use Illuminate\Http\Request;
 
 class EventsController extends Controller
 {
@@ -50,33 +50,7 @@ class EventsController extends Controller
      */
     public function store(StoreEventRequest $request) {
 
-        if ($request->hasFile('photo')) {
-            $value = $request->file('photo');
-            $fh = new FileHandler();
-            $link = str_replace(public_path(), '', $fh->move($value));
-            $mediaRecord = Media::whereLink($link)->first();
-
-            if (!$mediaRecord) {
-                $fields['link'] = $link;
-                $fields['name'] = $value->getClientOriginalName();
-                $fields['type'] = $value->getClientMimeType();
-                $mediaRecord = Media::create($fields);
-            } else {
-                $mediaRecord->touch();
-            }
-        }
-
-        $data = [
-            'title'          => $request->get('title'),
-            'venue'          => $request->get('venue'),
-            'body'           => $request->get('body'),
-            'vacancies'      => $request->get('vacancies'),
-            'start_datetime' => new Carbon($request->get('start_datetime')),
-            'end_datetime'   => new Carbon($request->get('end_datetime')),
-        ];
-        if (isset($mediaRecord)) {
-            $data['photo'] = $mediaRecord->link;
-        }
+        $data = $this->parseFormData($request);
 
         Event::create($data);
 
@@ -114,13 +88,10 @@ class EventsController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(UpdateEventRequest $request, Event $event) {
-        $event->update([
-            'title'          => $request->get('title'),
-            'body'           => $request->get('body'),
-            'vacancies'      => $request->get('vacancies'),
-            'start_datetime' => new Carbon($request->get('start_datetime')),
-            'end_datetime'   => new Carbon($request->get('end_datetime')),
-        ]);
+
+        $data = $this->parseFormData($request);
+
+        $event->update($data);
 
         return redirect()->route('events.index');
     }
@@ -140,12 +111,6 @@ class EventsController extends Controller
         return response(200);
     }
 
-    public function registration(EventRegistrationRequest $request, Event $event) {
-        $request->user()->register($event);
-
-        return response()->json(['status' => 'Completed', 'user' => $request->user()]);
-    }
-
     public function removeParticipant(Event $event, User $user) {
         $this->authorize('edit', Event::class);
         $event->removeUser($user);
@@ -162,4 +127,70 @@ class EventsController extends Controller
             $this->dispatch($job);
         }
     }
+
+    public function getQrCode(Event $event, QRCodeGenerator $generator) {
+        $token = EventToken::create(auth()->user(), $event);
+        $message = url('/events/' . $event->id . '/signin?token=' . $token);
+        $label = $event->title . " Sign In";
+        $qrCode = $generator->create($message, $label);
+
+        return response($qrCode->writeString(), 200)->header("Content-Type", $qrCode->getContentType());
+    }
+
+    #region Handle save photo and parse form data
+
+    /**
+     * @param \Illuminate\Http\Request $request
+     * @return \App\Media|null
+     */
+    private function savePhoto(Request $request):?Media {
+
+        if ($request->hasFile('photo')) {
+            $value = $request->file('photo');
+            $fh = new FileHandler();
+            $link = str_replace(public_path(), '', $fh->move($value));
+            $mediaRecord = Media::whereLink($link)->first();
+
+            if (!$mediaRecord) {
+                $fields['link'] = $link;
+                $fields['name'] = $value->getClientOriginalName();
+                $fields['type'] = $value->getClientMimeType();
+                $mediaRecord = Media::create($fields);
+            } else {
+                $mediaRecord->touch();
+            }
+
+            return $mediaRecord;
+        }
+
+        return null;
+
+    }
+
+    /**
+     * @param \Illuminate\Http\Request $request
+     * @return array
+     */
+    private function parseFormData(Request $request): array {
+        $data = [
+            'title'          => $request->get('title'),
+            'venue'          => $request->get('venue'),
+            'body'           => $request->get('body'),
+            'vacancies'      => $request->get('vacancies'),
+            'start_datetime' => new Carbon($request->get('start_datetime')),
+            'end_datetime'   => new Carbon($request->get('end_datetime')),
+        ];
+        if ($request->has('remove_photo')) {
+            if ($request->get('remove_photo')) {
+                $data['photo'] = null;
+            }
+        }
+        if ($mediaRecord = $this->savePhoto($request)) {
+            $data['photo'] = $mediaRecord->link;
+        }
+
+        return $data;
+    }
+
+    #endregion
 }

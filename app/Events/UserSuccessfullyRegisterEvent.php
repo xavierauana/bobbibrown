@@ -2,26 +2,42 @@
 
 namespace App\Events;
 
+use App\User;
 use Illuminate\Broadcasting\Channel;
-use Illuminate\Queue\SerializesModels;
-use Illuminate\Broadcasting\PrivateChannel;
-use Illuminate\Broadcasting\PresenceChannel;
-use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Broadcasting\InteractsWithSockets;
-use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
+use Illuminate\Broadcasting\PrivateChannel;
+use Illuminate\Foundation\Events\Dispatchable;
+use Illuminate\Http\Request;
+use Illuminate\Queue\SerializesModels;
 
 class UserSuccessfullyRegisterEvent
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
+    /**
+     * @var \App\User
+     */
+    public $user;
+    /**
+     * @var \App\Event
+     */
+    public $event;
+    /**
+     * @var \Illuminate\Http\Request
+     */
+    public $request;
 
     /**
      * Create a new event instance.
      *
-     * @return void
+     * @param \App\User                $user
+     * @param \App\Event               $event
+     * @param \Illuminate\Http\Request $request
      */
-    public function __construct()
-    {
+    public function __construct(User $user, \App\Event $event, Request $request) {
         //
+        $this->user = $user;
+        $this->event = $event;
+        $this->request = $request;
     }
 
     /**
@@ -29,8 +45,7 @@ class UserSuccessfullyRegisterEvent
      *
      * @return Channel|array
      */
-    public function broadcastOn()
-    {
+    public function broadcastOn() {
         return new PrivateChannel('channel-name');
     }
 }

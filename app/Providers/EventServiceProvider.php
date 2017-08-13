@@ -2,7 +2,13 @@
 
 namespace App\Providers;
 
+use App\Events\UserCancelEventRegistration;
 use App\Events\UserRegistration;
+use App\Events\UserSignInEvent;
+use App\Events\UserSuccessfullyRegisterEvent;
+use App\Listeners\LogCancelEventRegistrationActivity;
+use App\Listeners\LogEventRegistrationActivity;
+use App\Listeners\LogSignInEventActivity;
 use App\Listeners\UserRegistrationListener;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 
@@ -14,11 +20,20 @@ class EventServiceProvider extends ServiceProvider
      * @var array
      */
     protected $listen = [
-        'App\Events\Event'      => [
+        'App\Events\Event'                   => [
             'App\Listeners\EventListener',
         ],
-        UserRegistration::class => [
+        UserRegistration::class              => [
             UserRegistrationListener::class,
+        ],
+        UserSuccessfullyRegisterEvent::class => [
+            LogEventRegistrationActivity::class,
+        ],
+        UserCancelEventRegistration::class   => [
+            LogCancelEventRegistrationActivity::class,
+        ],
+        UserSignInEvent::class               => [
+            LogSignInEventActivity::class,
         ],
     ];
 

@@ -27,6 +27,28 @@
 			@endforeach
 		</select>
 	</div>
+	<div class="form-group {{ $errors->has('schedule.compare') ? ' has-error' : '' }}">
+		<label>Deadline Target</label>
+		<select name="schedule[compare]" class="form-control">
+			<option value="">-- Please Select One Target --</option>
+			<option value="lesson" @if($lesson->schedule->compare === "lesson") selected @endif>Lesson Creation Date</option>
+			<option value="user" @if($lesson->schedule->compare === "user") selected @endif>User Creation Date</option>
+		</select>
+		@if ($errors->has('schedule.compare'))
+			<span class="help-block">
+                <strong>{{ $errors->first('schedule.compare') }}</strong>
+            </span>
+		@endif
+	</div>
+	<div class="form-group {{ $errors->has('schedule.days') ? ' has-error' : '' }}">
+		<label>Deadline days</label>
+		<input class="form-control" name="schedule[days]" type="number" step="1" min="0" value="{{$lesson->schedule->days}}">
+		@if ($errors->has('schedule.days'))
+			<span class="help-block">
+                <strong>{{ $errors->first('schedule.days') }}</strong>
+            </span>
+		@endif
+	</div>
 	<div class="form-group">
 		<label>Content</label>
 		<textarea name="body" id="body" class="form-control">{{$lesson->body}}</textarea>

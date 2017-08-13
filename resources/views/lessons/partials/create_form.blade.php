@@ -35,6 +35,28 @@
             </span>
 		@endif
 	</div>
+	<div class="form-group {{ $errors->has('schedule.compare') ? ' has-error' : '' }}">
+		<label>Deadline Target</label>
+		<select name="schedule[compare]" class="form-control">
+			<option value="">-- Please Select One Target --</option>
+			<option value="lesson">Lesson Creation Date</option>
+			<option value="user">User Creation Date</option>
+		</select>
+		@if ($errors->has('schedule.compare'))
+			<span class="help-block">
+                <strong>{{ $errors->first('schedule.compare') }}</strong>
+            </span>
+		@endif
+	</div>
+	<div class="form-group {{ $errors->has('schedule.days') ? ' has-error' : '' }}">
+		<label>Deadline days</label>
+		<input class="form-control" name="schedule[days]" type="number" step="1" min="0">
+		@if ($errors->has('schedule.days'))
+			<span class="help-block">
+                <strong>{{ $errors->first('schedule.days') }}</strong>
+            </span>
+		@endif
+	</div>
 	<div class="form-group {{ $errors->has('content') ? ' has-error' : '' }}">
 		<label>Lesson Content</label>
 		<textarea name="content" id="content" class="form-control"></textarea>

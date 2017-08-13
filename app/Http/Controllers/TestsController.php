@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\Tests\StoreTestRequest;
 use App\Http\Requests\Tests\UpdateTestRequest;
 use App\Test;
+use App\User;
 
 class TestsController extends Controller
 {

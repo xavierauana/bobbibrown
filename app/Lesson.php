@@ -6,6 +6,7 @@ use Anacreation\Etvtest\Contracts\TestableInterface;
 use Anacreation\Etvtest\Contracts\TestableTraits;
 use Anacreation\Etvtest\Models\Test;
 use App\Scopes\WithinPermissions;
+use App\Services\LessonDeadlineCalculator;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\Relation;
 
@@ -42,5 +43,21 @@ class Lesson extends Model implements TestableInterface
         return $this->tests()->first();
     }
 
+    public function schedule(): Relation {
+        return $this->hasOne(LessonSchedule::class);
+    }
+
+    public function isOverDue(User $user): bool {
+
+        $service = new LessonDeadlineCalculator($this);
+
+        return $service->isOverDue($user);
+    }
+    public function dueInDays(User $user): int {
+
+        $service = new LessonDeadlineCalculator($this);
+
+        return $service->dueInDate($user);
+    }
 
 }

@@ -16,24 +16,25 @@
 <script type="text/babel">
     import {Events as urls} from "./../endpoints"
     import moment from "moment"
-    export default{
+
+    export default {
       props   : {
         event: {
           type    : Object,
           required: true
         }
       },
-      data(){
+      data() {
         return {
           urls: urls
         }
       },
       computed: {
-        startDate(){
+        startDate() {
           return moment(this.event.startDate).format('lll')
         },
-        vacancies(){
-          return this.event.vacancies + " seats remaining"
+        vacancies() {
+          return this.event.vacancies - this.event.participants + " seats remaining"
         }
       }
     }

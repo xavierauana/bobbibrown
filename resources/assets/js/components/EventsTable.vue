@@ -14,6 +14,8 @@
                     <td>
                         <button class="btn btn-sm btn-default"
                                 @click.prevent="publish(event)">Publish</button>
+                        <button class="btn btn-sm btn-primary"
+                                @click.prevent="getQrCode(event)">QR Code</button>
                         <a :href="urls.edit(event.id)" class="btn btn-sm btn-info">Edit</a>
                         <button class="btn btn-sm btn-danger" @click.prevent="deleteEvent(index)">Delete</button>
                     </td>
@@ -24,7 +26,8 @@
 
 <script type="text/babel">
     import {Events as urls} from "../endpoints"
-    export default{
+
+    export default {
       props  : {
         initialEvents: {
           type    : Array,
@@ -38,7 +41,7 @@
         }
       },
       methods: {
-        deleteEvent(index){
+        deleteEvent(index) {
           let event = this.events[index],
               url   = this.urls.delete(event.id)
           if (confirm('going to delete' + event.title)) {
@@ -47,10 +50,14 @@
                  .catch(response => console.log(response))
           }
         },
-        publish(event){
+        publish(event) {
           axios.post(this.urls.publish(event.id))
                .then(response => alert('Email will send to all active users.'))
                .catch(() => alert('something wrong! Pls try again later!'))
+        },
+        getQrCode(event) {
+          let url = "/admin/events/" + event.id + "/qrcode"
+          window.open(url)
         }
       }
     }

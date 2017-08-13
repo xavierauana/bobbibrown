@@ -11,8 +11,17 @@
     <title>{{ config('app.name', 'Laravel') }}</title>
 	
 	<!-- Styles -->
-    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <link href="{{ mix('css/app.css') }}" rel="stylesheet">
+     <style>
+        body{
+            background-image: url(/files/mono.svg);
+            background-size: 250px;
+            background-color: white;
+            background-repeat: inital;
+        }
+    </style>
 	@yield("styles")
+ 
 </head>
 <body>
     <div id="app">
@@ -31,7 +40,7 @@
 
                     <!-- Branding Image -->
                     <a class="navbar-brand" href="{{ url('/') }}">
-                        {{ config('app.name', 'Laravel') }}
+                        <img src="{{asset('files/logo_white.svg')}}" class="img-responsive" width="100" style="display: inline">
                     </a>
                 </div>
 
@@ -78,7 +87,7 @@
     <script src="/js/test_ckeditor/ckeditor.js"></script>
 
     <!-- Scripts -->
-    <script src="{{ asset('js/app.js') }}"></script>
+    <script src="{{ mix('js/app.js') }}"></script>
     @yield('scripts')
 </body>
 </html>
