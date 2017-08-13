@@ -29,7 +29,6 @@ Route::group(['middleware' => "auth"], function () {
 
     Route::get('profile', 'HomeController@getProfile')->name('profile');
     Route::post('profile', 'HomeController@postProfile')->name('profile.update');
-    Route::resourece('profile', '')->name('profile.update');
 
     Route::get('/collections/{collection}', 'HomeController@showCollection')->name("show.collection");
 
