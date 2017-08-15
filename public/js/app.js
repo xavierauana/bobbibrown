@@ -60696,6 +60696,12 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "innerHTML": _vm._s(_vm.event.body)
     }
   })]), _vm._v(" "), _c('br'), _vm._v(" "), _c('div', [_c('button', {
+    directives: [{
+      name: "show",
+      rawName: "v-show",
+      value: (_vm.canRegister),
+      expression: "canRegister"
+    }],
     staticClass: "btn btn-sm btn-primary",
     attrs: {
       "disabled": !_vm.canRegister
@@ -60704,6 +60710,12 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "click": _vm.register
     }
   }, [_vm._v("Register")]), _vm._v(" "), _c('button', {
+    directives: [{
+      name: "show",
+      rawName: "v-show",
+      value: (!_vm.canRegister),
+      expression: "!canRegister"
+    }],
     staticClass: "btn btn-sm btn-danger",
     attrs: {
       "disabled": _vm.canRegister

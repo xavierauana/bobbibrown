@@ -13,8 +13,8 @@
 		<br>
 
 		<div>
-			<button class="btn btn-sm btn-primary" :disabled="!canRegister" @click="register">Register</button>
-			<button class="btn btn-sm btn-danger" :disabled="canRegister" @click="cancelRegistration">Cancel Registration</button>
+			<button class="btn btn-sm btn-primary" v-show="canRegister" :disabled="!canRegister" @click="register">Register</button>
+			<button class="btn btn-sm btn-danger" v-show="!canRegister" :disabled="canRegister" @click="cancelRegistration">Cancel Registration</button>
 			<a :href="urls.frontEnd" class="btn btn-sm btn-info pull-right">Back</a>
 		</div>
     </div>

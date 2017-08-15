@@ -17,7 +17,7 @@
 						<a class="btn btn-primary pull-right" href="{{route('show.lesson.test', $lesson->id)}}">Test</a>
 					@endif
 				@endif
-				<button class="btn btn-sm btn-info pull-right" @click="back">Back</button>
+				<button class="btn btn-info pull-right" @click="back" style="margin-right:15px">Back</button>
 			</div>
 	    </div>
 	</div>
