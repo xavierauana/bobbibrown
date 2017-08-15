@@ -1,5 +1,5 @@
 <template lang="html">
-    <table class="table">
+    <table class="table" v-if="events">
         <thead>
             <th>Event Title</th>
             <th>Event Start Datetime</th>
@@ -24,10 +24,18 @@
 
     export default {
       props  : {
-        events: {
+        initialEvents: {
           type    : Array,
           required: true
         }
+      },
+      data() {
+        return {
+          events: null
+        }
+      },
+      mounted() {
+        this.events = JSON.parse(JSON.stringify(this.initialEvents))
       },
       methods: {
         isPastEvent(event) {
@@ -46,7 +54,7 @@
                  })
                  .catch(response => console.log('something wrong, ', response))
           }
-        }
+        },
       }
     }
 </script>

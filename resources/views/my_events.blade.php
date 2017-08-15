@@ -8,7 +8,7 @@
 			
 	        <div class="panel-heading">My Class</div>
 	        <div class="panel-body">
-		       <my_events :events="{{$events}}"></my_events>
+		       <my_events :initial-events="{{$events}}"></my_events>
 	        </div>
 			<div class="panel-footer">
 				<a href="/" class="btn btn-sm btn-info">Back</a>

@@ -3919,11 +3919,20 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
-    events: {
+    initialEvents: {
       type: Array,
       required: true
     }
   },
+  data: function data() {
+    return {
+      events: null
+    };
+  },
+  mounted: function mounted() {
+    this.events = JSON.parse(JSON.stringify(this.initialEvents));
+  },
+
   methods: {
     isPastEvent: function isPastEvent(event) {
       var endDatetime = __WEBPACK_IMPORTED_MODULE_1_moment___default()(event.end_datetime, 'll');
@@ -10418,7 +10427,7 @@ exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/cs
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -61053,7 +61062,7 @@ if (false) {
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('table', {
+  return (_vm.events) ? _c('table', {
     staticClass: "table"
   }, [_vm._m(0), _vm._v(" "), _c('tbody', _vm._l((_vm.events), function(event) {
     return _c('tr', [_c('td', {
@@ -61079,7 +61088,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         }
       }
     }, [_vm._v("Cancel Registration")])])])
-  }))])
+  }))]) : _vm._e()
 },staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('thead', [_c('th', [_vm._v("Event Title")]), _vm._v(" "), _c('th', [_vm._v("Event Start Datetime")]), _vm._v(" "), _c('th', [_vm._v("Actions")])])
 }]}
