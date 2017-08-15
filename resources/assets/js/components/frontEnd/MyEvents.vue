@@ -11,7 +11,7 @@
                 <td v-text="event.start_datetime"></td>
                 <td>
                     <button class="btn btn-sm btn-danger" v-show="!isPastEvent(event)"
-                            @click.prevent="cancelRegistration">Cancel Registration</button>
+                            @click.prevent="cancelRegistration(event)">Cancel Registration</button>
                 </td>
             </tr>
         </tbody>
@@ -36,7 +36,7 @@
 
           return !current.isAfter(endDatetime)
         },
-        cancelRegistration() {
+        cancelRegistration(event) {
           if (confirm('Are you sure to cancel the Event Registration: ' + event.title)) {
             axios.post(this.urls.cancel(event.id))
                  .then(({data}) => {

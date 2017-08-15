@@ -3931,7 +3931,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
       return !current.isAfter(endDatetime);
     },
-    cancelRegistration: function cancelRegistration() {
+    cancelRegistration: function cancelRegistration(event) {
       var _this = this;
 
       if (confirm('Are you sure to cancel the Event Registration: ' + event.title)) {
@@ -61077,7 +61077,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       on: {
         "click": function($event) {
           $event.preventDefault();
-          _vm.cancelRegistration($event)
+          _vm.cancelRegistration(event)
         }
       }
     }, [_vm._v("Cancel Registration")])])])
