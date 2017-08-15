@@ -32,7 +32,7 @@
           const endDatetime = moment(event.end_datetime, 'll')
           const current = moment()
 
-          return current.isAfter(endDatetime)
+          return !current.isAfter(endDatetime)
         }
       }
     }

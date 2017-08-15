@@ -3926,7 +3926,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       var endDatetime = __WEBPACK_IMPORTED_MODULE_0_moment___default()(event.end_datetime, 'll');
       var current = __WEBPACK_IMPORTED_MODULE_0_moment___default()();
 
-      return current.isAfter(endDatetime);
+      return !current.isAfter(endDatetime);
     }
   }
 });
