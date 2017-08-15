@@ -38,7 +38,7 @@
         },
         cancelRegistration(event) {
           if (confirm('Are you sure to cancel the Event Registration: ' + event.title)) {
-            axios.post(this.urls.cancel(event.id))
+            axios.post(urls.cancel(event.id))
                  .then(({data}) => {
                    let index = _.findIndex(this.events, {id: data.user.id})
                    this.events.splice(index, 1)
