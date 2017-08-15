@@ -3890,8 +3890,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_moment__ = __webpack_require__("./node_modules/moment/moment.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_moment___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_moment__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__endpoints__ = __webpack_require__("./resources/assets/js/endpoints.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_moment__ = __webpack_require__("./node_modules/moment/moment.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_moment___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_moment__);
 //
 //
 //
@@ -3911,6 +3912,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+
 
 
 
@@ -3923,10 +3926,25 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
   },
   methods: {
     isPastEvent: function isPastEvent(event) {
-      var endDatetime = __WEBPACK_IMPORTED_MODULE_0_moment___default()(event.end_datetime, 'll');
-      var current = __WEBPACK_IMPORTED_MODULE_0_moment___default()();
+      var endDatetime = __WEBPACK_IMPORTED_MODULE_1_moment___default()(event.end_datetime, 'll');
+      var current = __WEBPACK_IMPORTED_MODULE_1_moment___default()();
 
       return !current.isAfter(endDatetime);
+    },
+    cancelRegistration: function cancelRegistration() {
+      var _this = this;
+
+      if (confirm('Are you sure to cancel the Event Registration: ' + event.title)) {
+        axios.post(this.urls.cancel(event.id)).then(function (_ref) {
+          var data = _ref.data;
+
+          var index = _.findIndex(_this.events, { id: data.user.id });
+          _this.events.splice(index, 1);
+          alert('Successfully cancel the event');
+        }).catch(function (response) {
+          return console.log('something wrong, ', response);
+        });
+      }
     }
   }
 });
@@ -10402,7 +10420,7 @@ exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/cs
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -61055,7 +61073,13 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         value: (!_vm.isPastEvent(event)),
         expression: "!isPastEvent(event)"
       }],
-      staticClass: "btn btn-sm btn-danger"
+      staticClass: "btn btn-sm btn-danger",
+      on: {
+        "click": function($event) {
+          $event.preventDefault();
+          _vm.cancelRegistration($event)
+        }
+      }
     }, [_vm._v("Cancel Registration")])])])
   }))])
 },staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;

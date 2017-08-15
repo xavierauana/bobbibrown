@@ -10,7 +10,8 @@
                 <td v-text="event.title"></td>
                 <td v-text="event.start_datetime"></td>
                 <td>
-                    <button class="btn btn-sm btn-danger" v-show="!isPastEvent(event)">Cancel Registration</button>
+                    <button class="btn btn-sm btn-danger" v-show="!isPastEvent(event)"
+                            @click.prevent="cancelRegistration">Cancel Registration</button>
                 </td>
             </tr>
         </tbody>
@@ -18,6 +19,7 @@
 </template>
 
 <script type="text/babel">
+    import {Events as urls} from "./../../endpoints"
     import moment from "moment"
 
     export default {
@@ -33,6 +35,17 @@
           const current = moment()
 
           return !current.isAfter(endDatetime)
+        },
+        cancelRegistration() {
+          if (confirm('Are you sure to cancel the Event Registration: ' + event.title)) {
+            axios.post(this.urls.cancel(event.id))
+                 .then(({data}) => {
+                   let index = _.findIndex(this.events, {id: data.user.id})
+                   this.events.splice(index, 1)
+                   alert('Successfully cancel the event')
+                 })
+                 .catch(response => console.log('something wrong, ', response))
+          }
         }
       }
     }
