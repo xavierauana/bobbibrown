@@ -3935,10 +3935,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       var _this = this;
 
       if (confirm('Are you sure to cancel the Event Registration: ' + event.title)) {
-        axios.post(__WEBPACK_IMPORTED_MODULE_0__endpoints__["b" /* Events */].cancel(event.id)).then(function (_ref) {
-          var data = _ref.data;
-
-          var index = _.findIndex(_this.events, { id: data.user.id });
+        axios.post(__WEBPACK_IMPORTED_MODULE_0__endpoints__["b" /* Events */].cancel(event.id)).then(function () {
+          var index = _.findIndex(_this.events, { id: event.id });
           _this.events.splice(index, 1);
           alert('Successfully cancel the event');
         }).catch(function (response) {

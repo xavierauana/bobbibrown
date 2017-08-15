@@ -39,8 +39,8 @@
         cancelRegistration(event) {
           if (confirm('Are you sure to cancel the Event Registration: ' + event.title)) {
             axios.post(urls.cancel(event.id))
-                 .then(({data}) => {
-                   let index = _.findIndex(this.events, {id: data.user.id})
+                 .then(() => {
+                   let index = _.findIndex(this.events, {id: event.id})
                    this.events.splice(index, 1)
                    alert('Successfully cancel the event')
                  })
