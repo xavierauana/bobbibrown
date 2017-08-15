@@ -65,7 +65,35 @@ Vue.component('role_table', require('./components/RolesTable.vue'))
 Vue.component('role_permissions', require('./components/RolePermissions.vue'))
 Vue.component('test', require('./attempt/components/attempt.vue'))
 Vue.component('event_sign_in', require('./components/frontEnd/EventSignIn.vue'))
+Vue.component('my_events', require('./components/frontEnd/MyEvents.vue'))
+Vue.component('collection_table', require('./components/CollectionsTable.vue'))
+
+import Eloquent from "../../../myModel"
+
+let NewPost = Eloquent.NewPost
+
+console.log(NewPost)
+
+let newPost1 = NewPost('soemthing')
+
+console.log(newPost1)
+
+//let data = "dummy"
+//const Post = new BaseObject('posts')
+//
+//Post.index().then(response => console.log(response))
+//    .catch(response => console.log(response))
 
 const app = new Vue({
-                      el: '#app'
+                      el     : '#app',
+                      methods: {
+                        back() {
+                          window.history.back();
+                        },
+                        backWithConfirm(message) {
+                          if (confirm(message)) {
+                            this.back()
+                          }
+                        }
+                      }
                     })

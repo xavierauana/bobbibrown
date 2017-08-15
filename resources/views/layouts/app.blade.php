@@ -4,6 +4,9 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <link rel="apple-touch-icon" sizes="180x180" href="/files/icons/App_Icon_2x.png">
+    <link rel="apple-touch-icon" sizes="167x167" href="/files/icons/App_Icon_2x.png">
 	
 	<!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
@@ -39,8 +42,7 @@
 
                     <!-- Branding Image -->
                     <a class="navbar-brand" href="{{ url('/home') }}" style="position: relative">
-                        <img src="{{asset('files/logo.svg')}}" class="img-responsive" width="100" style="display: inline">
-{{--	                    {{ config('app.name', 'Laravel') }}--}}
+                        <img src="{{asset('files/logo_white.svg')}}" class="img-responsive" width="100" style="display: inline">
                     </a>
                 </div>
 
@@ -49,7 +51,7 @@
                     <ul class="nav navbar-nav">
                         @if (Auth::check())
 		                    <li><a href="{{ route('home') }}">Learning</a></li>
-		                    <li><a href="{{ route('show.events') }}">Events</a></li>
+		                    <li><a href="{{ route('show.events') }}">Find your class</a></li>
 	                    @endif
                     </ul>
 
@@ -67,6 +69,7 @@
                                 </a>
 
                                 <ul class="dropdown-menu" role="menu">
+                                    <li><a href="{{route('show.myevents')}}">My Class</a></li>
                                     <li><a href="{{route('profile')}}">My Profile</a></li>
                                     <li>
                                         <a href="{{ route('logout') }}"

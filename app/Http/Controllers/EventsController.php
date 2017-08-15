@@ -3,13 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Event;
-use App\Helpers\FileHandler;
 use App\Http\Requests\Events\StoreEventRequest;
 use App\Http\Requests\Events\UpdateEventRequest;
 use App\Jobs\PublishEvent;
-use App\Media;
 use App\Services\EventToken;
 use App\Services\QRCodeGenerator;
+use App\Services\SaveFormMedia;
 use App\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -141,34 +140,6 @@ class EventsController extends Controller
 
     /**
      * @param \Illuminate\Http\Request $request
-     * @return \App\Media|null
-     */
-    private function savePhoto(Request $request):?Media {
-
-        if ($request->hasFile('photo')) {
-            $value = $request->file('photo');
-            $fh = new FileHandler();
-            $link = str_replace(public_path(), '', $fh->move($value));
-            $mediaRecord = Media::whereLink($link)->first();
-
-            if (!$mediaRecord) {
-                $fields['link'] = $link;
-                $fields['name'] = $value->getClientOriginalName();
-                $fields['type'] = $value->getClientMimeType();
-                $mediaRecord = Media::create($fields);
-            } else {
-                $mediaRecord->touch();
-            }
-
-            return $mediaRecord;
-        }
-
-        return null;
-
-    }
-
-    /**
-     * @param \Illuminate\Http\Request $request
      * @return array
      */
     private function parseFormData(Request $request): array {
@@ -185,7 +156,7 @@ class EventsController extends Controller
                 $data['photo'] = null;
             }
         }
-        if ($mediaRecord = $this->savePhoto($request)) {
+        if ($mediaRecord = SaveFormMedia::save($request, 'photo')) {
             $data['photo'] = $mediaRecord->link;
         }
 

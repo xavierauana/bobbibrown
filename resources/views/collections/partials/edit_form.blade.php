@@ -1,12 +1,19 @@
-<form class="form" action="{{route('collections.update', $collection->id)}}" method="POST">
+<form class="form" action="{{route('collections.update', $collection->id)}}" method="POST" enctype="multipart/form-data">
 	{{csrf_field()}}
 	<input type='hidden' name="_method" value="PATCH">
+	
+	@include('elements.inputs.poster_edit',[
+	'field'=>'poster',
+	'label'=>'Poster',
+	'value'=>$collection->poster
+	])
+	
 	@include('elements.inputs.text', [
-'label'=>"Collection Title",
-'field'=>"title",
-'autofocus'=>true,
-'value'=>$collection->title
-])
+	'label'=>"Collection Title",
+	'field'=>"title",
+	'autofocus'=>true,
+	'value'=>$collection->title
+	])
 	@include('elements.inputs.textarea', [
 	'label'=>"Collection Description",
 	'field'=>"description",

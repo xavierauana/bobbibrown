@@ -1,14 +1,20 @@
-<form class="form" action="{{route('collections.store')}}" method="POST">
+<form class="form" action="{{route('collections.store')}}" method="POST" enctype="multipart/form-data">
 	{{csrf_field()}}
 	
-	@include('elements.inputs.text', [
-	'label'=>"Collection Title",
-	'field'=>"title",
-	'autofocus'=>true
+	@include('elements.inputs.poster' ,[
+		'field'=>'poster',
+		'label'=>'Poster'
 	])
+	
+	@include('elements.inputs.text', [
+		'label'=>"Collection Title",
+		'field'=>"title",
+		'autofocus'=>true
+	])
+	
 	@include('elements.inputs.textarea', [
-	'label'=>"Collection Description",
-	'field'=>"description",
+		'label'=>"Collection Description",
+		'field'=>"description",
 	])
 	
 	<div class="form-group">

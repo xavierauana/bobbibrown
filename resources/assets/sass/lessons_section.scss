@@ -1,4 +1,5 @@
 $lessons_section_check_width: 30px;
+$title_text_size: 1.2em;
 
 .lessons_section {
   h2 {
@@ -12,6 +13,9 @@ $lessons_section_check_width: 30px;
       padding-left: 5px;
       border: 1px gray dashed;
       border-radius: 5px;
+      background-size: cover;
+      background-repeat: no-repeat;
+      background-position: center;
       
       a {
         position: relative;
@@ -26,7 +30,19 @@ $lessons_section_check_width: 30px;
         height: $lessons_section_check_width;
         background-color: white;
         border-radius: $lessons_section_check_width/2;
+        margin-top: 5px;
+        border-color: black;
+        border-style: solid;
+        border-width: 1px;
+        box-shadow: rgba(0, 0, 0, 0.8) 2px 2px 3px;
       }
+    }
+    span.title {
+      display: block;
+      line-height: $title_text_size;
+      height: $title_text_size * 2;
+      overflow-y: hidden;
+      font-size: $title_text_size;
     }
   }
 }

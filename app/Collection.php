@@ -13,7 +13,8 @@ class Collection extends Model
     protected $fillable = [
         'title',
         'description',
-        'permission_id'
+        'permission_id',
+        'poster'
     ];
 
     public function lessons(): Relation {

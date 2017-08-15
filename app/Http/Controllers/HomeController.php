@@ -211,6 +211,12 @@ class HomeController extends Controller
         return response("Sorry! You cannot sign in the event!", 501);
     }
 
+    public function showMyEvents() {
+        $events = auth()->user()->events()->orderBy('start_datetime')->get();
+
+        return view('my_events', compact('events'));
+    }
+
     /**
      * @param $testId
      * @param $user

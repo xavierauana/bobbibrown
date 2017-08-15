@@ -41,6 +41,7 @@ Route::group(['middleware' => "auth"], function () {
     Route::get('/home', 'HomeController@index')->name('home');
 
     Route::get('/events', 'HomeController@showEvents')->name('show.events');
+    Route::get('/myEvents', 'HomeController@showMyEvents')->name('show.myevents');
     Route::post('/events/{event}/cancel', 'HomeController@cancelEvent')->name('user.event.cancel');
     Route::post('/events/{event}/registration', 'HomeController@registration')->name('user.event.registration');
     Route::get('/events/{event}/signin', 'HomeController@eventSignIn')->name('signin.event');

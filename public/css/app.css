@@ -8442,21 +8442,38 @@ button.close {
   padding-left: 5px;
   border: 1px gray dashed;
   border-radius: 5px;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  margin-bottom: 5px;
 }
 
-.collection_section .collection_item_wrapper .collection_item a {
-  position: relative;
-  color: white;
+.collection_section .collection_item_wrapper .collection_item span.check {
   font-size: 2em;
-}
-
-.collection_section .collection_item_wrapper .collection_item a span.check {
   display: inline-block;
   line-height: 30px;
   width: 30px;
   height: 30px;
-  background-color: white;
   border-radius: 15px;
+  border-color: black;
+  border-style: solid;
+  background-color: white;
+  border-width: 1px;
+  margin-top: 5px;
+  -webkit-box-shadow: rgba(0, 0, 0, 0.81) 2px 2px 3px;
+          box-shadow: rgba(0, 0, 0, 0.81) 2px 2px 3px;
+}
+
+.collection_section .collection_item_wrapper span.title {
+  display: block;
+  line-height: 1.2em;
+  height: 2.4em;
+  overflow-y: hidden;
+  font-size: 1.2em;
+}
+
+.collection_section .collection_item_wrapper a {
+  position: relative;
 }
 
 .lessons_section h2 {
@@ -8473,6 +8490,9 @@ button.close {
   padding-left: 5px;
   border: 1px gray dashed;
   border-radius: 5px;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
 }
 
 .lessons_section .lesson_wrapper .lesson_item a {
@@ -8488,6 +8508,20 @@ button.close {
   height: 30px;
   background-color: white;
   border-radius: 15px;
+  margin-top: 5px;
+  border-color: black;
+  border-style: solid;
+  border-width: 1px;
+  -webkit-box-shadow: rgba(0, 0, 0, 0.8) 2px 2px 3px;
+          box-shadow: rgba(0, 0, 0, 0.8) 2px 2px 3px;
+}
+
+.lessons_section .lesson_wrapper span.title {
+  display: block;
+  line-height: 1.2em;
+  height: 2.4em;
+  overflow-y: hidden;
+  font-size: 1.2em;
 }
 
 .collection_lesson {

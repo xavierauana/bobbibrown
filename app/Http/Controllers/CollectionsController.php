@@ -11,6 +11,8 @@ use App\Http\Requests\Collections\UpdateCollectionRequest;
 use App\Http\Requests\Permissions\DeletePermissionRequest;
 use App\Lesson;
 use App\Permission;
+use App\Services\SaveFormMedia;
+use Illuminate\Http\Request;
 
 class CollectionsController extends Controller
 {
@@ -47,11 +49,8 @@ class CollectionsController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(StoreCollectionRequest $request) {
-        Collection::create([
-            'title'         => $request->get('title'),
-            'description'   => $request->get('description'),
-            'permission_id' => $request->get('permission_id'),
-        ]);
+        $data = $this->parseFormData($request);
+        Collection::create($data);
 
         return redirect()->route('collections.index');
     }
@@ -89,11 +88,10 @@ class CollectionsController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(UpdateCollectionRequest $request, Collection $collection) {
-        $collection->update([
-            'title'         => $request->get('title'),
-            'description'   => $request->get('description'),
-            'permission_id' => $request->get('permission_id'),
-        ]);
+
+        $data = $this->parseFormData($request);
+
+        $collection->update($data);
 
         return redirect()->route('collections.index');
     }
@@ -146,5 +144,27 @@ class CollectionsController extends Controller
         foreach (request()->all() as $lesson) {
             $collection->lessons()->updateExistingPivot($lesson['id'], ['order' => $lesson['pivot']['order']]);
         }
+    }
+
+    /**
+     * @param \Illuminate\Http\Request $request
+     * @return array
+     */
+    private function parseFormData(Request $request): array {
+        $data = [
+            'title'         => $request->get('title'),
+            'description'   => $request->get('description'),
+            'permission_id' => $request->get('permission_id'),
+        ];
+        if ($request->has('remove_poster')) {
+            if ($request->get('remove_poster')) {
+                $data['poster'] = null;
+            }
+        }
+        if ($mediaRecord = SaveFormMedia::save($request, 'poster')) {
+            $data['poster'] = $mediaRecord->link;
+        }
+
+        return $data;
     }
 }

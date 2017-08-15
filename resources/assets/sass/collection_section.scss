@@ -1,4 +1,5 @@
 $collection_section_check_width: 30px;
+$title_text_size: 1.2em;
 
 .collection_section {
   h2 {
@@ -12,21 +13,37 @@ $collection_section_check_width: 30px;
       padding-left: 5px;
       border: 1px gray dashed;
       border-radius: 5px;
+      background-size: cover;
+      background-repeat: no-repeat;
+      background-position: center;
+      margin-bottom: 5px;
       
-      a {
-        position: relative;
-        color: white;
+      span.check {
         font-size: 2em;
-  
-        span.check {
-          display: inline-block;
-          line-height: $collection_section_check_width;
-          width: $collection_section_check_width;
-          height: $collection_section_check_width;
-          background-color: white;
-          border-radius: $collection_section_check_width/2;
-        }
+        display: inline-block;
+        line-height: $collection_section_check_width;
+        width: $collection_section_check_width;
+        height: $collection_section_check_width;
+        border-radius: $collection_section_check_width/2;
+        border-color: black;
+        border-style: solid;
+        background-color: white;
+        border-width: 1px;
+        margin-top: 5px;
+        box-shadow: rgba(0, 0, 0, 0.81) 2px 2px 3px;
       }
+    }
+    
+    span.title {
+      display: block;
+      line-height: $title_text_size;
+      height: $title_text_size * 2;
+      overflow-y: hidden;
+      font-size: $title_text_size;
+    }
+    
+    a {
+      position: relative;
     }
   }
 }

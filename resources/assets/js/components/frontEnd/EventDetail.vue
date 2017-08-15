@@ -13,9 +13,9 @@
 		<br>
 
 		<div>
-			<a :href="urls.frontEnd" class="btn btn-sm btn-info">Back</a>
-			<button class="btn btn-sm btn-success" :disabled="!canRegister" @click="register">Register</button>
-			<button class="btn btn-sm btn-warning pull-right" :disabled="canRegister" @click="cancelRegistration">Cancel</button>
+			<button class="btn btn-sm btn-primary" :disabled="!canRegister" @click="register">Register</button>
+			<button class="btn btn-sm btn-danger" :disabled="canRegister" @click="cancelRegistration">Cancel Registration</button>
+			<a :href="urls.frontEnd" class="btn btn-sm btn-info pull-right">Back</a>
 		</div>
     </div>
 
@@ -59,22 +59,29 @@
         }
       },
       methods : {
+        addToCalendar() {
+          console.log('add calendar')
+        },
         register() {
-          axios.post(this.urls.registration(this.event.id))
-               .then(({data}) => {
-                 this.event.users.push(data.user)
-                 alert('Successfully register the event')
-               })
-               .catch(response => console.log('something wrong, ', response))
+          if (confirm('Are you sure to register the Event: ' + this.event.title)) {
+            axios.post(this.urls.registration(this.event.id))
+                 .then(({data}) => {
+                   this.event.users.push(data.user)
+                   alert('Successfully register the event')
+                 })
+                 .catch(response => console.log('something wrong, ', response))
+          }
         },
         cancelRegistration() {
-          axios.post(this.urls.cancel(this.event.id))
-               .then(({data}) => {
-                 let index = _.findIndex(this.event.users, {id: data.user.id})
-                 this.event.users.splice(index, 1)
-                 alert('Successfully cancel the event')
-               })
-               .catch(response => console.log('something wrong, ', response))
+          if (confirm('Are you sure to cancel the Event Registration: ' + this.event.title)) {
+            axios.post(this.urls.cancel(this.event.id))
+                 .then(({data}) => {
+                   let index = _.findIndex(this.event.users, {id: data.user.id})
+                   this.event.users.splice(index, 1)
+                   alert('Successfully cancel the event')
+                 })
+                 .catch(response => console.log('something wrong, ', response))
+          }
         }
       }
     }

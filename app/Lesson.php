@@ -18,7 +18,8 @@ class Lesson extends Model implements TestableInterface
         "permission_id",
         "title",
         "is_standalone",
-        "body"
+        "body",
+        "poster"
     ];
 
     use TestableTraits;
@@ -53,6 +54,7 @@ class Lesson extends Model implements TestableInterface
 
         return $service->isOverDue($user);
     }
+
     public function dueInDays(User $user): int {
 
         $service = new LessonDeadlineCalculator($this);
