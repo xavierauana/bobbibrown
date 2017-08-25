@@ -40,7 +40,7 @@
 
                     <!-- Branding Image -->
                     <a class="navbar-brand" href="{{ url('/') }}">
-                        <img src="{{asset('files/logo_white.svg')}}" class="img-responsive" width="100" style="display: inline">
+                        <img src="{{asset('imgs/logo_white.svg')}}" class="img-responsive" width="100" style="display: inline">
                     </a>
                 </div>
 
