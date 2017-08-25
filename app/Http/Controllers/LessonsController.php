@@ -50,6 +50,7 @@ class LessonsController extends Controller
      */
     public function store(StoreLessonRequest $request) {
 
+//        dd($request->all());
         $newLesson = Lesson::create($this->parseFormData($request));
 
         $scheduleData = $request->get('schedule');
@@ -159,9 +160,9 @@ class LessonsController extends Controller
     private function parseFormData(Request $request) {
         $data = [
             'title'         => $request->get('title'),
-            'body'          => $request->get('body'),
+            'body'          => $request->get('content'),
             'is_standalone' => $request->get('is_standalone'),
-            'permission_id' => $request->get('permission_id'),
+            'permission_id' => $request->get('permission'),
             'is_featured'   => $request->get('is_featured') ?: false,
             'is_new'        => $request->get('is_new') ?: false,
         ];
