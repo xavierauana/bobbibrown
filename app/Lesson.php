@@ -15,13 +15,13 @@ class Lesson extends Model implements TestableInterface
     use WithinPermissions, TestableTraits;
 
     protected $fillable = [
-        "permission_id",
-        "title",
-        "is_standalone",
         "body",
+        "title",
+        'is_new',
         "poster",
         'is_featured',
-        'is_new'
+        "is_standalone",
+        "permission_id",
     ];
 
 

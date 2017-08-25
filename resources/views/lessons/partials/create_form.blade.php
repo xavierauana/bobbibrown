@@ -27,17 +27,17 @@
             </span>
 		@endif
 	</div>
-	<div class="form-group {{ $errors->has('permission') ? ' has-error' : '' }}">
+	<div class="form-group {{ $errors->has('permission_id') ? ' has-error' : '' }}">
 		<label>Permission</label>
-		<select name="permission" class="form-control">
+		<select name="permission_id" class="form-control">
 			<option value="">-- Please Select One Permission --</option>
 			@foreach($permissions as $permission)
 				<option value="{{$permission->id}}">{{$permission->label}}</option>
 			@endforeach
 		</select>
-		@if ($errors->has('permission'))
+		@if ($errors->has('permission_id'))
 			<span class="help-block">
-                <strong>{{ $errors->first('permission') }}</strong>
+                <strong>{{ $errors->first('permission_id') }}</strong>
             </span>
 		@endif
 	</div>
@@ -71,12 +71,12 @@
 		'label'=>"Is New",
 		'field'=>"is_new",
 	])
-	<div class="form-group {{ $errors->has('content') ? ' has-error' : '' }}">
+	<div class="form-group {{ $errors->has('body') ? ' has-error' : '' }}">
 		<label>Lesson Content</label>
-		<textarea name="content" id="content" class="form-control"></textarea>
-		@if ($errors->has('content'))
+		<textarea name="body" id="body" class="form-control"></textarea>
+		@if ($errors->has('body'))
 			<span class="help-block">
-                <strong>{{ $errors->first('content') }}</strong>
+                <strong>{{ $errors->first('body') }}</strong>
             </span>
 		@endif
 	</div>

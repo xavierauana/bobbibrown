@@ -24,12 +24,12 @@ class StoreLessonRequest extends FormRequest
      */
     public function rules() {
         return [
-            'title'         => "required",
-            'content'       => "required",
-            'is_standalone' => "required|boolean",
-            'permission'    => "required|in:" . implode(",", Permission::pluck('id')->toArray()),
-            'schedule.compare' =>"required|in:lesson,user",
-            'schedule.days' =>"required|integer",
+            'title'            => "required",
+            'body'             => "required",
+            'is_standalone'    => "required|boolean",
+            'permission_id'    => "required|in:" . implode(",", Permission::pluck('id')->toArray()),
+            'schedule.compare' => "required|in:lesson,user",
+            'schedule.days'    => "required|integer",
         ];
     }
 }

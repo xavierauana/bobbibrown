@@ -94,6 +94,8 @@ class LessonsController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(UpdateLessonRequest $request, Lesson $lesson) {
+
+//        dd($request->all());
         $lesson->update($this->parseFormData($request));
         $scheduleData = $request->get('schedule');
         $lesson->schedule->update([
@@ -159,12 +161,12 @@ class LessonsController extends Controller
 
     private function parseFormData(Request $request) {
         $data = [
+            'body'          => $request->get('body'),
             'title'         => $request->get('title'),
-            'body'          => $request->get('content'),
-            'is_standalone' => $request->get('is_standalone'),
-            'permission_id' => $request->get('permission'),
-            'is_featured'   => $request->get('is_featured') ?: false,
             'is_new'        => $request->get('is_new') ?: false,
+            'is_featured'   => $request->get('is_featured') ?: false,
+            'is_standalone' => $request->get('is_standalone'),
+            'permission_id' => $request->get('permission_id'),
         ];
 
         if ($request->has('remove_poster')) {

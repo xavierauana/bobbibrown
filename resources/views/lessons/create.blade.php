@@ -19,6 +19,6 @@
 @endsection
 @section('scripts')
 	<script>
-         CKEDITOR.replace('content');
+         CKEDITOR.replace('body');
     </script>
 @endsection
