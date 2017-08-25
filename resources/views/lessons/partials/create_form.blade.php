@@ -1,5 +1,11 @@
-<form class="form" action="{{route('lessons.store')}}" method="POST">
+<form class="form" action="{{route('lessons.store')}}" method="POST" enctype="multipart/form-data">
 	{{csrf_field()}}
+	
+	@include('elements.inputs.poster' ,[
+		'field'=>'poster',
+		'label'=>'Poster'
+	])
+	
 	<div class="form-group {{ $errors->has('title') ? ' has-error' : '' }}">
 		<label>Lesson Title</label>
 		<input type="text" name="title" class="form-control" />
@@ -57,6 +63,14 @@
             </span>
 		@endif
 	</div>
+	@include('elements.inputs.checkbox', [
+		'label'=>"Is Featured",
+		'field'=>"is_featured",
+	])
+	@include('elements.inputs.checkbox', [
+		'label'=>"Is New",
+		'field'=>"is_new",
+	])
 	<div class="form-group {{ $errors->has('content') ? ' has-error' : '' }}">
 		<label>Lesson Content</label>
 		<textarea name="content" id="content" class="form-control"></textarea>

@@ -30,6 +30,10 @@ Route::group(['middleware' => "auth"], function () {
     Route::get('profile', 'HomeController@getProfile')->name('profile');
     Route::post('profile', 'HomeController@postProfile')->name('profile.update');
 
+
+    Route::get('/collections/{collection}/test', 'HomeController@showCollectionTest')->name("show.collection.test");
+    Route::post('/collections/{collection}/test', 'HomeController@gradeCollectionTest')->name("grade.collection.test");
+
     Route::get('/collections/{collection}', 'HomeController@showCollection')->name("show.collection");
 
     Route::get('/collections/{collection}/lessons/{lesson}', 'HomeController@showCollectionLesson')
@@ -37,8 +41,12 @@ Route::group(['middleware' => "auth"], function () {
 
     Route::get('/lessons/{lesson}', 'HomeController@showLesson')->name("show.lesson");
     Route::get('/lessons/{lesson}/test', 'HomeController@showLessonTest')->name("show.lesson.test");
-    Route::post('/lessons/{lesson}/test', 'HomeController@gradeTest')->name("grade.lesson.test");
+    Route::post('/lessons/{lesson}/test', 'HomeController@gradeLessonTest')->name("grade.lesson.test");
     Route::get('/home', 'HomeController@index')->name('home');
+
+    Route::get('/resources', "HomeController@showResources")->name("show.resources");
+    Route::get('/products/{product}', "HomeController@showProduct")->name("show.product");
+
 
     Route::get('/events', 'HomeController@showEvents')->name('show.events');
     Route::get('/myEvents', 'HomeController@showMyEvents')->name('show.myevents');

@@ -51,7 +51,6 @@ Vue.component('example', require('./components/Example.vue'))
 Vue.component('test_table', require('./components/TestsTable.vue'))
 Vue.component('event_table', require('./components/EventsTable.vue'))
 Vue.component('event_detail', require('./components/frontEnd/EventDetail.vue'))
-Vue.component('user_events_table', require('./components/UserEventsTable.vue'))
 Vue.component('collection_lessons', require('./components/CollectionLessons.vue'))
 Vue.component('lesson_list', require('./components/LessonsList.vue'))
 Vue.component('lesson_table', require('./components/LessonsTable.vue'))
@@ -67,6 +66,9 @@ Vue.component('test', require('./attempt/components/attempt.vue'))
 Vue.component('event_sign_in', require('./components/frontEnd/EventSignIn.vue'))
 Vue.component('my_events', require('./components/frontEnd/MyEvents.vue'))
 Vue.component('collection_table', require('./components/CollectionsTable.vue'))
+Vue.component('categories_table', require('./components/CategoriesTable.vue'))
+Vue.component('lines_table', require('./components/LinesTable.vue'))
+Vue.component('products_table', require('./components/ProductsTable.vue'))
 
 import Eloquent from "../../../myModel"
 

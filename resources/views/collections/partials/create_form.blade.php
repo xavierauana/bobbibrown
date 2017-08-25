@@ -26,6 +26,16 @@
 			@endforeach
 		</select>
 	</div>
+	
+	@include('elements.inputs.checkbox', [
+		'label'=>"Is Featured",
+		'field'=>"is_featured",
+	])
+	@include('elements.inputs.checkbox', [
+		'label'=>"Is New",
+		'field'=>"is_new",
+	])
+	
 	<div class="form-group">
 		<input type="submit" class="btn btn-success btn-block" value="Create">
 	</div>

@@ -7,6 +7,7 @@ use Anacreation\Etvtest\Models\Attempt;
 use Anacreation\Etvtest\Models\Test;
 use Anacreation\Etvtest\Services\GradingService;
 use Anacreation\Etvtest\Services\QuestionTypeServices;
+use App\Category;
 use App\Collection;
 use App\Event;
 use App\Events\UserCancelEventRegistration;
@@ -15,10 +16,13 @@ use App\Events\UserSuccessfullyRegisterEvent;
 use App\Http\Requests\EventRegistrationRequest;
 use App\Http\Requests\Users\UpdateProfileRequest;
 use App\Lesson;
+use App\Product;
 use App\Setting;
 use App\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\View\View;
+use Symfony\Component\HttpFoundation\Response;
 
 class HomeController extends Controller
 {
@@ -53,10 +57,35 @@ class HomeController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index() {
-        $collections = Collection::available(auth()->user())->get();
-        $lessons = Lesson::whereIsStandalone(true)->available(auth()->user())->get();
+        $collections = Collection::available(auth()->user())->latest()->get();
+        $lessons = Lesson::whereIsStandalone(true)->available(auth()->user())->latest()->get();
+        $featured_collections = $collections->filter(function ($collection) {
+            if ($collection->is_featured) {
+                return $collection;
+            }
+        });
+        $featured_lessons = $lessons->filter(function ($lesson) {
+            if ($lesson->is_featured) {
+                return $lesson;
+            }
+        });
+        $featured = $featured_collections->merge($featured_lessons);
 
-        return view('home', compact('collections', 'lessons'));
+        $new_collections = $collections->filter(function ($collection) {
+            if ($collection->is_new) {
+                return $collection;
+            }
+        });
+        $new_lessons = $lessons->filter(function ($lesson) {
+
+            if ($lesson->is_new == true) {
+                return $lesson;
+            }
+        });
+        $new = $new_collections->merge($new_lessons);
+
+
+        return view('home', compact('collections', 'lessons', 'featured', 'new'));
     }
 
     public function showCollection(Collection $collection) {
@@ -98,7 +127,7 @@ class HomeController extends Controller
     public function showLessonTest(Request $request, Lesson $lesson) {
 
         if ($test = $lesson->tests->first()) {
-            if (!$request->ajax()) {
+            if (!$request->wantsJson()) {
                 return view('test', compact('test'));
             }
 
@@ -117,8 +146,47 @@ class HomeController extends Controller
         return redirect()->back();
     }
 
-    public function gradeTest(Request $request, Lesson $lesson, GradingService $service) {
+    public function showCollectionTest(Request $request, Collection $collection) {
+        if ($test = $collection->tests->first()) {
+            if (!$request->wantsJson()) {
+                return view('test', compact('test'));
+            }
+
+            $testData = ConverterManager::convert($test)->getData();
+
+            $this->randomPickTestQuestions($testData, $test->question_number);
+
+            return response()->json([
+                'test'          => $testData,
+                'questionTypes' => (new QuestionTypeServices())->getQuestionTypes(),
+                'previous'      => []
+            ]);
+        }
+
+
+        return redirect()->back();
+    }
+
+    public function gradeLessonTest(Request $request, Lesson $lesson, GradingService $service) {
         if ($test = $lesson->test) {
+
+            $service->grade($test, $request->get('answers'), $request->get('questionIds'));
+            $this->createUserAttemptRecord($test, $service, auth()->user());
+
+            return response()->json([
+                'result'    => $service->result,
+                'summary'   => $service->summary,
+                'is_passed' => ($service->summary["correct"] / count($service->result)) > (intval(Setting::whereCode('test_passing_rate')
+                                                                                                         ->first()->value) / 100)
+            ]);
+        }
+
+        return response('No test!', 404);
+    }
+
+    public function gradeCollectionTest(Request $request, Collection $collection, GradingService $service) {
+        if ($test = $collection->test) {
+
             $service->grade($test, $request->get('answers'), $request->get('questionIds'));
             $this->createUserAttemptRecord($test, $service, auth()->user());
 
@@ -134,21 +202,25 @@ class HomeController extends Controller
     }
 
     public function showEvents() {
-        $events = Event::where('start_datetime', '>', Carbon::now())->orderBy('start_datetime')->with('users')->get()
-                       ->map($this->eventTransformer);
+        $events = Event::where('start_datetime', '>', Carbon::now())->matchUserPermissions(auth()->user())
+                       ->orderBy('start_datetime')->with('users')->get()->map($this->eventTransformer);
 
         return view('events', compact('events'));
     }
 
     public function showEventDetail(Event $event) {
-        $event->body = nl2br($event->body);
 
-        return view('event_detail', compact('event'));
+        if (auth()->user()->matchEventPermission($event)) {
+            $event->body = nl2br($event->body);
+
+            return view('event_detail', compact('event'));
+        }
+
     }
 
     public function registration(EventRegistrationRequest $request, Event $event) {
 
-        if (auth()->user()->register($event)) {
+        if (auth()->user()->matchEventPermission($event) and auth()->user()->register($event)) {
             event(new UserSuccessfullyRegisterEvent(auth()->user(), $event, $request));
 
             return response()->json(['status' => 'Completed', 'user' => $request->user()]);
@@ -217,6 +289,30 @@ class HomeController extends Controller
         return view('my_events', compact('events'));
     }
 
+    public function showResources() {
+
+        $categories = Category::with([
+            'lines' => function ($query) {
+                return $query->with([
+                    'products' => function ($query) {
+                        return $query->whereIn('permission_id', auth()->user()->permissions->pluck('id')->toArray());
+                    }
+                ]);
+            }
+        ])->get();
+
+
+        return view('resources', compact("categories"));
+    }
+
+    public function showProduct(Product $product)  {
+        if (in_array($product->permission_id, auth()->user()->permissions->pluck('id')->toArray())){
+            return view('product', compact("product"));
+        }
+    }
+
+    #region Private methods
+
     /**
      * @param $testId
      * @param $user
@@ -271,4 +367,9 @@ class HomeController extends Controller
 
     }
 
+    private function grade() {
+
+    }
+
+    #endregion
 }

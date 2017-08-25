@@ -9,3 +9,12 @@
             </span>
 	@endif
 </div>
+
+@if(isset($ckeditor) and $ckeditor === true)
+	@section("scripts")
+		@parent
+		<script>
+			CKEDITOR.replace("{{$field}}")
+		</script>
+	@endsection
+@endif

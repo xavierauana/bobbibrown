@@ -12,6 +12,7 @@ use App\Http\Requests\Permissions\DeletePermissionRequest;
 use App\Lesson;
 use App\Permission;
 use App\Services\SaveFormMedia;
+use App\Test;
 use Illuminate\Http\Request;
 
 class CollectionsController extends Controller
@@ -50,6 +51,7 @@ class CollectionsController extends Controller
      */
     public function store(StoreCollectionRequest $request) {
         $data = $this->parseFormData($request);
+
         Collection::create($data);
 
         return redirect()->route('collections.index');
@@ -146,6 +148,29 @@ class CollectionsController extends Controller
         }
     }
 
+    public function editTests(Collection $collection) {
+
+        $this->authorize('edit', Collection::class);
+
+        $tests = Test::whereIsActive(true)->get();
+
+        return view('collections.edit_test', compact('tests', 'collection'));
+    }
+
+    public function updateTests(Collection $collection) {
+
+        $this->authorize('edit', Collection::class);
+
+        $this->validate(request(), [
+            'test_id' => 'required|in:' . implode(",", Test::pluck("id")->toArray())
+        ]);
+
+        $collection->tests()->sync(request()->get("test_id"));
+
+        return redirect()->route('collections.index');
+
+    }
+
     /**
      * @param \Illuminate\Http\Request $request
      * @return array
@@ -155,6 +180,8 @@ class CollectionsController extends Controller
             'title'         => $request->get('title'),
             'description'   => $request->get('description'),
             'permission_id' => $request->get('permission_id'),
+            'is_featured'   => $request->get('is_featured') ?: false,
+            'is_new'        => $request->get('is_new') ?: false,
         ];
         if ($request->has('remove_poster')) {
             if ($request->get('remove_poster')) {

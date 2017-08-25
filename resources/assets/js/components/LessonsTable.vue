@@ -2,11 +2,22 @@
     <table class="table">
        <thead>
             <th>Title</th>
+            <th>Featured</th>
+            <th>New</th>
             <th>Actions</th>
        </thead>
        <tbody>
                <tr v-for="(lesson, index) in lessons">
                    <td v-text="lesson.title"></td>
+                   <td>
+                       <span class="label"
+                             :class="{'label-success':lesson.is_featured,'label-warning':!lesson.is_featured}"
+                       >{{lesson.is_featured?'Featured':'Not Featured'}}</span>
+                   </td>
+                   <td>
+                       <span class="label"
+                             :class="{'label-success':lesson.is_new,'label-warning':!lesson.is_new}">{{lesson.is_new?'New':'Not New'}}</span>
+                   </td>
                     <td>
                         <button-group :labels="labels" :on-click-functions="onClickFunctions"
                                       :row-number="index"></button-group>
@@ -21,7 +32,7 @@
     import ButtonGroup from "../elements/ButtonGroups.vue"
 
     export default {
-      name:"lessons-table",
+      name      : "lessons-table",
       components: {
         ButtonGroup
       },

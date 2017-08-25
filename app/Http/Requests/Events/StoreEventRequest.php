@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Events;
 
+use App\Permission;
 use Illuminate\Foundation\Http\FormRequest;
 
 class StoreEventRequest extends FormRequest
@@ -12,6 +13,7 @@ class StoreEventRequest extends FormRequest
      * @return bool
      */
     public function authorize() {
+
         return auth('admin')->check() && auth('admin')->user()->hasPermission('createEvent');
     }
 
@@ -26,6 +28,7 @@ class StoreEventRequest extends FormRequest
             'body'           => "required",
             'photo'          => "image",
             'venue'          => "required",
+            'permission_id'  => "required|in:" . implode(",", Permission::pluck('id')->toArray()),
             'vacancies'      => "required|integer|min:1",
             'start_datetime' => "required",
             'end_datetime'   => "required",

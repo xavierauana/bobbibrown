@@ -24,6 +24,8 @@ class UpdateCollectionRequest extends FormRequest
     public function rules() {
         return [
             'title'         => "required",
+            'is_featured'   => "boolean",
+            'is_new'        => "boolean",
             'permission_id' => "required|in:" . implode(",", Permission::pluck('id')->toArray()),
         ];
     }

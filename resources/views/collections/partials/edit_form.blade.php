@@ -1,4 +1,5 @@
-<form class="form" action="{{route('collections.update', $collection->id)}}" method="POST" enctype="multipart/form-data">
+<form class="form" action="{{route('collections.update', $collection->id)}}" method="POST"
+      enctype="multipart/form-data">
 	{{csrf_field()}}
 	<input type='hidden' name="_method" value="PATCH">
 	
@@ -29,6 +30,17 @@
 			@endforeach
 		</select>
 	</div>
+	
+	@include('elements.inputs.checkbox', [
+		'label'=>"Is Featured",
+		'field'=>"is_featured",
+		'value'=>$collection->is_featured
+	])
+	@include('elements.inputs.checkbox', [
+		'label'=>"Is New",
+		'field'=>"is_new",
+		'value'=>$collection->is_new
+	])
 	<div class="form-group">
 		<input type="submit" class="btn btn-success btn-block" value="Update">
 	</div>

@@ -6,6 +6,7 @@ use App\Event;
 use App\Http\Requests\Events\StoreEventRequest;
 use App\Http\Requests\Events\UpdateEventRequest;
 use App\Jobs\PublishEvent;
+use App\Permission;
 use App\Services\EventToken;
 use App\Services\QRCodeGenerator;
 use App\Services\SaveFormMedia;
@@ -38,7 +39,9 @@ class EventsController extends Controller
 
         $this->authorize('create', Event::class);
 
-        return view('events.create');
+        $permissions = Permission::all();
+
+        return view('events.create', compact('permissions'));
     }
 
     /**
@@ -76,7 +79,9 @@ class EventsController extends Controller
     public function edit(Event $event) {
         $this->authorize('edit', Event::class);
 
-        return view('events.edit', compact('event'));
+        $permissions = Permission::all();
+
+        return view('events.edit', compact('event', 'permissions'));
     }
 
     /**
@@ -148,6 +153,7 @@ class EventsController extends Controller
             'venue'          => $request->get('venue'),
             'body'           => $request->get('body'),
             'vacancies'      => $request->get('vacancies'),
+            'permission_id'  => $request->get('permission_id'),
             'start_datetime' => new Carbon($request->get('start_datetime')),
             'end_datetime'   => new Carbon($request->get('end_datetime')),
         ];

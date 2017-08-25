@@ -61,7 +61,7 @@
 	<div class="form-group">
 		<label>Event Start Date and Time</label>
 		<div class='input-group date' id='start_datetime'>
-            <input type='text' name="start_datetime" class="form-control" />
+            <input type='text' name="start_datetime" class="form-control" required />
             <span class="input-group-addon">
                 <span class="glyphicon glyphicon-calendar"></span>
             </span>
@@ -71,12 +71,22 @@
 	<div class="form-group">
 		<label>Event End Date and Time</label>
 		<div class='input-group date' id='end_datetime'>
-            <input type='text' name="end_datetime" class="form-control" />
+            <input type='text' name="end_datetime" class="form-control" required />
             <span class="input-group-addon">
                 <span class="glyphicon glyphicon-calendar"></span>
             </span>
         </div>
 	</div>
+	
+	@include('elements.inputs.select',[
+	'field'=>'permission_id',
+	'label'=>'Permission',
+	'options'=>$permissions,
+	'value'=>$event->permission_id,
+	'key'=>'label',
+	'required'=>true,
+	])
+	
 	<div class="form-group">
 		<input type="submit" class="btn btn-success btn-block" value="Update">
 	</div>

@@ -11,7 +11,9 @@ use App\Http\Requests\Lessons\UpdateLessonRequest;
 use App\Jobs\SendLessonReminder;
 use App\Lesson;
 use App\Permission;
+use App\Services\SaveFormMedia;
 use App\User;
+use Illuminate\Http\Request;
 
 class LessonsController extends Controller
 {
@@ -48,14 +50,10 @@ class LessonsController extends Controller
      */
     public function store(StoreLessonRequest $request) {
 
-        $newLesson = Lesson::create([
-            'title'         => $request->get('title'),
-            'body'          => $request->get('content'),
-            'is_standalone' => $request->get('is_standalone'),
-            'permission_id' => $request->get('permission'),
-        ]);
+        $newLesson = Lesson::create($this->parseFormData($request));
 
         $scheduleData = $request->get('schedule');
+
         $newLesson->schedule()->create([
             'days'    => $scheduleData["days"],
             'compare' => $scheduleData["compare"],
@@ -95,12 +93,7 @@ class LessonsController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(UpdateLessonRequest $request, Lesson $lesson) {
-        $lesson->update([
-            'title'         => $request->get('title'),
-            'body'          => $request->get('body'),
-            'is_standalone' => $request->get('is_standalone'),
-            'permission_id' => $request->get('permission_id'),
-        ]);
+        $lesson->update($this->parseFormData($request));
         $scheduleData = $request->get('schedule');
         $lesson->schedule->update([
             'days'    => $scheduleData["days"],
@@ -161,5 +154,27 @@ class LessonsController extends Controller
         $this->dispatch($job);
 
         return response('queued!');
+    }
+
+    private function parseFormData(Request $request) {
+        $data = [
+            'title'         => $request->get('title'),
+            'body'          => $request->get('body'),
+            'is_standalone' => $request->get('is_standalone'),
+            'permission_id' => $request->get('permission_id'),
+            'is_featured'   => $request->get('is_featured') ?: false,
+            'is_new'        => $request->get('is_new') ?: false,
+        ];
+
+        if ($request->has('remove_poster')) {
+            if ($request->get('remove_poster')) {
+                $data['poster'] = null;
+            }
+        }
+        if ($mediaRecord = SaveFormMedia::save($request, 'poster')) {
+            $data['poster'] = $mediaRecord->link;
+        }
+
+        return $data;
     }
 }

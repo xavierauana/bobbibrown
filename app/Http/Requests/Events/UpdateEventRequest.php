@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Events;
 
+use App\Permission;
 use Illuminate\Foundation\Http\FormRequest;
 
 class UpdateEventRequest extends FormRequest
@@ -26,6 +27,7 @@ class UpdateEventRequest extends FormRequest
             'body'           => "required",
             'photo'          => "image",
             'venue'          => "required",
+            'permission_id'  => "required|in:" . implode(",", Permission::pluck('id')->toArray()),
             'vacancies'      => "required|integer|min:1",
             'start_datetime' => "required",
             'end_datetime'   => "required",

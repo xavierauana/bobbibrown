@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Support\Collection;
@@ -16,6 +17,7 @@ class Event extends Model
         'start_datetime',
         'end_datetime',
         'publish_datetime',
+        'permission_id',
         'remind_days',
         'venue',
         'photo',
@@ -50,6 +52,12 @@ class Event extends Model
 
     public function activities(): Relation {
         return $this->hasMany(EventActivity::class);
+    }
+
+    // scope
+
+    public function scopeMatchUserPermissions($query, User $user): Builder {
+        return $query->whereIn('permission_id', $user->permissions->pluck('id')->toArray());
     }
 
 }

@@ -51,6 +51,7 @@
                         @if (Auth::check())
 		                    <li><a href="{{ route('home') }}">Learning</a></li>
 		                    <li><a href="{{ route('show.events') }}">Find your class</a></li>
+		                    <li><a href="{{ route('show.resources') }}">Resources</a></li>
 	                    @endif
                     </ul>
 
@@ -93,7 +94,7 @@
     </div>
 
     <!-- Scripts -->
-    <script src="{{ mix('js/app.js') }}"></script>
+    <script src="{{ mix('js/front.js') }}"></script>
     @yield('scripts')
 </body>
 </html>

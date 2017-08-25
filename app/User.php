@@ -210,6 +210,10 @@ class User extends Authenticatable
                     ->get();
     }
 
+    public function matchEventPermission(Event $event): bool {
+        return in_array($event->permission_id, $this->permissions->pluck('id')->toArray());
+    }
+
     #endregion
 
     private function hasObjectCollection(Model $model): bool {

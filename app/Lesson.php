@@ -12,17 +12,23 @@ use Illuminate\Database\Eloquent\Relations\Relation;
 
 class Lesson extends Model implements TestableInterface
 {
-    use WithinPermissions;
+    use WithinPermissions, TestableTraits;
 
     protected $fillable = [
         "permission_id",
         "title",
         "is_standalone",
         "body",
-        "poster"
+        "poster",
+        'is_featured',
+        'is_new'
     ];
 
-    use TestableTraits;
+
+    protected $casts = [
+        'is_featured' => 'boolean',
+        'is_new'      => 'boolean',
+    ];
 
     public function collections(): Relation {
         return $this->belongsToMany(Collection::class)->withPivot('order');

@@ -32,6 +32,7 @@ export const Collections = {
   update       : collectionId => "/admin/collections/" + collectionId,
   delete       : collectionId => "/admin/collections/" + collectionId,
   lessons_order: collectionId => "/admin/collections/" + collectionId + "/updateOrder",
+  test         : collectionId => "/admin/collections/" + collectionId + "/tests",
 }
 export const Permissions = {
   edit  : permissionId => "/admin/permissions/" + permissionId + "/edit",
@@ -43,6 +44,21 @@ export const Roles = {
   update     : roleId => "/admin/roles/" + roleId,
   delete     : roleId => "/admin/roles/" + roleId,
   permissions: roleId => "/admin/roles/" + roleId + "/permissions",
+}
+export const Categories = {
+  edit  : categoryId => "/admin/categories/" + categoryId + "/edit",
+  update: categoryId => "/admin/categories/" + categoryId,
+  delete: categoryId => "/admin/categories/" + categoryId,
+}
+export const Lines = {
+  edit  : lineId => "/admin/lines/" + lineId + "/edit",
+  update: lineId => "/admin/lines/" + lineId,
+  delete: lineId => "/admin/lines/" + lineId,
+}
+export const Products = {
+  edit  : productId => "/admin/products/" + productId + "/edit",
+  update: productId => "/admin/products/" + productId,
+  delete: productId => "/admin/products/" + prodcutId,
 }
 export const Tests = {
   edit  : testId => "/admin/tests/" + testId + "/edit",
