@@ -57,7 +57,13 @@ class Event extends Model
     // scope
 
     public function scopeMatchUserPermissions($query, User $user): Builder {
-        return $query->whereIn('permission_id', $user->permissions->pluck('id')->toArray());
+        return $query->whereIn('permission_id',
+            $user->permissions->pluck('id')->toArray());
+    }
+
+    public function scopeNotRegistered($query, User $user): Builder {
+        return $query->whereNotIn("id",
+            $user->events()->pluck('id')->toArray());
     }
 
 }

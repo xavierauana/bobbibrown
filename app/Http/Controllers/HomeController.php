@@ -20,9 +20,8 @@ use App\Product;
 use App\Setting;
 use App\User;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
-use Illuminate\View\View;
-use Symfony\Component\HttpFoundation\Response;
 
 class HomeController extends Controller
 {
@@ -58,34 +57,14 @@ class HomeController extends Controller
      */
     public function index() {
         $collections = Collection::available(auth()->user())->latest()->get();
-        $lessons = Lesson::whereIsStandalone(true)->available(auth()->user())->latest()->get();
-        $featured_collections = $collections->filter(function ($collection) {
-            if ($collection->is_featured) {
-                return $collection;
-            }
-        });
-        $featured_lessons = $lessons->filter(function ($lesson) {
-            if ($lesson->is_featured) {
-                return $lesson;
-            }
-        });
-        $featured = $featured_collections->merge($featured_lessons);
+        $lessons = Lesson::whereIsStandalone(true)->available(auth()->user())
+                         ->latest()->get();
+        $featured = $this->createFeaturedItems($collections, $lessons);
 
-        $new_collections = $collections->filter(function ($collection) {
-            if ($collection->is_new) {
-                return $collection;
-            }
-        });
-        $new_lessons = $lessons->filter(function ($lesson) {
+        $new = $this->getNewThings($collections, $lessons);
 
-            if ($lesson->is_new == true) {
-                return $lesson;
-            }
-        });
-        $new = $new_collections->merge($new_lessons);
-
-
-        return view('home', compact('collections', 'lessons', 'featured', 'new'));
+        return view('home',
+            compact('collections', 'lessons', 'featured', 'new'));
     }
 
     public function showCollection(Collection $collection) {
@@ -93,14 +72,16 @@ class HomeController extends Controller
         if (auth()->user()->hasCollectionPermission($collection)) {
             $collection->load([
                 'lessons' => function ($query) {
-                    return $query->orderBy('pivot_order')->available(auth()->user());
+                    return $query->orderBy('pivot_order')
+                                 ->available(auth()->user());
                 }
             ]);
 
             return view('collection', compact('collection'));
         }
 
-        session()->flash('message', 'You are not allow to accessing this series!');
+        session()->flash('message',
+            'You are not allow to accessing this series!');
 
         return redirect()->back();
 
@@ -108,18 +89,21 @@ class HomeController extends Controller
 
     public function showCollectionLesson(Collection $collection, $lessonId) {
 
-        $lesson = $collection->lessons()->available(auth()->user())->findOrFail($lessonId);
+        $lesson = $collection->lessons()->available(auth()->user())
+                             ->findOrFail($lessonId);
 
         return view('lesson', compact('collection', 'lesson'));
     }
 
     public function showLesson(Lesson $lesson) {
 
-        if ($lesson->is_standalone and auth()->user()->hasLessonPermission($lesson)) {
+        if ($lesson->is_standalone and auth()->user()
+                                             ->hasLessonPermission($lesson)) {
             return view('lesson', compact('lesson'));
         }
 
-        session()->flash('message', 'You are not allow to accessing this lesson!');
+        session()->flash('message',
+            'You are not allow to accessing this lesson!');
 
         return redirect()->back();
     }
@@ -146,7 +130,8 @@ class HomeController extends Controller
         return redirect()->back();
     }
 
-    public function showCollectionTest(Request $request, Collection $collection) {
+    public function showCollectionTest(Request $request, Collection $collection
+    ) {
         if ($test = $collection->tests->first()) {
             if (!$request->wantsJson()) {
                 return view('test', compact('test'));
@@ -167,10 +152,13 @@ class HomeController extends Controller
         return redirect()->back();
     }
 
-    public function gradeLessonTest(Request $request, Lesson $lesson, GradingService $service) {
+    public function gradeLessonTest(
+        Request $request, Lesson $lesson, GradingService $service
+    ) {
         if ($test = $lesson->test) {
 
-            $service->grade($test, $request->get('answers'), $request->get('questionIds'));
+            $service->grade($test, $request->get('answers'),
+                $request->get('questionIds'));
             $this->createUserAttemptRecord($test, $service, auth()->user());
 
             return response()->json([
@@ -184,10 +172,13 @@ class HomeController extends Controller
         return response('No test!', 404);
     }
 
-    public function gradeCollectionTest(Request $request, Collection $collection, GradingService $service) {
+    public function gradeCollectionTest(
+        Request $request, Collection $collection, GradingService $service
+    ) {
         if ($test = $collection->test) {
 
-            $service->grade($test, $request->get('answers'), $request->get('questionIds'));
+            $service->grade($test, $request->get('answers'),
+                $request->get('questionIds'));
             $this->createUserAttemptRecord($test, $service, auth()->user());
 
             return response()->json([
@@ -202,8 +193,10 @@ class HomeController extends Controller
     }
 
     public function showEvents() {
-        $events = Event::where('start_datetime', '>', Carbon::now())->matchUserPermissions(auth()->user())
-                       ->orderBy('start_datetime')->with('users')->get()->map($this->eventTransformer);
+        $events = Event::where('start_datetime', '>', Carbon::now())
+                       ->matchUserPermissions(auth()->user())
+                       ->orderBy('start_datetime')->with('users')->get()
+                       ->map($this->eventTransformer);
 
         return view('events', compact('events'));
     }
@@ -218,12 +211,18 @@ class HomeController extends Controller
 
     }
 
-    public function registration(EventRegistrationRequest $request, Event $event) {
+    public function registration(EventRegistrationRequest $request, Event $event
+    ) {
 
-        if (auth()->user()->matchEventPermission($event) and auth()->user()->register($event)) {
-            event(new UserSuccessfullyRegisterEvent(auth()->user(), $event, $request));
+        $user = auth()->user();
+        if ($user->matchEventPermission($event) and $user->register($event)) {
+            event(new UserSuccessfullyRegisterEvent(auth()->user(), $event,
+                $request));
 
-            return response()->json(['status' => 'Completed', 'user' => $request->user()]);
+            return response()->json([
+                'status' => 'Completed',
+                'user'   => $request->user()
+            ]);
         }
 
         return response("Cannot register!", 501);
@@ -234,7 +233,8 @@ class HomeController extends Controller
 
 
         if ($request->user()->cancel($event)) {
-            event(new UserCancelEventRegistration($request->user(), $event, $request));
+            event(new UserCancelEventRegistration($request->user(), $event,
+                $request));
 
             return response()->json(["user" => $request->user()]);
         }
@@ -295,7 +295,9 @@ class HomeController extends Controller
             'lines' => function ($query) {
                 return $query->with([
                     'products' => function ($query) {
-                        return $query->whereIn('permission_id', auth()->user()->permissions->pluck('id')->toArray());
+                        return $query->whereIn('permission_id',
+                            auth()->user()->permissions->pluck('id')
+                                                       ->toArray());
                     }
                 ]);
             }
@@ -305,8 +307,9 @@ class HomeController extends Controller
         return view('resources', compact("categories"));
     }
 
-    public function showProduct(Product $product)  {
-        if (in_array($product->permission_id, auth()->user()->permissions->pluck('id')->toArray())){
+    public function showProduct(Product $product) {
+        if (in_array($product->permission_id,
+            auth()->user()->permissions->pluck('id')->toArray())) {
             return view('product', compact("product"));
         }
     }
@@ -318,7 +321,9 @@ class HomeController extends Controller
      * @param $user
      * @param $service
      */
-    private function createUserAttemptRecord(Test $test, GradingService $service, User $user = null): Attempt {
+    private function createUserAttemptRecord(
+        Test $test, GradingService $service, User $user = null
+    ): Attempt {
 
         $attempt_data = [];
 
@@ -336,7 +341,8 @@ class HomeController extends Controller
      * @param \Anacreation\Etvtest\Services\GradingService $service
      * @return array
      */
-    private function createAttemptData(Test $test, GradingService $service): array {
+    private function createAttemptData(Test $test, GradingService $service
+    ): array {
         $attempt_data = [
             "test_id" => $test->id,
             "attempt" => $service->result,
@@ -346,7 +352,9 @@ class HomeController extends Controller
         return $attempt_data;
     }
 
-    private function randomPickTestQuestions(array &$testData, int $question_number) {
+    private function randomPickTestQuestions(
+        array &$testData, int $question_number
+    ) {
 
         if ($question_number and $question_number < count($testData['questions'])) {
 
@@ -365,6 +373,58 @@ class HomeController extends Controller
 
         }
 
+    }
+
+    /**
+     * @param $collections
+     * @param $lessons
+     * @return mixed
+     */
+    protected function getNewThings($collections, $lessons) {
+        $new_collections = $collections->filter(function ($collection) {
+            if ($collection->is_new) {
+                return $collection;
+            }
+        });
+        $new_lessons = $lessons->filter(function ($lesson) {
+            if ($lesson->is_new == true) {
+                return $lesson;
+            }
+        });
+
+        $user = auth()->user();
+        $newEvents = Event::matchUserPermissions($user)->latest()
+                          ->where("start_datetime", ">", Carbon::now())
+                          ->notRegistered($user)->get();
+        $new = $new_collections->merge($new_lessons);
+        $new = $new->merge($newEvents);
+
+        $new = $new->sortByDesc(function (Model $model) {
+            return $model->created_at;
+        });
+
+        return $new;
+    }
+
+    /**
+     * @param $collections
+     * @param $lessons
+     * @return mixed
+     */
+    protected function createFeaturedItems($collections, $lessons) {
+        $featured_collections = $collections->filter(function ($collection) {
+            if ($collection->is_featured) {
+                return $collection;
+            }
+        });
+        $featured_lessons = $lessons->filter(function ($lesson) {
+            if ($lesson->is_featured) {
+                return $lesson;
+            }
+        });
+        $featured = $featured_collections->merge($featured_lessons);
+
+        return $featured;
     }
 
     private function grade() {

@@ -158,6 +158,10 @@ class User extends Authenticatable
                 }
             }
 
+            foreach ($collection->tests as $test) {
+                return $this->passTest($test);
+            }
+
             return true;
         }
 
@@ -166,9 +170,11 @@ class User extends Authenticatable
 
     public function passTest(Test $test = null): bool {
         if ($test) {
-            $attempt = $this->attempts()->whereNotNull('score')->whereTestId($test->id)->latest()->first();
+            $attempt = $this->attempts()->whereNotNull('score')
+                            ->whereTestId($test->id)->latest()->first();
             if ($attempt) {
-                $passingRate = doubleval(intval(Setting::whereCode('test_passing_rate')->first()->value) / 100);
+                $passingRate = doubleval(intval(Setting::whereCode('test_passing_rate')
+                                                       ->first()->value) / 100);
 
                 return $attempt->score > $passingRate;
             }
@@ -189,7 +195,8 @@ class User extends Authenticatable
 
     public function canRegisterEvent(Event $event): bool {
         if ($event->hasVacancy) {
-            return $event->users()->where('user_id', $this->id)->first() ? false : true;
+            return $event->users()->where('user_id', $this->id)
+                         ->first() ? false : true;
         }
 
         return false;
@@ -204,20 +211,23 @@ class User extends Authenticatable
     }
 
     public function latestPassedAttempts(Test $test): Collection {
-        $passingRate = doubleval(intval(Setting::whereCode('test_passing_rate')->first()->value) / 100);
+        $passingRate = doubleval(intval(Setting::whereCode('test_passing_rate')
+                                               ->first()->value) / 100);
 
-        return $this->attempts()->whereTestId($test->id)->whereNotNull('score')->where('score', ">", $passingRate)
-                    ->get();
+        return $this->attempts()->whereTestId($test->id)->whereNotNull('score')
+                    ->where('score', ">", $passingRate)->get();
     }
 
     public function matchEventPermission(Event $event): bool {
-        return in_array($event->permission_id, $this->permissions->pluck('id')->toArray());
+        return in_array($event->permission_id,
+            $this->permissions->pluck('id')->toArray());
     }
 
     #endregion
 
     private function hasObjectCollection(Model $model): bool {
-        return in_array($model->permission_id, $this->permissions->pluck('id')->toArray());
+        return in_array($model->permission_id,
+            $this->permissions->pluck('id')->toArray());
     }
 
 

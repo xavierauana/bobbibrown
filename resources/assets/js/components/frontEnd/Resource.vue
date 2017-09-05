@@ -1,6 +1,6 @@
 <template lang="html">
     <div class="resources">
-        <input v-model="filterString" class="form-control" placeholder="filter by ...">
+        <input v-model="filterString" class="form-control" :placeholder="__('Filter By') + '...'">
         <ul class="list-unstyled categories">
             <li v-for="category in filteredCategories">
                 <span @click.prevent="toggleCategory(category)">{{category.name}}</span>

@@ -4,7 +4,7 @@
 	<div class="container">
 		@include('partials.alert')
 		<div class="panel panel-default">
-	        <div class="panel-heading">Resources</div>
+	        <div class="panel-heading">{{__("Resources")}}</div>
 	        <div class="panel-body">
 		       <resources_table :initial-categories="{{$categories}}"></resources_table>
 	        </div>

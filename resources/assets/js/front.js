@@ -8,6 +8,9 @@ require('./bootstrap')
 
 window.Vue = require('vue')
 
+let _en = require("../../lang/en.json")
+let _chi = require("../../lang/chi.json")
+
 
 /**FillInTheBlankMultipleQuestion.vue
  * Next, we will create a fresh Vue application instance and attach it to
@@ -43,6 +46,20 @@ Vue.mixin({
                 alert(message)
                 return false
               },
+            },
+          })
+
+Vue.mixin({
+            methods: {
+              __(key) {
+                const lang = document.getElementsByTagName('html')[0].getAttribute("lang");
+                switch (lang) {
+                  case 'chi':
+                    return _chi[key] ? _chi[key] : ""
+                  default:
+                    return _en[key]
+                }
+              }
             }
           })
 

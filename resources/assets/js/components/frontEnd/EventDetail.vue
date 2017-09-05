@@ -3,26 +3,28 @@
 		<div class="img-container" v-if="event.photo">
 			<img class="img-responsive" :src="event.photo">
 		</div>
-        <h4>Event Start Date Time: {{event.start_datetime}}</h4>
-		<h4>Event End Date Time: {{event.end_datetime}}</h4>
-		<h4>Venue: {{event.venue}}</h4>
+        <h4>{{__('Event Start Date Time')}} {{event.start_datetime}}</h4>
+		<h4>{{__('Event End Date Time:')}} {{event.end_datetime}}</h4>
+		<h4>{{__('Venue')}}: {{event.venue}}</h4>
 		<section>
-			<h4>Description:</h4>
+			<h4 v-text="__('Description') + ':'"></h4>
 			<div v-html="event.body"></div>
 		</section>
 		<br>
 
 		<div>
-			<button class="btn btn-sm btn-primary" v-show="canRegister" :disabled="!canRegister" @click="register">Register</button>
-			<button class="btn btn-sm btn-danger" v-show="!canRegister" :disabled="canRegister" @click="cancelRegistration">Cancel Registration</button>
-			<a :href="urls.frontEnd" class="btn btn-sm btn-info pull-right">Back</a>
+			<button class="btn btn-sm btn-primary" v-show="canRegister" :disabled="!canRegister" @click="register"
+                    v-text="__('Event Register')"></button>
+			<button class="btn btn-sm btn-danger" v-show="!canRegister" :disabled="canRegister"
+                    @click="cancelRegistration" v-text="__('Cancel Registration')"></button>
+			<a :href="urls.frontEnd" class="btn btn-sm btn-info pull-right" v-text="__('Back')"></a>
 		</div>
     </div>
 
 </template>
 
 <script type="text/babel">
-	import {Events as urls} from "./../../endpoints"
+    import {Events as urls} from "./../../endpoints"
     import moment from "moment"
 
     export default {
@@ -63,17 +65,17 @@
           console.log('add calendar')
         },
         register() {
-          if (confirm('Are you sure to register the Event: ' + this.event.title)) {
+          if (confirm(this.__("Are you sure to register the Event")+': ' + this.event.title)) {
             axios.post(this.urls.registration(this.event.id))
                  .then(({data}) => {
                    this.event.users.push(data.user)
-                   alert('Successfully register the event')
+                   alert(this.__('Successfully register the event'))
                  })
                  .catch(response => console.log('something wrong, ', response))
           }
         },
         cancelRegistration() {
-          if (confirm('Are you sure to cancel the Event Registration: ' + this.event.title)) {
+          if (confirm(this.__("Are you sure to cancel the Event Registration")+': ' + this.event.title)) {
             axios.post(this.urls.cancel(this.event.id))
                  .then(({data}) => {
                    let index = _.findIndex(this.event.users, {id: data.user.id})

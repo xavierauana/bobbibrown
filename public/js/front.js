@@ -2438,7 +2438,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       return __WEBPACK_IMPORTED_MODULE_0_lodash___default.a.find(this.questionTypes, { "id": questionTypeId }).code;
     },
     responseClosure: function responseClosure(response) {
-      var message = response.data.is_passed ? 'Congratulations! You pass the test!' : 'Sorry! You cannot pass the test. Please try again';
+      var message = response.data.is_passed ? 'Congratulations! You pass the test!' : this.__('Sorry! You cannot pass the test. Please try again');
 
       alert(message);
 
@@ -2446,7 +2446,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
     submit: function submit() {
       var uri = window.location.href;
-      if (this.answers.length === this.numberOfMarks || confirm('you still have question haven\'t filled, you are sure to submit?')) {
+      if (this.answers.length === this.numberOfMarks || confirm("You still have question haven't filled, you are sure to submit" + '?')) {
         var data = {
           questionIds: this.questions.map(function (question) {
             return question.id;
@@ -2620,6 +2620,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
 
 
 
@@ -2665,12 +2667,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     register: function register() {
       var _this = this;
 
-      if (confirm('Are you sure to register the Event: ' + this.event.title)) {
+      if (confirm(this.__("Are you sure to register the Event") + ': ' + this.event.title)) {
         axios.post(this.urls.registration(this.event.id)).then(function (_ref) {
           var data = _ref.data;
 
           _this.event.users.push(data.user);
-          alert('Successfully register the event');
+          alert(_this.__('Successfully register the event'));
         }).catch(function (response) {
           return console.log('something wrong, ', response);
         });
@@ -2679,7 +2681,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     cancelRegistration: function cancelRegistration() {
       var _this2 = this;
 
-      if (confirm('Are you sure to cancel the Event Registration: ' + this.event.title)) {
+      if (confirm(this.__("Are you sure to cancel the Event Registration") + ': ' + this.event.title)) {
         axios.post(this.urls.cancel(this.event.id)).then(function (_ref2) {
           var data = _ref2.data;
 
@@ -5463,7 +5465,7 @@ exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/cs
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -49405,7 +49407,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }],
     staticClass: "form-control",
     attrs: {
-      "placeholder": "filter by ..."
+      "placeholder": _vm.__('Filter By') + '...'
     },
     domProps: {
       "value": (_vm.filterString)
@@ -49760,7 +49762,11 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "src": _vm.event.photo
     }
-  })]) : _vm._e(), _vm._v(" "), _c('h4', [_vm._v("Event Start Date Time: " + _vm._s(_vm.event.start_datetime))]), _vm._v(" "), _c('h4', [_vm._v("Event End Date Time: " + _vm._s(_vm.event.end_datetime))]), _vm._v(" "), _c('h4', [_vm._v("Venue: " + _vm._s(_vm.event.venue))]), _vm._v(" "), _c('section', [_c('h4', [_vm._v("Description:")]), _vm._v(" "), _c('div', {
+  })]) : _vm._e(), _vm._v(" "), _c('h4', [_vm._v(_vm._s(_vm.__('Event Start Date Time')) + " " + _vm._s(_vm.event.start_datetime))]), _vm._v(" "), _c('h4', [_vm._v(_vm._s(_vm.__('Event End Date Time:')) + " " + _vm._s(_vm.event.end_datetime))]), _vm._v(" "), _c('h4', [_vm._v(_vm._s(_vm.__('Venue')) + ": " + _vm._s(_vm.event.venue))]), _vm._v(" "), _c('section', [_c('h4', {
+    domProps: {
+      "textContent": _vm._s(_vm.__('Description') + ':')
+    }
+  }), _vm._v(" "), _c('div', {
     domProps: {
       "innerHTML": _vm._s(_vm.event.body)
     }
@@ -49775,10 +49781,13 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "disabled": !_vm.canRegister
     },
+    domProps: {
+      "textContent": _vm._s(_vm.__('Event Register'))
+    },
     on: {
       "click": _vm.register
     }
-  }, [_vm._v("Register")]), _vm._v(" "), _c('button', {
+  }), _vm._v(" "), _c('button', {
     directives: [{
       name: "show",
       rawName: "v-show",
@@ -49789,15 +49798,21 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "disabled": _vm.canRegister
     },
+    domProps: {
+      "textContent": _vm._s(_vm.__('Cancel Registration'))
+    },
     on: {
       "click": _vm.cancelRegistration
     }
-  }, [_vm._v("Cancel Registration")]), _vm._v(" "), _c('a', {
+  }), _vm._v(" "), _c('a', {
     staticClass: "btn btn-sm btn-info pull-right",
     attrs: {
       "href": _vm.urls.frontEnd
+    },
+    domProps: {
+      "textContent": _vm._s(_vm.__('Back'))
     }
-  }, [_vm._v("Back")])])])
+  })])])
 },staticRenderFns: []}
 module.exports.render._withStripped = true
 if (false) {
@@ -49875,7 +49890,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.submit($event)
       }
     }
-  }, [_vm._v("Submit")]), _vm._v(" "), _c('h2', {
+  }, [_vm._v(_vm._s(_vm.__("Submit")))]), _vm._v(" "), _c('h2', {
     staticClass: "total-question"
   }, [_vm._v("Total Questions：" + _vm._s(_vm.numberOfMarks))])])], 2)
 },staticRenderFns: []}
@@ -61828,6 +61843,9 @@ __webpack_require__("./resources/assets/js/bootstrap.js");
 
 window.Vue = __webpack_require__("./node_modules/vue/dist/vue.common.js");
 
+var _en = __webpack_require__("./resources/lang/en.json");
+var _chi = __webpack_require__("./resources/lang/chi.json");
+
 /**FillInTheBlankMultipleQuestion.vue
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
@@ -61863,6 +61881,20 @@ Vue.mixin({
       var message = validation.messages.join("! ");
       alert(message);
       return false;
+    }
+  }
+});
+
+Vue.mixin({
+  methods: {
+    __: function __(key) {
+      var lang = document.getElementsByTagName('html')[0].getAttribute("lang");
+      switch (lang) {
+        case 'chi':
+          return _chi[key] ? _chi[key] : "";
+        default:
+          return _en[key];
+      }
     }
   }
 });
@@ -61971,6 +62003,20 @@ var getUpdatedTitles = function getUpdatedTitles(selectionTitles, parsedTitles) 
 
   return { newTitles: newTitles, removedTitles: removedTitles };
 };
+
+/***/ }),
+
+/***/ "./resources/lang/chi.json":
+/***/ (function(module, exports) {
+
+module.exports = {"Are you sure to cancel the Event Registration":"你是否確定取消","Are you sure to give up this test":"你決定放棄這個測驗","Are you sure to register the Event":"你是否確定報名","Back":"返回","Cancel Registration":"取消","Confirm Password":"Confirm Password","Description":"Description","Email Address":"電郵","Employee ID":"員工編號","Events":"Events","Events Register":"報名","Event End Date Time":"Event End Date Time","Event Start Date Time":"Event Start Date Time","Featured":"Focus","Filter By":"Filter By","Find your class":"Sign up your class","Forgot Your Password?":"忘記帳戶？","Give Up":"放棄","Learning":"E Learning","Lessons":"BB Channel","Login":"登入","Logout":"登出","My Class":"My Class","My Profile":"My Profile","Name":"姓名","New":"What's New","Password":"密碼","Register":"建立帳戶","Resources":"Products","Remember Me":"Remember Me","Reset Password":"Reset Password","Series":"E-Class","Submit":"提交","Test":"Test","You have pass the Test":"You have pass the Test","You still have question haven't filled, you are sure to submit":"你的測驗還未完成, 你決定提交","Update":"更新","Venue":"Venue","Send Password Reset Link":"Send Password Reset Link","Sorry! You cannot pass the test. Please try again":"對不起, 你不合格了! 需要重新再做! 加油!","Successfully register the event":"你已成功報名, 到時見！"}
+
+/***/ }),
+
+/***/ "./resources/lang/en.json":
+/***/ (function(module, exports) {
+
+module.exports = {"Back":"Back","Cancel Registration":"Cancel Registration","Confirm Password":"Confirm Password","Description":"Description","Email Address":"Email Address","Employee ID":"Employee ID","Events":"Events","Event End Date Time":"Event End Date Time","Event Start Date Time":"Event Start Date Time","Featured":"Featured","Filter By":"Filter By","Find your class":"Find your class","Forgot Your Password?":"Forgot Your Password?","Learning":"Learning","Lessons":"Lessons","Login":"Login","Logout":"Logout","My Class":"My Class","My Profile":"My Profile","Name":"Name","New":"New","Password":"Password","Register":"Register","Resources":"Resources","Remember Me":"Remember Me","Reset Password":"Reset Password","Series":"Series","Test":"Test","You have pass the Test":"You have pass the Test","Update":"Update","Venue":"Venue","Send Password Reset Link":"Send Password Reset Link"}
 
 /***/ }),
 

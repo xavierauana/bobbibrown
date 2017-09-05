@@ -65,80 +65,6 @@
 /************************************************************************/
 /******/ ({
 
-/***/ "./myModel.js":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-/**
- * Created by Xavier on 14/8/2017.
- */
-
-var BaseObject = function () {
-  function BaseObject(baseUrl, params) {
-    _classCallCheck(this, BaseObject);
-
-    this.createUrl = "/api/" + baseUrl;
-    this.indexUrl = "/api/" + baseUrl;
-    this.updateUrl = function (id) {
-      return "/api/" + baseUrl + "/" + id;
-    };
-    this.deleteUrl = function (id) {
-      return "/api/" + baseUrl + "/" + id;
-    };
-  }
-
-  _createClass(BaseObject, [{
-    key: "create",
-    value: function create(data) {
-      return axios.post(this.createUrl, data);
-    }
-  }, {
-    key: "update",
-    value: function update(data) {
-      return axios.patch(this.updateUrl(data.id), data);
-    }
-  }, {
-    key: "delete",
-    value: function _delete() {
-      return axios.delete(this.deleteUrl(data.id));
-    }
-  }, {
-    key: "index",
-    value: function index() {
-      return axios.get(this.indexUrl);
-    }
-  }, {
-    key: "where",
-    value: function where(column, operator, parameter) {
-
-      predicates.push = {
-        column: column,
-        operator: operator,
-        parameter: parameter
-      };
-      return this;
-    }
-  }]);
-
-  return BaseObject;
-}();
-
-var Eloquent = new Proxy({}, {
-  get: function get(target, name, receiver) {
-    return function (params) {
-      return new BaseObject(name + "/url", params);
-    };
-  }
-});
-
-/* harmony default export */ __webpack_exports__["a"] = (Eloquent);
-
-/***/ }),
-
 /***/ "./node_modules/axios/index.js":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -2512,7 +2438,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       return __WEBPACK_IMPORTED_MODULE_0_lodash___default.a.find(this.questionTypes, { "id": questionTypeId }).code;
     },
     responseClosure: function responseClosure(response) {
-      var message = response.data.is_passed ? 'Congratulations! You pass the test!' : 'Sorry! You cannot pass the test. Please try again';
+      var message = response.data.is_passed ? 'Congratulations! You pass the test!' : this.__('Sorry! You cannot pass the test. Please try again');
 
       alert(message);
 
@@ -2520,7 +2446,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
     submit: function submit() {
       var uri = window.location.href;
-      if (this.answers.length === this.numberOfMarks || confirm('you still have question haven\'t filled, you are sure to submit?')) {
+      if (this.answers.length === this.numberOfMarks || confirm("You still have question haven't filled, you are sure to submit" + '?')) {
         var data = {
           questionIds: this.questions.map(function (question) {
             return question.id;
@@ -3796,6 +3722,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
 
 
 
@@ -3841,12 +3769,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     register: function register() {
       var _this = this;
 
-      if (confirm('Are you sure to register the Event: ' + this.event.title)) {
+      if (confirm(this.__("Are you sure to register the Event") + ': ' + this.event.title)) {
         axios.post(this.urls.registration(this.event.id)).then(function (_ref) {
           var data = _ref.data;
 
           _this.event.users.push(data.user);
-          alert('Successfully register the event');
+          alert(_this.__('Successfully register the event'));
         }).catch(function (response) {
           return console.log('something wrong, ', response);
         });
@@ -3855,7 +3783,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     cancelRegistration: function cancelRegistration() {
       var _this2 = this;
 
-      if (confirm('Are you sure to cancel the Event Registration: ' + this.event.title)) {
+      if (confirm(this.__("Are you sure to cancel the Event Registration") + ': ' + this.event.title)) {
         axios.post(this.urls.cancel(this.event.id)).then(function (_ref2) {
           var data = _ref2.data;
 
@@ -10427,7 +10355,7 @@ exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/cs
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -60854,7 +60782,11 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "src": _vm.event.photo
     }
-  })]) : _vm._e(), _vm._v(" "), _c('h4', [_vm._v("Event Start Date Time: " + _vm._s(_vm.event.start_datetime))]), _vm._v(" "), _c('h4', [_vm._v("Event End Date Time: " + _vm._s(_vm.event.end_datetime))]), _vm._v(" "), _c('h4', [_vm._v("Venue: " + _vm._s(_vm.event.venue))]), _vm._v(" "), _c('section', [_c('h4', [_vm._v("Description:")]), _vm._v(" "), _c('div', {
+  })]) : _vm._e(), _vm._v(" "), _c('h4', [_vm._v(_vm._s(_vm.__('Event Start Date Time')) + " " + _vm._s(_vm.event.start_datetime))]), _vm._v(" "), _c('h4', [_vm._v(_vm._s(_vm.__('Event End Date Time:')) + " " + _vm._s(_vm.event.end_datetime))]), _vm._v(" "), _c('h4', [_vm._v(_vm._s(_vm.__('Venue')) + ": " + _vm._s(_vm.event.venue))]), _vm._v(" "), _c('section', [_c('h4', {
+    domProps: {
+      "textContent": _vm._s(_vm.__('Description') + ':')
+    }
+  }), _vm._v(" "), _c('div', {
     domProps: {
       "innerHTML": _vm._s(_vm.event.body)
     }
@@ -60869,10 +60801,13 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "disabled": !_vm.canRegister
     },
+    domProps: {
+      "textContent": _vm._s(_vm.__('Event Register'))
+    },
     on: {
       "click": _vm.register
     }
-  }, [_vm._v("Register")]), _vm._v(" "), _c('button', {
+  }), _vm._v(" "), _c('button', {
     directives: [{
       name: "show",
       rawName: "v-show",
@@ -60883,15 +60818,21 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "disabled": _vm.canRegister
     },
+    domProps: {
+      "textContent": _vm._s(_vm.__('Cancel Registration'))
+    },
     on: {
       "click": _vm.cancelRegistration
     }
-  }, [_vm._v("Cancel Registration")]), _vm._v(" "), _c('a', {
+  }), _vm._v(" "), _c('a', {
     staticClass: "btn btn-sm btn-info pull-right",
     attrs: {
       "href": _vm.urls.frontEnd
+    },
+    domProps: {
+      "textContent": _vm._s(_vm.__('Back'))
     }
-  }, [_vm._v("Back")])])])
+  })])])
 },staticRenderFns: []}
 module.exports.render._withStripped = true
 if (false) {
@@ -61025,7 +60966,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.submit($event)
       }
     }
-  }, [_vm._v("Submit")]), _vm._v(" "), _c('h2', {
+  }, [_vm._v(_vm._s(_vm.__("Submit")))]), _vm._v(" "), _c('h2', {
     staticClass: "total-question"
   }, [_vm._v("Total Questions：" + _vm._s(_vm.numberOfMarks))])])], 2)
 },staticRenderFns: []}
@@ -73020,11 +72961,8 @@ module.exports = function(module) {
 /***/ }),
 
 /***/ "./resources/assets/js/app.js":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__myModel__ = __webpack_require__("./myModel.js");
 /**
  * First we will load all of this project's JavaScript dependencies which
  * includes Vue and other libraries. It is a great starting point when
@@ -73096,22 +73034,6 @@ Vue.component('collection_table', __webpack_require__("./resources/assets/js/com
 Vue.component('categories_table', __webpack_require__("./resources/assets/js/components/CategoriesTable.vue"));
 Vue.component('lines_table', __webpack_require__("./resources/assets/js/components/LinesTable.vue"));
 Vue.component('products_table', __webpack_require__("./resources/assets/js/components/ProductsTable.vue"));
-
-
-
-var NewPost = __WEBPACK_IMPORTED_MODULE_0__myModel__["a" /* default */].NewPost;
-
-console.log(NewPost);
-
-var newPost1 = NewPost('soemthing');
-
-console.log(newPost1);
-
-//let data = "dummy"
-//const Post = new BaseObject('posts')
-//
-//Post.index().then(response => console.log(response))
-//    .catch(response => console.log(response))
 
 var app = new Vue({
   el: '#app',

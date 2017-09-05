@@ -20,7 +20,7 @@
             </button>
         </div>
         <div class="footer-buttons clearfix">
-            <button class="btn btn-success pull-right" @click.prevent="submit">Submit</button>
+            <button class="btn btn-success pull-right" @click.prevent="submit">{{__("Submit")}}</button>
             <h2 class="total-question">Total Questions：{{numberOfMarks}}</h2>
         </div>
     </div>
@@ -149,7 +149,7 @@
           return _.find(this.questionTypes, {"id": questionTypeId}).code
         },
         responseClosure(response) {
-          let message = response.data.is_passed ? 'Congratulations! You pass the test!' : 'Sorry! You cannot pass the test. Please try again'
+          let message = response.data.is_passed ? 'Congratulations! You pass the test!' : this.__('Sorry! You cannot pass the test. Please try again')
 
           alert(message)
 
@@ -158,7 +158,7 @@
 
         submit() {
           const uri = window.location.href
-          if (this.answers.length === this.numberOfMarks || confirm('you still have question haven\'t filled, you are sure to submit?')) {
+          if (this.answers.length === this.numberOfMarks || confirm("You still have question haven't filled, you are sure to submit"+'?')) {
             let data = {
               questionIds: this.questions.map(question => question.id),
               answers    : this.answers,

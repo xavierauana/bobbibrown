@@ -70,22 +70,6 @@ Vue.component('categories_table', require('./components/CategoriesTable.vue'))
 Vue.component('lines_table', require('./components/LinesTable.vue'))
 Vue.component('products_table', require('./components/ProductsTable.vue'))
 
-import Eloquent from "../../../myModel"
-
-let NewPost = Eloquent.NewPost
-
-console.log(NewPost)
-
-let newPost1 = NewPost('soemthing')
-
-console.log(newPost1)
-
-//let data = "dummy"
-//const Post = new BaseObject('posts')
-//
-//Post.index().then(response => console.log(response))
-//    .catch(response => console.log(response))
-
 const app = new Vue({
                       el     : '#app',
                       methods: {

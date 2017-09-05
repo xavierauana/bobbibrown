@@ -29,22 +29,28 @@ $factory->define(App\User::class, function (Faker\Generator $faker) {
     ];
 });
 $factory->define(App\Event::class, function (Faker\Generator $faker) {
-    $startDateTime = $faker->dateTime;
-    $day = $faker->numberBetween(0, 5);
-    $hour = $faker->numberBetween(0, 23);
-    $interval_spec = "P{$day}DT{$hour}H";
+    $now = \Carbon\Carbon::now();
+    $getRandomDays = function () {
+        return rand(1, 10);
+    };
 
     return [
         'title'          => $faker->sentence,
         'body'           => $faker->paragraph(3),
         'vacancies'      => $faker->numberBetween(1, 20),
-        'start_datetime' => $startDateTime,
-        'end_datetime'   => $startDateTime->add(new DateInterval($interval_spec)),
+        'start_datetime' => $now->addDays($getRandomDays()),
+        'end_datetime'   => $now->addDays($getRandomDays())
     ];
 });
 $factory->define(App\Permission::class, function (Faker\Generator $faker) {
     return [
-        'label' => $faker->words,
+        'label' => $faker->word,
+        'code'  => $faker->uuid
+    ];
+});
+$factory->define(App\Role::class, function (Faker\Generator $faker) {
+    return [
+        'label' => $faker->word,
         'code'  => $faker->uuid
     ];
 });
@@ -61,24 +67,6 @@ $factory->define(App\Collection::class, function (Faker\Generator $faker) {
         'permission_id' => function () {
             return factory(App\Permission::class)->create()->id;
         }
-    ];
-});
-$factory->define(App\Menu::class, function (Faker\Generator $faker) {
-
-    $collection = null;
-
-    return [
-        'title'         => $faker->word,
-        'url'           => $faker->uuid,
-        'has_menu_type' => function () use ($collection) {
-            $collection = factory(\App\Collection::class)->create();
-
-            return get_class($collection);
-        },
-        'has_menu_id'   => function () use ($collection) {
-            return $collection->id;
-        },
-        'is_active'     => true,
     ];
 });
 

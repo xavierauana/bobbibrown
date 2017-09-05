@@ -16,11 +16,11 @@
     <link href="{{ mix('css/app.css') }}" rel="stylesheet">
     
     <style>
-        body{
-            background-image: url(/imgs/mono.svg);
-            background-size: 250px;
-            background-color: white;
-            background-repeat: inital;
+        body {
+	        background-image: url(/imgs/mono.svg);
+	        background-size: 250px;
+	        background-color: white;
+	        background-repeat: inital;
         }
     </style>
 </head>
@@ -41,7 +41,8 @@
 
                     <!-- Branding Image -->
                     <a class="navbar-brand" href="{{ url('/home') }}" style="position: relative">
-                        <img src="{{asset('imgs/logo_white.svg')}}" class="img-responsive" width="100" style="display: inline">
+                        <img src="{{asset('imgs/logo_white.svg')}}" class="img-responsive" width="100"
+                             style="display: inline">
                     </a>
                 </div>
 
@@ -49,9 +50,9 @@
                     <!-- Left Side Of Navbar -->
                     <ul class="nav navbar-nav">
                         @if (Auth::check())
-		                    <li><a href="{{ route('home') }}">Learning</a></li>
-		                    <li><a href="{{ route('show.events') }}">Find your class</a></li>
-		                    <li><a href="{{ route('show.resources') }}">Resources</a></li>
+		                    <li><a href="{{ route('home') }}">{{__("Learning")}}</a></li>
+		                    <li><a href="{{ route('show.events') }}">{{__("Find your class")}}</a></li>
+		                    <li><a href="{{ route('show.resources') }}">{{__("Resources")}}</a></li>
 	                    @endif
                     </ul>
 
@@ -59,8 +60,8 @@
                     <ul class="nav navbar-nav navbar-right">
                         <!-- Authentication Links -->
 	                    @if (Auth::guest())
-		                    <li><a href="{{ route('login') }}">Login</a></li>
-		                    <li><a href="{{ route('register') }}">Register</a></li>
+		                    <li><a href="{{ route('login') }}">{{__("Login")}}</a></li>
+		                    <li><a href="{{ route('register') }}">{{__("Register")}}</a></li>
 	                    @else
 		                    <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
@@ -69,13 +70,13 @@
                                 </a>
 
                                 <ul class="dropdown-menu" role="menu">
-                                    <li><a href="{{route('show.myevents')}}">My Class</a></li>
-                                    <li><a href="{{route('profile')}}">My Profile</a></li>
+                                    <li><a href="{{route('show.myevents')}}">{{__("My Class")}}</a></li>
+                                    <li><a href="{{route('profile')}}">{{__("My Profile")}}</a></li>
                                     <li>
                                         <a href="{{ route('logout') }}"
                                            onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
-                                            Logout
+                                            {{__("Logout")}}
                                         </a>
 
                                         <form id="logout-form" action="{{ route('logout') }}" method="POST"
