@@ -54,6 +54,23 @@ class User extends Authenticatable
 
     }
 
+    public function getCollectionsAttribute(): Collection {
+        // this user has permission
+        $permission_ids = $this->permissions->pluck('id')->toArray();
+        //        dd( $this->permissions);
+
+        // this user can attempt test with its permission
+        return \App\Collection::whereIn('permission_id', $permission_ids)
+                              ->with([
+                                  'lessons' => function ($query) {
+                                      return $query->orderBy('order')
+                                                   ->with('tests');
+                                  },
+                                  "tests"
+                              ])->get();
+
+    }
+
     public function getPermissionsAttribute(): Collection {
         return $this->roles->map(function (Role $role) {
             return $role->permissions;

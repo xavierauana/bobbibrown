@@ -2801,6 +2801,62 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /***/ }),
 
+/***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/frontEnd/LessonList.vue":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  name: "lesson-list",
+  props: {
+    collection: {
+      type: Object,
+      required: true
+    },
+    lessonStatus: {
+      type: Object,
+      required: true
+    }
+  },
+  methods: {
+    getResultHtml: function getResultHtml(lesson) {
+      if (lesson.tests.length > 0 && this.lessonStatus[parseInt(lesson.tests[0].id)]) {
+        var state = this.lessonStatus[parseInt(lesson.tests[0].id)];
+        if (state.is_completed) {
+          return '<span class="label label-success">Passed</span>';
+        } else if (state.is_overdue) {
+          return '<span class="label label-danger">Overdue</span>';
+        } else {
+          return '<span class="label label-info">Due in ' + state.due_in_days + ' days</span>';
+        }
+      }
+    }
+  }
+});
+
+/***/ }),
+
 /***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/frontEnd/MyEvents.vue":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -2869,6 +2925,51 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         });
       }
     }
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/frontEnd/Progress.vue":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__LessonList_vue__ = __webpack_require__("./resources/assets/js/components/frontEnd/LessonList.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__LessonList_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__LessonList_vue__);
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  name: 'progress',
+  components: {
+    LessonList: __WEBPACK_IMPORTED_MODULE_0__LessonList_vue___default.a
+  },
+  props: {
+    initialCollections: {
+      type: Array,
+      required: true
+    },
+    lessonsStatus: {
+      type: Object,
+      required: true
+    }
+  },
+  data: function data() {
+    return {
+      collections: null
+    };
+  },
+  mounted: function mounted() {
+    this.collections = JSON.parse(JSON.stringify(this.initialCollections));
   }
 });
 
@@ -5427,6 +5528,21 @@ exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\
 
 /***/ }),
 
+/***/ "./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-6030950c\",\"scoped\":false,\"hasInlineConfig\":true}!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./resources/assets/js/components/frontEnd/Progress.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/css-base.js")(undefined);
+// imports
+
+
+// module
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+
+// exports
+
+
+/***/ }),
+
 /***/ "./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-6bee6a4a\",\"scoped\":false,\"hasInlineConfig\":true}!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./resources/assets/js/attempt/components/ReOrderQuestionView.vue":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -5451,6 +5567,21 @@ exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/cs
 
 // module
 exports.push([module.i, "\nimg {\n    height: auto;\n    max-width: 100%\n}\n", ""]);
+
+// exports
+
+
+/***/ }),
+
+/***/ "./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-7681a695\",\"scoped\":true,\"hasInlineConfig\":true}!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./resources/assets/js/components/frontEnd/LessonList.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/css-base.js")(undefined);
+// imports
+
+
+// module
+exports.push([module.i, "\n.borderless .list-group-item[data-v-7681a695] {\n    border: none;\n}\n", ""]);
 
 // exports
 
@@ -49625,6 +49756,30 @@ if (false) {
 
 /***/ }),
 
+/***/ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-6030950c\",\"hasScoped\":false}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/frontEnd/Progress.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', _vm._l((_vm.collections), function(collection) {
+    return _c('lesson-list', {
+      key: collection.id,
+      attrs: {
+        "collection": collection,
+        "lesson-status": _vm.lessonsStatus
+      }
+    })
+  }))
+},staticRenderFns: []}
+module.exports.render._withStripped = true
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-6030950c", module.exports)
+  }
+}
+
+/***/ }),
+
 /***/ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-6bee6a4a\",\"hasScoped\":false}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/attempt/components/ReOrderQuestionView.vue":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -49746,6 +49901,46 @@ if (false) {
   module.hot.accept()
   if (module.hot.data) {
      require("vue-hot-reload-api").rerender("data-v-6e3bcbe0", module.exports)
+  }
+}
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-7681a695\",\"hasScoped\":true}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/frontEnd/LessonList.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "lesson-list"
+  }, [_c('h4', [_c('a', {
+    attrs: {
+      "href": 'collections/' + _vm.collection.id
+    },
+    domProps: {
+      "textContent": _vm._s(_vm.collection.title)
+    }
+  })]), _vm._v(" "), _c('ul', {
+    staticClass: "list-group borderless"
+  }, _vm._l((_vm.collection.lessons), function(lesson) {
+    return _c('li', {
+      staticClass: "list-group-item"
+    }, [_c('div', {
+      staticClass: "row"
+    }, [_c('div', {
+      staticClass: "col-xs-9 col-md-10 col-lg-11"
+    }, [_vm._v("\n                " + _vm._s(lesson.title) + "\n           ")]), _vm._v(" "), _c('div', {
+      staticClass: "col-xs-3 col-md-2  col-lg-1",
+      domProps: {
+        "innerHTML": _vm._s(_vm.getResultHtml(lesson))
+      }
+    })])])
+  }))])
+},staticRenderFns: []}
+module.exports.render._withStripped = true
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-7681a695", module.exports)
   }
 }
 
@@ -50238,6 +50433,33 @@ if(false) {
 
 /***/ }),
 
+/***/ "./node_modules/vue-style-loader/index.js!./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-6030950c\",\"scoped\":false,\"hasInlineConfig\":true}!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./resources/assets/js/components/frontEnd/Progress.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__("./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-6030950c\",\"scoped\":false,\"hasInlineConfig\":true}!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./resources/assets/js/components/frontEnd/Progress.vue");
+if(typeof content === 'string') content = [[module.i, content, '']];
+if(content.locals) module.exports = content.locals;
+// add the styles to the DOM
+var update = __webpack_require__("./node_modules/vue-style-loader/lib/addStylesClient.js")("8a077040", content, false);
+// Hot Module Replacement
+if(false) {
+ // When the styles change, update the <style> tags
+ if(!content.locals) {
+   module.hot.accept("!!../../../../../node_modules/css-loader/index.js!../../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-6030950c\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./Progress.vue", function() {
+     var newContent = require("!!../../../../../node_modules/css-loader/index.js!../../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-6030950c\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./Progress.vue");
+     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+     update(newContent);
+   });
+ }
+ // When the module is disposed, remove the <style> tags
+ module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+
 /***/ "./node_modules/vue-style-loader/index.js!./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-6bee6a4a\",\"scoped\":false,\"hasInlineConfig\":true}!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./resources/assets/js/attempt/components/ReOrderQuestionView.vue":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -50282,6 +50504,33 @@ if(false) {
  if(!content.locals) {
    module.hot.accept("!!../../../../../node_modules/css-loader/index.js!../../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-6e3bcbe0\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./SingleMultipleChoiceQuestionView.vue", function() {
      var newContent = require("!!../../../../../node_modules/css-loader/index.js!../../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-6e3bcbe0\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./SingleMultipleChoiceQuestionView.vue");
+     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+     update(newContent);
+   });
+ }
+ // When the module is disposed, remove the <style> tags
+ module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+
+/***/ "./node_modules/vue-style-loader/index.js!./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-7681a695\",\"scoped\":true,\"hasInlineConfig\":true}!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./resources/assets/js/components/frontEnd/LessonList.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__("./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-7681a695\",\"scoped\":true,\"hasInlineConfig\":true}!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./resources/assets/js/components/frontEnd/LessonList.vue");
+if(typeof content === 'string') content = [[module.i, content, '']];
+if(content.locals) module.exports = content.locals;
+// add the styles to the DOM
+var update = __webpack_require__("./node_modules/vue-style-loader/lib/addStylesClient.js")("3dd509c7", content, false);
+// Hot Module Replacement
+if(false) {
+ // When the styles change, update the <style> tags
+ if(!content.locals) {
+   module.hot.accept("!!../../../../../node_modules/css-loader/index.js!../../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-7681a695\",\"scoped\":true,\"hasInlineConfig\":true}!../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./LessonList.vue", function() {
+     var newContent = require("!!../../../../../node_modules/css-loader/index.js!../../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-7681a695\",\"scoped\":true,\"hasInlineConfig\":true}!../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./LessonList.vue");
      if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
      update(newContent);
    });
@@ -61549,6 +61798,51 @@ module.exports = Component.exports
 
 /***/ }),
 
+/***/ "./resources/assets/js/components/frontEnd/LessonList.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+function injectStyle (ssrContext) {
+  if (disposed) return
+  __webpack_require__("./node_modules/vue-style-loader/index.js!./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-7681a695\",\"scoped\":true,\"hasInlineConfig\":true}!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./resources/assets/js/components/frontEnd/LessonList.vue")
+}
+var Component = __webpack_require__("./node_modules/vue-loader/lib/component-normalizer.js")(
+  /* script */
+  __webpack_require__("./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/frontEnd/LessonList.vue"),
+  /* template */
+  __webpack_require__("./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-7681a695\",\"hasScoped\":true}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/frontEnd/LessonList.vue"),
+  /* styles */
+  injectStyle,
+  /* scopeId */
+  "data-v-7681a695",
+  /* moduleIdentifier (server only) */
+  null
+)
+Component.options.__file = "/Users/adrianexavier/Code/bobbibrown/resources/assets/js/components/frontEnd/LessonList.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
+if (Component.options.functional) {console.error("[vue-loader] LessonList.vue: functional components are not supported with templates, they should use render functions.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-7681a695", Component.options)
+  } else {
+    hotAPI.reload("data-v-7681a695", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+
 /***/ "./resources/assets/js/components/frontEnd/MyEvents.vue":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -61583,6 +61877,51 @@ if (false) {(function () {
     hotAPI.createRecord("data-v-e29fbe78", Component.options)
   } else {
     hotAPI.reload("data-v-e29fbe78", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+
+/***/ "./resources/assets/js/components/frontEnd/Progress.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+function injectStyle (ssrContext) {
+  if (disposed) return
+  __webpack_require__("./node_modules/vue-style-loader/index.js!./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-6030950c\",\"scoped\":false,\"hasInlineConfig\":true}!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./resources/assets/js/components/frontEnd/Progress.vue")
+}
+var Component = __webpack_require__("./node_modules/vue-loader/lib/component-normalizer.js")(
+  /* script */
+  __webpack_require__("./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/frontEnd/Progress.vue"),
+  /* template */
+  __webpack_require__("./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-6030950c\",\"hasScoped\":false}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/frontEnd/Progress.vue"),
+  /* styles */
+  injectStyle,
+  /* scopeId */
+  null,
+  /* moduleIdentifier (server only) */
+  null
+)
+Component.options.__file = "/Users/adrianexavier/Code/bobbibrown/resources/assets/js/components/frontEnd/Progress.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
+if (Component.options.functional) {console.error("[vue-loader] Progress.vue: functional components are not supported with templates, they should use render functions.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-6030950c", Component.options)
+  } else {
+    hotAPI.reload("data-v-6030950c", Component.options)
   }
   module.hot.dispose(function (data) {
     disposed = true
@@ -61881,12 +62220,7 @@ Vue.mixin({
       var message = validation.messages.join("! ");
       alert(message);
       return false;
-    }
-  }
-});
-
-Vue.mixin({
-  methods: {
+    },
     __: function __(key) {
       var lang = document.getElementsByTagName('html')[0].getAttribute("lang");
       switch (lang) {
@@ -61903,6 +62237,7 @@ Vue.component('event_detail', __webpack_require__("./resources/assets/js/compone
 Vue.component('test', __webpack_require__("./resources/assets/js/attempt/components/attempt.vue"));
 Vue.component('event_sign_in', __webpack_require__("./resources/assets/js/components/frontEnd/EventSignIn.vue"));
 Vue.component('my_events', __webpack_require__("./resources/assets/js/components/frontEnd/MyEvents.vue"));
+Vue.component('my_progress', __webpack_require__("./resources/assets/js/components/frontEnd/Progress.vue"));
 Vue.component('resources_table', __webpack_require__("./resources/assets/js/components/frontEnd/Resource.vue"));
 Vue.component('user_events_table', __webpack_require__("./resources/assets/js/components/UserEventsTable.vue"));
 
@@ -62009,7 +62344,7 @@ var getUpdatedTitles = function getUpdatedTitles(selectionTitles, parsedTitles) 
 /***/ "./resources/lang/chi.json":
 /***/ (function(module, exports) {
 
-module.exports = {"Are you sure to cancel the Event Registration":"你是否確定取消","Are you sure to give up this test":"你決定放棄這個測驗","Are you sure to register the Event":"你是否確定報名","Back":"返回","Cancel Registration":"取消","Confirm Password":"Confirm Password","Description":"Description","Email Address":"電郵","Employee ID":"員工編號","Events":"Events","Events Register":"報名","Event End Date Time":"Event End Date Time","Event Start Date Time":"Event Start Date Time","Featured":"Focus","Filter By":"Filter By","Find your class":"Sign up your class","Forgot Your Password?":"忘記帳戶？","Give Up":"放棄","Learning":"E Learning","Lessons":"BB Channel","Login":"登入","Logout":"登出","My Class":"My Class","My Profile":"My Profile","Name":"姓名","New":"What's New","Password":"密碼","Register":"建立帳戶","Resources":"Products","Remember Me":"Remember Me","Reset Password":"Reset Password","Series":"E-Class","Submit":"提交","Test":"Test","You have pass the Test":"You have pass the Test","You still have question haven't filled, you are sure to submit":"你的測驗還未完成, 你決定提交","Update":"更新","Venue":"Venue","Send Password Reset Link":"Send Password Reset Link","Sorry! You cannot pass the test. Please try again":"對不起, 你不合格了! 需要重新再做! 加油!","Successfully register the event":"你已成功報名, 到時見！"}
+module.exports = {"Are you sure to cancel the Event Registration":"你是否確定取消","Are you sure to give up this test":"你決定放棄這個測驗","Are you sure to register the Event":"你是否確定報名","Back":"返回","Cancel Registration":"取消","Confirm Password":"Confirm Password","Description":"Description","Email Address":"電郵","Employee ID":"員工編號","Events":"Events","Events Register":"報名","Event End Date Time":"Event End Date Time","Event Start Date Time":"Event Start Date Time","Featured":"Focus","Filter By":"Filter By","Find your class":"Sign up your class","Forgot Your Password?":"忘記帳戶？","Give Up":"放棄","Learning":"E Learning","Lessons":"BB Channel","Login":"登入","Logout":"登出","My Class":"My Class","My Progress":"我的學習進度","My Profile":"My Profile","Name":"姓名","New":"What's New","Password":"密碼","Register":"建立帳戶","Resources":"Products","Remember Me":"Remember Me","Reset Password":"Reset Password","Series":"E-Class","Submit":"提交","Test":"Test","You have pass the Test":"You have pass the Test","You still have question haven't filled, you are sure to submit":"你的測驗還未完成, 你決定提交","Update":"更新","Venue":"Venue","Send Password Reset Link":"Send Password Reset Link","Sorry! You cannot pass the test. Please try again":"對不起, 你不合格了! 需要重新再做! 加油!","Successfully register the event":"你已成功報名, 到時見！"}
 
 /***/ }),
 

@@ -72,6 +72,7 @@
                                 <ul class="dropdown-menu" role="menu">
                                     <li><a href="{{route('show.myevents')}}">{{__("My Class")}}</a></li>
                                     <li><a href="{{route('profile')}}">{{__("My Profile")}}</a></li>
+                                    <li><a href="{{route('progress')}}">{{__("My Progress")}}</a></li>
                                     <li>
                                         <a href="{{ route('logout') }}"
                                            onclick="event.preventDefault();

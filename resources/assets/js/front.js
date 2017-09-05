@@ -46,11 +46,6 @@ Vue.mixin({
                 alert(message)
                 return false
               },
-            },
-          })
-
-Vue.mixin({
-            methods: {
               __(key) {
                 const lang = document.getElementsByTagName('html')[0].getAttribute("lang");
                 switch (lang) {
@@ -60,14 +55,14 @@ Vue.mixin({
                     return _en[key]
                 }
               }
-            }
+            },
           })
-
 
 Vue.component('event_detail', require('./components/frontEnd/EventDetail.vue'))
 Vue.component('test', require('./attempt/components/attempt.vue'))
 Vue.component('event_sign_in', require('./components/frontEnd/EventSignIn.vue'))
 Vue.component('my_events', require('./components/frontEnd/MyEvents.vue'))
+Vue.component('my_progress', require('./components/frontEnd/Progress.vue'))
 Vue.component('resources_table', require('./components/frontEnd/Resource.vue'))
 Vue.component('user_events_table', require('./components/UserEventsTable.vue'))
 

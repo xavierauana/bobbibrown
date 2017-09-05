@@ -314,6 +314,29 @@ class HomeController extends Controller
         }
     }
 
+    public function getProgress() {
+        $collections = auth()->user()->collections;
+        $lessonsStatus = new \Illuminate\Support\Collection();
+        $collections->each(function (\App\Collection $collection) use (
+            &$lessonsStatus
+        ) {
+            $collection->lessons->each(function (Lesson $lesson) use (
+                &$lessonsStatus
+            ) {
+                if ($test = $lesson->test) {
+                    $lessonsStatus->put($test->id, [
+                        'is_overdue'   => $lesson->isOverDue(auth()->user()),
+                        'due_in_days'  => $lesson->dueInDays(auth()->user()),
+                        'is_completed' => auth()->user()->passTest($test),
+                    ]);
+                }
+            });
+        });
+
+
+        return view("progress", compact('collections', "lessonsStatus"));
+    }
+
     #region Private methods
 
     /**

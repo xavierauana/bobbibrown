@@ -27,6 +27,7 @@ include_once(app_path('Http/routes/backend.php'));
 
 Route::group(['middleware' => "auth"], function () {
 
+    Route::get('progress', 'HomeController@getProgress')->name('progress');
     Route::get('profile', 'HomeController@getProfile')->name('profile');
     Route::post('profile', 'HomeController@postProfile')
          ->name('profile.update');
