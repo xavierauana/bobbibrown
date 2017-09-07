@@ -11,10 +11,11 @@
 		<tr>
 			<td>{{$participant->name}}</td>
 			<td>{{$participant->employee_id}}</td>
-			<td>{{$participant->showEventSingInTimeStamp($event)}}</td>
+			<td>{{$participant->showEventSingInTimestamp($event)}}</td>
 			<td>
 				<form action="{{route('events.participants.remove', [$event->id, $participant->id])}}"
-				      method="post">
+				      method="post"
+				style="display: inline-block">
 					{{csrf_field()}}
 					<input type="submit" value="Remove"
 					       class="btn btn-sm btn-danger">

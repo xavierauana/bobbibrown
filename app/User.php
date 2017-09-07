@@ -4,7 +4,6 @@ namespace App;
 
 use Anacreation\Etvtest\Models\Attempt;
 use Anacreation\Etvtest\Models\Test;
-use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -235,9 +234,9 @@ class User extends Authenticatable
             $this->permissions->pluck('id')->toArray());
     }
 
-    public function showEventSingInTimeStamp(Event $event): ?Carbon {
+    public function showEventSingInTimestamp(Event $event) {
         $record = $this->eventActivities()->whereEventId($event->id)
-                       ->whereType("signin")->latest()->first();
+                       ->whereType("singin")->latest()->first();
 
         return $record ? $record->created_at : null;
     }

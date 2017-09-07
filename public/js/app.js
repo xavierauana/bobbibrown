@@ -3878,9 +3878,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         case error.TIMEOUT:
           console.log("The request to get user location timed out.");
           break;
-        case error.UNKNOWN_ERROR:
+        default:
           console.log("An unknown error occurred.");
-          break;
       }
       this.submit();
     },
