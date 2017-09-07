@@ -131,9 +131,7 @@ class CollectionsController extends Controller
         $this->authorize('edit', Collection::class);
 
         $lessons = Lesson::select(["id", 'title'])->get();
-
-        return "done";
-
+        
         return view('collections.edit_lessons',
             compact('lessons', 'collection'));
     }
