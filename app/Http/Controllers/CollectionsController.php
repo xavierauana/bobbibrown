@@ -132,6 +132,8 @@ class CollectionsController extends Controller
 
         $lessons = Lesson::select(["id", 'title'])->get();
 
+        return "done";
+
         return view('collections.edit_lessons',
             compact('lessons', 'collection'));
     }
