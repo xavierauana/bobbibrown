@@ -81,6 +81,12 @@ class EventsController extends Controller
 
         $permissions = Permission::all();
 
+        $event->load([
+            'activities' => function ($query) {
+                return $query->latest()->whereType('signin');
+            }
+        ]);
+
         return view('events.edit', compact('event', 'permissions'));
     }
 
@@ -125,7 +131,11 @@ class EventsController extends Controller
     }
 
     public function publish(Event $event) {
-        $users = User::isActive()->get();
+        $users = User::isActive()->get()->filter(function (User $user) use (
+            $event
+        ) {
+            return $user->hasEventPermission($event);
+        });
         foreach ($users as $user) {
             $job = new PublishEvent($event, $user);
             $this->dispatch($job);
@@ -138,7 +148,8 @@ class EventsController extends Controller
         $label = $event->title . " Sign In";
         $qrCode = $generator->create($message, $label);
 
-        return response($qrCode->writeString(), 200)->header("Content-Type", $qrCode->getContentType());
+        return response($qrCode->writeString(), 200)->header("Content-Type",
+            $qrCode->getContentType());
     }
 
     #region Handle save photo and parse form data

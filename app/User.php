@@ -213,6 +213,10 @@ class User extends Authenticatable
         return $this->hasObjectCollection($lesson);
     }
 
+    public function hasEventPermission(Event $event): bool {
+        return $this->hasObjectCollection($event);
+    }
+
     public function hasCollectionPermission(\App\Collection $collection): bool {
         return $this->hasObjectCollection($collection);
     }
@@ -236,5 +240,4 @@ class User extends Authenticatable
         return in_array($model->permission_id,
             $this->permissions->pluck('id')->toArray());
     }
-
 }
