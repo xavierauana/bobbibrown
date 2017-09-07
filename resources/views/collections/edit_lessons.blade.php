@@ -11,11 +11,12 @@
                 <div class="panel-body">
                     <collection_lessons :collection="{{$collection}}"
                                         :lessons="{{$lessons}}"
-                                        :selected-lessons="{{$collection->lessons}}"></collection_lessons>
+                                        :selected-lessons="{{$collection->lessons()->select(['id', 'title'])->get()}}"></collection_lessons>
                 </div>
 	            
 	            <div class="panel-footer">
-		            <a class="btn btn-info btn-block" href="{{route('collections.lessons.index', $collection->id)}}">Back</a>
+		            <a class="btn btn-info btn-block"
+		               href="{{route('collections.lessons.index', $collection->id)}}">Back</a>
 	            </div>
             </div>
         
