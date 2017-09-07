@@ -118,7 +118,11 @@ class CollectionsController extends Controller
     public function editLessonsIndex(Collection $collection) {
         $this->authorize('edit', Collection::class);
 
-        $lessons = $collection->lessons()->excludeColumns(['body','created_at','updated_at'])->orderBy('pivot_order')->get();
+        $lessons = $collection->lessons()->excludeColumns([
+            'body',
+            'created_at',
+            'updated_at'
+        ])->orderBy('pivot_order')->get();
 
         return view('collections.edit_lessons_index',
             compact('lessons', 'collection'));
@@ -127,7 +131,7 @@ class CollectionsController extends Controller
     public function editLessons(Collection $collection) {
         $this->authorize('edit', Collection::class);
 
-        $lessons = Lesson::excludeColumns(["body"])->get();
+        $lessons = Lesson::select(["id", 'title'])->get();
 
         return view('collections.edit_lessons',
             compact('lessons', 'collection'));
