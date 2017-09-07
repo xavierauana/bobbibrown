@@ -40,7 +40,8 @@ class CollectionsController extends Controller
 
         $permissions = Permission::select('label', 'id')->get();
 
-        return view('collections.create', compact('collections', 'permissions'));
+        return view('collections.create',
+            compact('collections', 'permissions'));
     }
 
     /**
@@ -89,7 +90,9 @@ class CollectionsController extends Controller
      * @param  \App\Collection          $collection
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateCollectionRequest $request, Collection $collection) {
+    public function update(
+        UpdateCollectionRequest $request, Collection $collection
+    ) {
 
         $data = $this->parseFormData($request);
 
@@ -115,17 +118,19 @@ class CollectionsController extends Controller
     public function editLessonsIndex(Collection $collection) {
         $this->authorize('edit', Collection::class);
 
-        $lessons = $collection->lessons()->orderBy('pivot_order')->get();
+        $lessons = $collection->lessons()->excludeColumns(['body','created_at','updated_at'])->orderBy('pivot_order')->get();
 
-        return view('collections.edit_lessons_index', compact('lessons', 'collection'));
+        return view('collections.edit_lessons_index',
+            compact('lessons', 'collection'));
     }
 
     public function editLessons(Collection $collection) {
         $this->authorize('edit', Collection::class);
 
-        $lessons = Lesson::all();
+        $lessons = Lesson::excludeColumns(["body"])->get();
 
-        return view('collections.edit_lessons', compact('lessons', 'collection'));
+        return view('collections.edit_lessons',
+            compact('lessons', 'collection'));
     }
 
     public function updateLessons(Collection $collection) {
@@ -144,7 +149,8 @@ class CollectionsController extends Controller
         $this->authorize('edit', Collection::class);
 
         foreach (request()->all() as $lesson) {
-            $collection->lessons()->updateExistingPivot($lesson['id'], ['order' => $lesson['pivot']['order']]);
+            $collection->lessons()->updateExistingPivot($lesson['id'],
+                ['order' => $lesson['pivot']['order']]);
         }
     }
 
@@ -162,7 +168,8 @@ class CollectionsController extends Controller
         $this->authorize('edit', Collection::class);
 
         $this->validate(request(), [
-            'test_id' => 'required|in:' . implode(",", Test::pluck("id")->toArray())
+            'test_id' => 'required|in:' . implode(",",
+                    Test::pluck("id")->toArray())
         ]);
 
         $collection->tests()->sync(request()->get("test_id"));

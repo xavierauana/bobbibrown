@@ -7,8 +7,10 @@ use Anacreation\Etvtest\Contracts\TestableTraits;
 use Anacreation\Etvtest\Models\Test;
 use App\Scopes\WithinPermissions;
 use App\Services\LessonDeadlineCalculator;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\Relation;
+use Illuminate\Support\Facades\Schema;
 
 class Lesson extends Model implements TestableInterface
 {
@@ -66,6 +68,20 @@ class Lesson extends Model implements TestableInterface
         $service = new LessonDeadlineCalculator($this);
 
         return $service->dueInDate($user);
+    }
+
+    // scope
+
+    public function scopeExcludeColumns($query, $columns): Builder {
+        $columns = is_array($columns) ? $columns : [$columns];
+        return $query->select(array_diff($this->getAllTableColumns(),
+            $columns));
+    }
+
+    // Helper Functions
+
+    private function getAllTableColumns(): array {
+        return Schema::getColumnListing("lessons");
     }
 
 }

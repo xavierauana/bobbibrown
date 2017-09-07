@@ -25,17 +25,7 @@ class LessonsController extends Controller
     public function index() {
         $this->authorize('view', Lesson::class);
 
-        $lessons = Lesson::select([
-            "id",
-            "title",
-            "is_standalone",
-            "permission_id",
-            "created_at",
-            "updated_at",
-            "poster",
-            "is_featured",
-            "is_new"
-        ])->get();
+        $lessons = Lesson::excludeColumns("body")->get();
 
         return view('lessons.index', compact('lessons'));
     }
@@ -90,6 +80,7 @@ class LessonsController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function edit(Lesson $lesson) {
+
         $this->authorize('edit', Lesson::class);
         $permissions = Permission::all();
 
