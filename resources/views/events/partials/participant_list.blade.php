@@ -11,7 +11,7 @@
 		<tr>
 			<td>{{$participant->name}}</td>
 			<td>{{$participant->employee_id}}</td>
-			<td>{{$event->activities->first(function($signIn)use($participant){ return $signIn->user->id === $participant->id;})}}</td>
+			<td>{{$participant->showEventSingInTimeStamp($event)}}</td>
 			<td>
 				<form action="{{route('events.participants.remove', [$event->id, $participant->id])}}"
 				      method="post">
