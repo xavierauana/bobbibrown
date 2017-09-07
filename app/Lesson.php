@@ -73,7 +73,6 @@ class Lesson extends Model implements TestableInterface
     // scope
 
     public function scopeExcludeColumns($query, $columns): Builder {
-        $columns = is_array($columns) ? $columns : [$columns];
         return $query->select(array_diff($this->getAllTableColumns(),
             $columns));
     }

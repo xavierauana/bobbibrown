@@ -14,7 +14,7 @@
     <link href="{{ mix('css/app.css') }}" rel="stylesheet">
      <style>
         body{
-            background-image: url(/files/mono.svg);
+            background-image: url(/imgs/mono.svg);
             background-size: 250px;
             background-color: white;
             background-repeat: inital;
