@@ -9,9 +9,8 @@
                 </div>
 
                 <div class="panel-body">
-                    <collection_lessons :collection="{{$collection}}"
-                                        :lessons="{{$lessons}}"
-                                        :selected-lessons="{{$collection->lessons()->select(['id', 'title'])->get()}}"></collection_lessons>
+                    <collection_lessons
+		                    :collection-id="{{$collection->id}}"></collection_lessons>
                 </div>
 	            
 	            <div class="panel-footer">

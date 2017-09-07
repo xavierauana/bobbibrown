@@ -2,7 +2,8 @@
     <form class="form">
 		<div class="form-group">
 			<label>Lessons</label>
-			<v-select :value.sync="selected"
+			<v-select v-if="selected && options"
+                      :value.sync="selected"
                       :options="options"
                       label="title"
                       multiple
@@ -10,7 +11,8 @@
                       :on-change="updateSelection"></v-select>
 		</div>
 		<div class="form-group">
-			<button class="btn btn-success btn-block" @click.prevent="updateLessons">Update Lessons</button>
+			<button class="btn btn-success btn-block"
+                    @click.prevent="updateLessons">Update Lessons</button>
 		</div>
 	</form>
 
@@ -19,39 +21,34 @@
 <script type="text/babel">
 import {Collections as urls} from "../endpoints"
 import VSelect from "vue-select"
-export default{
+
+export default {
   components: {
     VSelect
   },
-  props     : {
-    collection     : {
-      type    : Object,
-      required: true
-    },
-    lessons        : {
-      type    : Array,
-      required: true
-    },
-    selectedLessons: {
-      type    : Array,
-      required: true
-    },
-  },
-  data(){
+  props     : ['collectionId'],
+  data() {
     return {
       urls       : urls,
-      selected   : JSON.parse(JSON.stringify(this.selectedLessons)),
-      options    : JSON.parse(JSON.stringify(this.lessons)),
+      selected   : null,
+      options    : null,
       placeholder: "No lesson in the collection!"
     }
   },
+  created() {
+    axios.get(window.location.href + "?ajax=true")
+         .then(({data}) => {
+           this.options = data.lessons
+           this.selected = data.collection.lessons
+         })
+  },
   methods   : {
-    updateSelection(value){
+    updateSelection(value) {
       console.log('update value is, ', value);
     },
-    updateLessons(){
-      axios.post(this.urls.lessons(this.collection.id), this.selected)
-           .then(() => window.location.href = '/admin/collections/' + this.collection.id + "/lessons")
+    updateLessons() {
+      axios.post(this.urls.lessons(this.collectionId), this.selected)
+           .then(() => window.location.href = '/admin/collections/' + this.collectionId + "/lessons")
            .catch(res => console.log(res))
     }
   }

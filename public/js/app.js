@@ -2558,6 +2558,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+
 
 
 
@@ -2565,27 +2568,24 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
   components: {
     VSelect: __WEBPACK_IMPORTED_MODULE_1_vue_select___default.a
   },
-  props: {
-    collection: {
-      type: Object,
-      required: true
-    },
-    lessons: {
-      type: Array,
-      required: true
-    },
-    selectedLessons: {
-      type: Array,
-      required: true
-    }
-  },
+  props: ['collectionId'],
   data: function data() {
     return {
       urls: __WEBPACK_IMPORTED_MODULE_0__endpoints__["b" /* Collections */],
-      selected: JSON.parse(JSON.stringify(this.selectedLessons)),
-      options: JSON.parse(JSON.stringify(this.lessons)),
+      selected: null,
+      options: null,
       placeholder: "No lesson in the collection!"
     };
+  },
+  created: function created() {
+    var _this = this;
+
+    axios.get(window.location.href + "?ajax=true").then(function (_ref) {
+      var data = _ref.data;
+
+      _this.options = data.lessons;
+      _this.selected = data.collection.lessons;
+    });
   },
 
   methods: {
@@ -2593,10 +2593,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       console.log('update value is, ', value);
     },
     updateLessons: function updateLessons() {
-      var _this = this;
+      var _this2 = this;
 
-      axios.post(this.urls.lessons(this.collection.id), this.selected).then(function () {
-        return window.location.href = '/admin/collections/' + _this.collection.id + "/lessons";
+      axios.post(this.urls.lessons(this.collectionId), this.selected).then(function () {
+        return window.location.href = '/admin/collections/' + _this2.collectionId + "/lessons";
       }).catch(function (res) {
         return console.log(res);
       });
@@ -10325,7 +10325,7 @@ exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/cs
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -60545,7 +60545,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "form"
   }, [_c('div', {
     staticClass: "form-group"
-  }, [_c('label', [_vm._v("Lessons")]), _vm._v(" "), _c('v-select', {
+  }, [_c('label', [_vm._v("Lessons")]), _vm._v(" "), (_vm.selected && _vm.options) ? _c('v-select', {
     attrs: {
       "value": _vm.selected,
       "options": _vm.options,
@@ -60559,7 +60559,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.selected = $event
       }
     }
-  })], 1), _vm._v(" "), _c('div', {
+  }) : _vm._e()], 1), _vm._v(" "), _c('div', {
     staticClass: "form-group"
   }, [_c('button', {
     staticClass: "btn btn-success btn-block",

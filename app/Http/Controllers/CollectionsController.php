@@ -127,13 +127,18 @@ class CollectionsController extends Controller
             compact('lessons', 'collection'));
     }
 
-    public function editLessons(Collection $collection) {
-        $this->authorize('edit', Collection::class);
+    public function editLessons(Request $request, Collection $collection) {
+        $this->authorize('edit', $collection);
 
-        $lessons = Lesson::select(["id", 'title'])->get();
-        
-        return view('collections.edit_lessons',
-            compact('lessons', 'collection'));
+        if ($request->wantsJson()) {
+            $lessons = Lesson::select(["id", 'title'])->get();
+            $collection->load('lessons');
+
+            return response()->json(compact('lessons', 'collection'));
+        }
+
+
+        return view('collections.edit_lessons', compact("collection"));
     }
 
     public function updateLessons(Collection $collection) {
