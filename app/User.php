@@ -163,23 +163,13 @@ class User extends Authenticatable
 
         if ($collection) {
 
-            $collection->load([
-                'lessons' => function ($query) {
-                    return $query->with('tests');
-                }
-            ]);
+            $collection->load('lessons.tests');
 
-            foreach ($collection->lessons as $lesson) {
-                if ($lesson->test and !$this->passTest($lesson->test)) {
-                    return false;
-                }
+            if (!$collection->isPassAllLessonsTest($this)) {
+                return false;
             }
 
-            foreach ($collection->tests as $test) {
-                return $this->passTest($test);
-            }
-
-            return true;
+            return $collection->isPassCollectionTests($this);
         }
 
         return false;
@@ -246,6 +236,5 @@ class User extends Authenticatable
         return in_array($model->permission_id,
             $this->permissions->pluck('id')->toArray());
     }
-
 
 }

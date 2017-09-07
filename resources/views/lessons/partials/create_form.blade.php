@@ -17,7 +17,7 @@
 	</div>
 	<div class="form-group checkbox {{ $errors->has('is_standalone') ? ' has-error' : '' }}">
 		<select name="is_standalone" class="form-control">
-			<option value="1" selected> Can stand alone </option>
+			<option value="1" selected> BB Channel </option>
 			<option value="0"> In collection only </option>
 		</select>
 		
@@ -64,7 +64,7 @@
 		@endif
 	</div>
 	@include('elements.inputs.checkbox', [
-		'label'=>"Is Featured",
+		'label'=>"Is Focus",
 		'field'=>"is_featured",
 	])
 	@include('elements.inputs.checkbox', [

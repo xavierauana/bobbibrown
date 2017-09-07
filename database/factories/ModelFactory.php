@@ -69,6 +69,25 @@ $factory->define(App\Collection::class, function (Faker\Generator $faker) {
         }
     ];
 });
+$factory->define(App\Test::class, function (Faker\Generator $faker) {
+    return [
+        'title'           => $faker->sentence,
+        'question_number' => 2
+    ];
+});
+$factory->define(App\Product::class, function (Faker\Generator $faker) {
+    return [
+        'name'     => $faker->sentence,
+        'keywords' => implode(",", $faker->words(5)),
+        'content'  => $faker->paragraph()
+    ];
+});
+$factory->define(\App\LessonSchedule::class, function (Faker\Generator $faker) {
+    return [
+        'compare' => "user",
+        'days'    => 10,
+    ];
+});
 
 $factory->define(Admin::class, function (Faker\Generator $faker) {
     static $password;

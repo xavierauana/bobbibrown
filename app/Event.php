@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\Relation;
@@ -28,6 +29,7 @@ class Event extends Model
     ];
 
 
+    // Accessors
     public function getParticipantsAttribute(): Collection {
         return $this->users;
     }
@@ -38,10 +40,6 @@ class Event extends Model
 
     public function getCurrentVacanciesAttribute(): string {
         return ($this->vacancies - $this->participants->count()) . "/" . $this->vacancies;
-    }
-
-    public function removeUser(User $user) {
-        $this->users()->detach($user->id);
     }
 
     // Relation
@@ -64,6 +62,17 @@ class Event extends Model
     public function scopeNotRegistered($query, User $user): Builder {
         return $query->whereNotIn("id",
             $user->events()->pluck('id')->toArray());
+    }
+
+    public function scopeGetActiveEventsForUser($query, User $user): Builder {
+        return $query->where('start_datetime', '>', Carbon::now())
+                     ->matchUserPermissions($user)->orderBy('start_datetime')
+                     ->with('users');
+    }
+
+    // helper functions
+    public function removeUser(User $user) {
+        $this->users()->detach($user->id);
     }
 
 }

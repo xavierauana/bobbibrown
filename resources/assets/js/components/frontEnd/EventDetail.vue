@@ -14,7 +14,7 @@
 
 		<div>
 			<button class="btn btn-sm btn-primary" v-show="canRegister" :disabled="!canRegister" @click="register"
-                    v-text="__('Event Register')"></button>
+                    v-text="__('Events Register')"></button>
 			<button class="btn btn-sm btn-danger" v-show="!canRegister" :disabled="canRegister"
                     @click="cancelRegistration" v-text="__('Cancel Registration')"></button>
 			<a :href="urls.frontEnd" class="btn btn-sm btn-info pull-right" v-text="__('Back')"></a>

@@ -22,6 +22,7 @@ use App\User;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class HomeController extends Controller
 {
@@ -90,9 +91,11 @@ class HomeController extends Controller
     public function showCollectionLesson(Collection $collection, $lessonId) {
 
         $lesson = $collection->lessons()->available(auth()->user())
-                             ->findOrFail($lessonId);
+                             ->find($lessonId);
 
-        return view('lesson', compact('collection', 'lesson'));
+        return $lesson ? view('lesson',
+            compact('collection', 'lesson')) : response("No lesson found!",
+            404);
     }
 
     public function showLesson(Lesson $lesson) {
@@ -155,7 +158,7 @@ class HomeController extends Controller
     public function gradeLessonTest(
         Request $request, Lesson $lesson, GradingService $service
     ) {
-        if ($test = $lesson->test) {
+        if ($test = $lesson->test and $request->get('answers') and $request->get('questionIds')) {
 
             $service->grade($test, $request->get('answers'),
                 $request->get('questionIds'));
@@ -175,7 +178,7 @@ class HomeController extends Controller
     public function gradeCollectionTest(
         Request $request, Collection $collection, GradingService $service
     ) {
-        if ($test = $collection->test) {
+        if ($test = $collection->test and $request->get('answers') and $request->get("questionIds")) {
 
             $service->grade($test, $request->get('answers'),
                 $request->get('questionIds'));
@@ -193,9 +196,7 @@ class HomeController extends Controller
     }
 
     public function showEvents() {
-        $events = Event::where('start_datetime', '>', Carbon::now())
-                       ->matchUserPermissions(auth()->user())
-                       ->orderBy('start_datetime')->with('users')->get()
+        $events = Event::getActiveEventsForUser(auth()->user())->get()
                        ->map($this->eventTransformer);
 
         return view('events', compact('events'));
@@ -209,6 +210,7 @@ class HomeController extends Controller
             return view('event_detail', compact('event'));
         }
 
+        return redirect()->back();
     }
 
     public function registration(EventRegistrationRequest $request, Event $event
@@ -231,7 +233,6 @@ class HomeController extends Controller
 
     public function cancelEvent(Request $request, Event $event) {
 
-
         if ($request->user()->cancel($event)) {
             event(new UserCancelEventRegistration($request->user(), $event,
                 $request));
@@ -248,6 +249,7 @@ class HomeController extends Controller
     }
 
     public function postProfile(UpdateProfileRequest $request) {
+        Log::info('post profile');
         $user = auth()->user();
 
         $data = [
@@ -266,6 +268,9 @@ class HomeController extends Controller
     }
 
     public function eventSignIn(Request $request, Event $event) {
+        $this->validate($request, [
+            'token' => "required"
+        ]);
         $token = $request->get('token');
 
         return view('event_sign_in', compact("event", "token"));
@@ -312,6 +317,8 @@ class HomeController extends Controller
             auth()->user()->permissions->pluck('id')->toArray())) {
             return view('product', compact("product"));
         }
+
+        return redirect()->route('home');
     }
 
     public function getProgress() {

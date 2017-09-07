@@ -25,7 +25,17 @@ class LessonsController extends Controller
     public function index() {
         $this->authorize('view', Lesson::class);
 
-        $lessons = Lesson::all();
+        $lessons = Lesson::select([
+            "id",
+            "title",
+            "is_standalone",
+            "permission_id",
+            "created_at",
+            "updated_at",
+            "poster",
+            "is_featured",
+            "is_new"
+        ])->get();
 
         return view('lessons.index', compact('lessons'));
     }
@@ -50,7 +60,7 @@ class LessonsController extends Controller
      */
     public function store(StoreLessonRequest $request) {
 
-//        dd($request->all());
+        //        dd($request->all());
         $newLesson = Lesson::create($this->parseFormData($request));
 
         $scheduleData = $request->get('schedule');
@@ -95,7 +105,7 @@ class LessonsController extends Controller
      */
     public function update(UpdateLessonRequest $request, Lesson $lesson) {
 
-//        dd($request->all());
+        //        dd($request->all());
         $lesson->update($this->parseFormData($request));
         $scheduleData = $request->get('schedule');
         $lesson->schedule->update([
@@ -127,7 +137,8 @@ class LessonsController extends Controller
 
         $tests = Test::whereIsActive(true)->get();
 
-        return view('lessons.edit_test', compact('tests', 'lesson', "permissions"));
+        return view('lessons.edit_test',
+            compact('tests', 'lesson', "permissions"));
     }
 
     public function updateTests(Lesson $lesson) {
@@ -135,7 +146,8 @@ class LessonsController extends Controller
         $this->authorize('edit', Lesson::class);
 
         $this->validate(request(), [
-            'test_id' => 'required|in:' . implode(",", Test::pluck("id")->toArray())
+            'test_id' => 'required|in:' . implode(",",
+                    Test::pluck("id")->toArray())
         ]);
 
         $lesson->tests()->sync(request()->get("test_id"));

@@ -5611,7 +5611,7 @@ exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/cs
 
 
 // module
-exports.push([module.i, "\nbody {\n    color: black\n}\nnav.nav.navbar-nav.col-xs-12.sub-menu {\n    margin: 0\n}\n#test-section {\n    font-family: '\\6A19\\6977\\9AD4', sans-serif, Arial, Verdana, \"Trebuchet MS\";\n}\n#test-section .save-button {\n    font-size: 0.8em;\n    margin-top: -3px;\n}\n#test-section > .row {\n    margin: auto 0\n}\ndiv.question {\n    margin-bottom: 0;\n}\ndiv.question input {\n    font-size: 1.2em;\n}\nh4.question-number {\n    color: #000000;\n    margin: 0;\n}\nh4.question-number .col-md-8 {\n    padding-top: 0;\n}\ndiv.question > div > div:first-child {\n    padding-bottom: 0;\n}\ndiv.question div {\n    padding: 5px 10px\n}\ndiv.question label {\n    margin: 0;\n    line-height: 1.4em;\n    font-size: 1.6em;\n}\ndiv.title {\n    color: white;\n    background-color: blue;\n    padding: 10px;\n}\ndiv.title h2 {\n    margin: 0;\n}\ndiv.question .row {\n    padding: 0;\n    margin: 0;\n}\ndiv.question .row div.col-md-8:first-child {\n    padding-top: 0;\n}\ndiv.footer-buttons {\n    margin: 15px;\n}\nh2.total-question {\n    margin: 0;\n    line-height: 66px\n}\ndiv.multiple-choices ul {\n    display: inline-block;\n    padding: 15px;\n    border: 2px solid #f0f0f0;\n    border-radius: 5px;\n}\n\n", ""]);
+exports.push([module.i, "\nbody {\n    color: black\n}\nnav.nav.navbar-nav.col-xs-12.sub-menu {\n    margin: 0\n}\n#test-section .save-button {\n    font-size: 0.8em;\n    margin-top: -3px;\n}\n#test-section > .row {\n    margin: auto 0\n}\ndiv.question {\n    margin-bottom: 0;\n}\ndiv.question input {\n    font-size: 1.2em;\n}\nh4.question-number {\n    color: #000000;\n    margin: 0;\n}\nh4.question-number .col-md-8 {\n    padding-top: 0;\n}\ndiv.question > div > div:first-child {\n    padding-bottom: 0;\n}\ndiv.question div {\n    padding: 5px 10px\n}\ndiv.question label {\n    margin: 0;\n    line-height: 1.4em;\n    font-size: 1.6em;\n}\ndiv.title {\n    color: white;\n    background-color: blue;\n    padding: 10px;\n}\ndiv.title h2 {\n    margin: 0;\n}\ndiv.question .row {\n    padding: 0;\n    margin: 0;\n}\ndiv.question .row div.col-md-8:first-child {\n    padding-top: 0;\n}\ndiv.footer-buttons {\n    margin: 15px;\n}\nh2.total-question {\n    margin: 0;\n    line-height: 66px\n}\ndiv.multiple-choices ul {\n    display: inline-block;\n    padding: 15px;\n    border: 2px solid #f0f0f0;\n    border-radius: 5px;\n}\n\n", ""]);
 
 // exports
 
@@ -49977,7 +49977,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "disabled": !_vm.canRegister
     },
     domProps: {
-      "textContent": _vm._s(_vm.__('Event Register'))
+      "textContent": _vm._s(_vm.__('Events Register'))
     },
     on: {
       "click": _vm.register

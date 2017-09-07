@@ -45,4 +45,28 @@ class Collection extends Model
     public function setDescriptionAttribute($value) {
         $this->attributes['description'] = trim($value);
     }
+
+    // Helper functions
+    public function isPassAllLessonsTest(User $user): bool {
+        // if there is test, check the test is pass or not.
+        // if there is no test, return true!
+        return $this->lessons->every(function ($lesson) use ($user) {
+            if ($test = $lesson->test) {
+                return $user->passTest($test);
+            }
+
+            return true;
+        });
+    }
+
+    public function isPassCollectionTests(User $user): bool {
+        if ($this->tests()->count()) {
+            return $this->tests->every(function ($test) use ($user) {
+                return $user->passTest($test);
+            });
+        }
+
+        return true;
+
+    }
 }

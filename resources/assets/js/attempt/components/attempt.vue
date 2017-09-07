@@ -192,10 +192,6 @@
         margin: 0
     }
 
-    #test-section {
-        font-family: '標楷體', sans-serif, Arial, Verdana, "Trebuchet MS";
-    }
-
     #test-section .save-button {
         font-size: 0.8em;
         margin-top: -3px;

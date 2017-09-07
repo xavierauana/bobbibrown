@@ -10,7 +10,7 @@
 		        </div>
 				<div class="panel-footer">
 					<button class="btn btn-info"
-					        @click="backWithConfirm(__('Are you sure to give up this test')+'!')">{{__("Give up")}}</button>
+					        @click="backWithConfirm(__('Are you sure to give up this test')+'!')">{{__("Give Up")}}</button>
 				</div>
 		    </div>
 	</div>

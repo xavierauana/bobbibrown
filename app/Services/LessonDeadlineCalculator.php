@@ -61,7 +61,15 @@ class LessonDeadlineCalculator
 
     private function getDeadline(User $user, Lesson $lesson): Carbon {
 
-        $theDate = $lesson->schedule->compare == 'lesson' ? $lesson->created_at : $user->created_at;
+        $theDate = null;
+
+        if ($lesson->schedule->compare == 'user') {
+
+            $theDate = $user->created_at > $lesson->created_at ? $user->created_at : $lesson->created_at;
+        } else {
+            $theDate = $lesson->created_at > $user->created_at ? $lesson->created_at : $user->created_at;
+        }
+
 
         return $theDate->addDays($lesson->schedule->days);
     }
@@ -70,15 +78,18 @@ class LessonDeadlineCalculator
      * @param \App\User   $user
      * @param \App\Lesson $lesson
      */
-    private function getLastPassedAttemptDate(User $user, Lesson $lesson):?Carbon {
-        if ($test = $lesson->test and $lastPassedAttempt = $user->latestPassedAttempts($test)->first()) {
+    private function getLastPassedAttemptDate(User $user, Lesson $lesson
+    ):?Carbon {
+        if ($test = $lesson->test and $lastPassedAttempt = $user->latestPassedAttempts($test)
+                                                                ->first()) {
             return $lastPassedAttempt->created_at;
         }
 
         return null;
     }
 
-    private function getCurrentOrPassedAttemptDate(User $user, Lesson $lesson): Carbon {
+    private function getCurrentOrPassedAttemptDate(User $user, Lesson $lesson
+    ): Carbon {
         if ($attemptDate = $this->getLastPassedAttemptDate($user, $lesson)) {
             return $attemptDate;
         }
