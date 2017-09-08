@@ -132,7 +132,11 @@ class CollectionsController extends Controller
 
         if ($request->wantsJson()) {
             $lessons = Lesson::select(["id", 'title'])->get();
-            $collection->load('lessons');
+            $collection->load([
+                'lessons' => function ($query) {
+                    return $query->select(['id', 'title']);
+                }
+            ]);
 
             return response()->json(compact('lessons', 'collection'));
         }
