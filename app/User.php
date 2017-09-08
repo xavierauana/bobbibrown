@@ -235,10 +235,23 @@ class User extends Authenticatable
     }
 
     public function showEventSingInTimestamp(Event $event) {
-        $record = $this->eventActivities()->whereEventId($event->id)
-                       ->whereType("singin")->latest()->first();
+        $record = $this->getEventSingInRecord($event);
 
         return $record ? $record->created_at : null;
+    }
+
+    public function getGoogleMapUrlForSingIn(Event $event):?string {
+        $record = $this->getEventSingInRecord($event);
+        if ($record and $record->longitude and $record->latitude) {
+            return "http://maps.google.com/maps?q=loc:{$record->longitude},{$record->latitude}&z=17";
+        }
+
+        return null;
+    }
+
+    public function getEventSingInRecord(Event $event):?EventActivity {
+        return $this->eventActivities()->whereEventId($event->id)
+                    ->whereType("singin")->latest()->first();
     }
 
     #endregion

@@ -11,11 +11,18 @@
 		<tr>
 			<td>{{$participant->name}}</td>
 			<td>{{$participant->employee_id}}</td>
-			<td>{{$participant->showEventSingInTimestamp($event)}}</td>
+			<td>
+				@if($url = $participant->getGoogleMapUrlForSingIn($event))
+					<a href="{{$url}}" target="_blank">
+					{{$participant->showEventSingInTimestamp($event)}}</td>
+			</a>
+			@else
+				{{$participant->showEventSingInTimestamp($event)}}
+			@endif
 			<td>
 				<form action="{{route('events.participants.remove', [$event->id, $participant->id])}}"
 				      method="post"
-				style="display: inline-block">
+				      style="display: inline-block">
 					{{csrf_field()}}
 					<input type="submit" value="Remove"
 					       class="btn btn-sm btn-danger">

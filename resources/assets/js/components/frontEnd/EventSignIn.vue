@@ -49,12 +49,12 @@
       methods: {
         getLocation() {
           if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(this.showPosition, this.handleError);
+            navigator.geolocation.getCurrentPosition(this.success, this.handleError);
           } else {
             console.log("Geolocation is not supported by this browser.");
           }
         },
-        showPosition(position) {
+        success(position) {
           this.transferObject.latitude = position.coords.latitude
           this.transferObject.longitude = position.coords.longitude
           this.submit()
