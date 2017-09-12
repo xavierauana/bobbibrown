@@ -2961,6 +2961,15 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -2970,21 +2979,47 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
   components: {
     ButtonGroup: __WEBPACK_IMPORTED_MODULE_1__elements_ButtonGroups_vue___default.a
   },
-  props: {
-    initialLessons: {
-      type: Array,
-      required: true
-    }
-  },
   data: function data() {
     return {
+      filterBy: "",
+      order: 1,
+      sortByKey: null,
       urls: __WEBPACK_IMPORTED_MODULE_0__endpoints__["d" /* Lessons */],
-      lessons: JSON.parse(JSON.stringify(this.initialLessons)),
+      lessons: [],
       onClickFunctions: [this.goToTestPage, this.goToUserPage, this.goToEditPage, this.deleteLesson],
       labels: [{ label: "Test", "class": "btn-default" }, { label: "Users", "class": "btn-primary" }, { label: "Edit", "class": "btn-info" }, { label: "Delete", "class": "btn-danger" }]
     };
   },
+  created: function created() {
+    var _this = this;
 
+    axios.get(window.location.href + "?ajax=true").then(function (_ref) {
+      var data = _ref.data;
+      return _this.lessons = data;
+    });
+  },
+
+  computed: {
+    refinedLessons: function refinedLessons() {
+      var _this2 = this;
+
+      var lessons = this.lessons;
+      if (this.filterBy.length) {
+        lessons = _.filter(lessons, function (lesson) {
+          return lesson.title.indexOf(_this2.filterBy) > -1;
+        });
+      }
+      if (this.sortByKey) {
+        lessons = _.sortBy(lessons, function (lesson) {
+          return lesson[_this2.sortByKey];
+        });
+      }
+      if (this.order < 0) {
+        lessons = _.reverse(lessons);
+      }
+      return lessons;
+    }
+  },
   methods: {
     goToTestPage: function goToTestPage(index) {
       var lesson = this.lessons[index];
@@ -2995,13 +3030,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       window.location.href = this.urls.edit(lesson.id);
     },
     deleteLesson: function deleteLesson(index) {
-      var _this = this;
+      var _this3 = this;
 
       var lesson = this.lessons[index],
           url = this.urls.delete(lesson.id);
       if (confirm('going to delete' + lesson.title)) {
         axios.delete(url).then(function (response) {
-          return _this.lessons.splice(index, 1);
+          return _this3.lessons.splice(index, 1);
         }).catch(function (response) {
           return console.log(response);
         });
@@ -3010,6 +3045,18 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     goToUserPage: function goToUserPage(index) {
       var lesson = this.lessons[index];
       window.location.href = this.urls.users(lesson.id);
+    },
+    upDownOrNone: function upDownOrNone(key) {
+      if (this.sortByKey !== key) return;
+      return this.order > 0 ? "up" : "down";
+    },
+    sortBy: function sortBy(key) {
+      if (this.sortByKey === key) {
+        this.order = this.order * -1;
+      } else {
+        this.sortByKey = key;
+        this.order = 1;
+      }
     }
   }
 });
@@ -9912,7 +9959,7 @@ exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/cs
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\ntable.filtered thead th::after {\n    content: \"\";\n    position: relative;\n    display: none;\n    width: 0;\n    height: 0;\n    margin-left: 0.5em;\n    border-left: 5px solid transparent;\n    border-right: 5px solid transparent;\n}\ntable.filtered thead th.up::after {\n    content: \"\";\n    position: relative;\n    display: inline-block;\n    border-bottom: 5px solid black;\n}\ntable.filtered thead th.down::after {\n    content: \"\";\n    position: relative;\n    display: inline-block;\n    border-top: 5px solid black;\n}\n", ""]);
 
 // exports
 
@@ -58122,9 +58169,50 @@ if (false) {
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('table', {
-    staticClass: "table"
-  }, [_vm._m(0), _vm._v(" "), _c('tbody', _vm._l((_vm.lessons), function(lesson, index) {
+  return _c('div', [_c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.filterBy),
+      expression: "filterBy"
+    }],
+    staticClass: "form-control",
+    attrs: {
+      "placeholder": "Filter By..."
+    },
+    domProps: {
+      "value": (_vm.filterBy)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.filterBy = $event.target.value
+      }
+    }
+  }), _vm._v(" "), _c('br'), _vm._v(" "), (_vm.lessons.length) ? _c('table', {
+    staticClass: "table filtered"
+  }, [_c('thead', [_c('th', {
+    class: _vm.upDownOrNone('title'),
+    on: {
+      "click": function($event) {
+        _vm.sortBy('title')
+      }
+    }
+  }, [_vm._v("Title")]), _vm._v(" "), _c('th', {
+    class: _vm.upDownOrNone('is_featured'),
+    on: {
+      "click": function($event) {
+        _vm.sortBy('is_featured')
+      }
+    }
+  }, [_vm._v("Featured")]), _vm._v(" "), _c('th', {
+    class: _vm.upDownOrNone('is_new'),
+    on: {
+      "click": function($event) {
+        _vm.sortBy('is_new')
+      }
+    }
+  }, [_vm._v("New")]), _vm._v(" "), _c('th', [_vm._v("Actions")])]), _vm._v(" "), _c('tbody', _vm._l((_vm.refinedLessons), function(lesson, index) {
     return _c('tr', [_c('td', {
       domProps: {
         "textContent": _vm._s(lesson.title)
@@ -58146,10 +58234,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         "row-number": index
       }
     })], 1)])
-  }))])
-},staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('thead', [_c('th', [_vm._v("Title")]), _vm._v(" "), _c('th', [_vm._v("Featured")]), _vm._v(" "), _c('th', [_vm._v("New")]), _vm._v(" "), _c('th', [_vm._v("Actions")])])
-}]}
+  }))]) : _vm._e()])
+},staticRenderFns: []}
 module.exports.render._withStripped = true
 if (false) {
   module.hot.accept()

@@ -22,12 +22,16 @@ class LessonsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index() {
+    public function index(Request $request) {
         $this->authorize('view', Lesson::class);
+        if ($request->wantsJson()) {
+            $lessons = Lesson::excludeColumns("body")->get();
 
-        $lessons = Lesson::excludeColumns("body")->get();
+            return response()->json($lessons);
+        }
 
-        return view('lessons.index', compact('lessons'));
+
+        return view('lessons.index');
     }
 
     /**
