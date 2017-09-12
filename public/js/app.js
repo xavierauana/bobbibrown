@@ -5197,6 +5197,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+
 
 
 
@@ -5213,15 +5215,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     testId: {
       type: Number,
       required: true
-    },
-    initialQuestion: {
-      type: Array,
-      required: true
     }
   },
   data: function data() {
     return {
-      question: {},
+      question: null,
       questionTypes: []
     };
   },
@@ -5247,10 +5245,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
   created: function created() {
     var _this = this;
 
-    this.question = new __WEBPACK_IMPORTED_MODULE_2__models_Question__["a" /* default */](this.initialQuestion[0]);
-    if (this.initialQuestion[0].answer) this.question.setCorrectAnswer(this.initialQuestion[0].answer);
-    axios.get('/admin/questionTypes').then(function (_ref) {
+    axios.get(window.location.href + "?ajax=true").then(function (_ref) {
       var data = _ref.data;
+
+      _this.question = new __WEBPACK_IMPORTED_MODULE_2__models_Question__["a" /* default */](data[0]);
+      if (data[0].answer) _this.question.setCorrectAnswer(data[0].answer);
+    });
+    axios.get('/admin/questionTypes').then(function (_ref2) {
+      var data = _ref2.data;
 
       _this.questionTypes = data;
       Vue.nextTick(function () {
@@ -10435,7 +10437,7 @@ exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/cs
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -61114,7 +61116,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "panel panel-default"
   }, [_c('div', {
     staticClass: "panel-heading"
-  }, [_vm._v(" Edit Question ")]), _vm._v(" "), _c('div', {
+  }, [_vm._v(" Edit Question ")]), _vm._v(" "), (_vm.question) ? _c('div', {
     staticClass: "panel-body"
   }, [_c(_vm.questionType, {
     tag: "component",
@@ -61128,7 +61130,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "add-choice-handler": _vm.addChoice,
       "toggle-handler": _vm.toggle
     }
-  })], 1), _vm._v(" "), _c('div', {
+  })], 1) : _vm._e(), _vm._v(" "), _c('div', {
     staticClass: "panel-footer"
   }, [_c('div', {
     staticClass: "form-group"

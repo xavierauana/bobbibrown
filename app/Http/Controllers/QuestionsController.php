@@ -77,12 +77,18 @@ class QuestionsController extends Controller
      * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(Test $test, Question $question) {
+    public function edit(Request $request, Test $test, Question $question) {
         $this->authorize('edit', Test::class);
-        $question = ConverterManager::convert($question, ConverterType::EDIT)
-                                    ->getData();
+        if ($request->wantsJson()) {
+            $question = ConverterManager::convert($question,
+                ConverterType::EDIT)
+                                        ->getData();
 
-        return view('questions.edit', compact('test', 'question'));
+            return response()->json($question);
+        }
+
+
+        return view('questions.edit', compact('test'));
     }
 
     /**
