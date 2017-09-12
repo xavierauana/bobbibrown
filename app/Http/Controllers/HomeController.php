@@ -302,7 +302,7 @@ class HomeController extends Controller
                     'products' => function ($query) {
                         return $query->whereIn('permission_id',
                             auth()->user()->permissions->pluck('id')
-                                                       ->toArray());
+                                                       ->toArray())->select(['id', 'name', 'keywords', 'permission_id']);
                     }
                 ]);
             }
