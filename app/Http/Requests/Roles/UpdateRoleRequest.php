@@ -11,9 +11,9 @@ class UpdateRoleRequest extends FormRequest
      *
      * @return bool
      */
-    public function authorize()
-    {
-        return auth('admin')->check() && auth('admin')->user()->hasPermission('editUserRole');
+    public function authorize() {
+        return auth('admin')->check() && auth('admin')->user()
+                                                      ->hasPermission('editUserRole');
     }
 
     /**
@@ -21,10 +21,9 @@ class UpdateRoleRequest extends FormRequest
      *
      * @return array
      */
-    public function rules()
-    {
+    public function rules() {
         return [
-            //
+            'label' => 'required'
         ];
     }
 }

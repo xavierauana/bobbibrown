@@ -6,11 +6,11 @@
         <div class="col-md-8 col-md-offset-2">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    Edit Event - {{$permission->label}}
+                    Edit Role - {{$role->label}}
                 </div>
 
                 <div class="panel-body">
-                   @include('permissions.partials.edit_form')
+                   @include('roles.partials.edit_form')
                 </div>
             </div>
         </div>

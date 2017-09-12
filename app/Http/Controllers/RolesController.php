@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\Roles\StoreRoleRequest;
+use App\Http\Requests\Roles\UpdateRoleRequest;
 use App\Permission;
 use App\Role;
 use Illuminate\Http\Request;
@@ -68,7 +69,9 @@ class RolesController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function edit(Role $role) {
-        //
+        $permissions = Permission::all();
+
+        return view("roles.edit", compact("role", "permissions"));
     }
 
     /**
@@ -78,8 +81,14 @@ class RolesController extends Controller
      * @param  \App\Role                $role
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Role $role) {
-        //
+    public function update(UpdateRoleRequest $request, Role $role) {
+        $role->update([
+            'label' => $request->get('label')
+        ]);
+
+        $request->session()->flash('message', 'Role updated!');
+
+        return redirect()->route("roles.index");
     }
 
     /**
