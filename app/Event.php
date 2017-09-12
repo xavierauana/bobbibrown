@@ -29,7 +29,8 @@ class Event extends Model
     ];
 
 
-    // Accessors
+    #region Accessors
+
     public function getParticipantsAttribute(): Collection {
         return $this->users;
     }
@@ -42,7 +43,9 @@ class Event extends Model
         return ($this->vacancies - $this->participants->count()) . "/" . $this->vacancies;
     }
 
-    // Relation
+    #endregion
+
+    #region Relation
 
     public function users(): Relation {
         return $this->belongsToMany(User::class);
@@ -52,7 +55,9 @@ class Event extends Model
         return $this->hasMany(EventActivity::class);
     }
 
-    // scope
+    #endregion
+
+    #region Scope
 
     public function scopeMatchUserPermissions($query, User $user): Builder {
         return $query->whereIn('permission_id',
@@ -70,9 +75,14 @@ class Event extends Model
                      ->with('users');
     }
 
-    // helper functions
+    #endregion
+
+    #region helper functions
+
     public function removeUser(User $user) {
         $this->users()->detach($user->id);
     }
+
+    #endregion
 
 }

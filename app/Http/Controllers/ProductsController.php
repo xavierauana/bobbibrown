@@ -16,12 +16,17 @@ class ProductsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index() {
+    public function index(Request $request) {
         $this->authorize('view', Product::class);
 
-        $products = Product::all();
+        if ($request->wantsJson()) {
+            $products = Product::all();
 
-        return view("products.index", compact("products"));
+            return response()->json($products);
+        }
+
+
+        return view("products.index");
     }
 
     /**
@@ -79,7 +84,8 @@ class ProductsController extends Controller
         $lines = Line::select('id', 'name')->get();
         $permissions = Permission::select('id', 'label')->get();
 
-        return view('products.edit', compact('product', 'lines', 'permissions'));
+        return view('products.edit',
+            compact('product', 'lines', 'permissions'));
     }
 
     /**

@@ -1,19 +1,22 @@
 <template lang="html">
     <div class="row">
         <div class="col-xs-12">
-             <ul class="list-unstyled" :id="listId">
-                <li v-for="(question, index) in questions" :data-id="question.id">
+             <ul class="list-unstyled" :id="listId" v-if="questions.length">
+                <li v-for="(question, index) in questions"
+                    :data-id="question.id">
                     <span class="clearfix">
                     <i class="fa fa-bars" aria-hidden="true"></i>
                         <button class="btn-sm btn btn-danger pull-right"
                                 @click.prevent="deleteQuestion(index)">Delete</button>
-                        <a :href="urls.edit(testId, question.id)" class="btn-sm btn btn-info pull-right">Edit</a>
+                        <a :href="urls.edit(testId, question.id)"
+                           class="btn-sm btn btn-info pull-right">Edit</a>
                     </span>
 
                     <div class="summary" v-html="question.content"></div>
                 </li>
             </ul>
-            <button class="btn btn-primary btn-block" @click.prevent="updateOrder">Update Order</button>
+            <button class="btn btn-primary btn-block"
+                    @click.prevent="updateOrder">Update Order</button>
         </div>
     </div>
 </template>
@@ -22,18 +25,15 @@
     import Sortable from "sortablejs"
     import Question from "./../models/Question"
     import {Questions as urls} from "./../endpoints"
-    export default{
+
+    export default {
       props   : {
-        testId          : {
+        testId: {
           type    : Number,
-          required: true
-        },
-        initialQuestions: {
-          type    : Array,
           required: true
         }
       },
-      data(){
+      data() {
         return {
           questions: [],
           el       : {},
@@ -41,29 +41,34 @@
         }
       },
       computed: {
-        listId(){
+        listId() {
           return "list_" + this._uid
         }
       },
-      created(){
-        for (let q of this.initialQuestions) {
-          this.questions.push(new Question(q))
-        }
-      },
-      mounted(){
-        this.el = document.getElementById(this.listId)
-        Sortable.create(this.el, {
-          handle: ".fa.fa-bars"
-        })
+      created() {
+        axios.get(window.location.href + "?ajax=true")
+             .then(({data}) => {
+               this.questions = data
+
+               Vue.nextTick(() => {
+                 this.initSortableList()
+               })
+             })
       },
       methods : {
-        updateOrder(){
+        initSortableList() {
+          this.el = document.getElementById(this.listId)
+          Sortable.create(this.el, {
+            handle: ".fa.fa-bars"
+          })
+        },
+        updateOrder() {
           this.createQuestionOrderData()
           axios.post('/admin/questions/updateOrder', this.questions)
                .then(() => alert('Question Order Updated!'))
                .catch(response => console.log(response))
         },
-        createQuestionOrderData(){
+        createQuestionOrderData() {
           let counter = 0;
 
           for (let li of this.el.getElementsByTagName('li')) {
@@ -74,7 +79,7 @@
             counter += 1
           }
         },
-        deleteQuestion(index){
+        deleteQuestion(index) {
 
           if (confirm('Are you sure you want to delete the question?')) {
             let question = this.questions[index],

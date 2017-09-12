@@ -19,13 +19,23 @@ class QuestionsController extends Controller
      * @param \Anacreation\Etvtest\Models\Test $test
      * @return \Illuminate\Http\Response
      */
-    public function index(Test $test) {
+    public function index(Request $request, Test $test) {
 
-        $questions = $test->questions()->orderBy('order')->get()->map(function ($question) {
-            return ConverterManager::convert($question, ConverterType::EDIT)->getData()[0];
-        });
+        if ($request->wantsJson()) {
+            $questions = $test->questions()->orderBy('order')->get()
+                              ->map(function (
+                                  $question
+                              ) {
+                                  return ConverterManager::convert($question,
+                                      ConverterType::EDIT)
+                                                         ->getData()[0];
+                              });
 
-        return view('questions.index', compact('test', 'questions'));
+            return response()->json($questions);
+        }
+
+
+        return view('questions.index', compact('test'));
     }
 
     /**
@@ -43,7 +53,9 @@ class QuestionsController extends Controller
      * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request, Test $test, CreateQuestionService $service) {
+    public function store(
+        Request $request, Test $test, CreateQuestionService $service
+    ) {
         $question = $service->create($request->all(), $test->id);
 
         return $question;
@@ -67,7 +79,8 @@ class QuestionsController extends Controller
      */
     public function edit(Test $test, Question $question) {
         $this->authorize('edit', Test::class);
-        $question = ConverterManager::convert($question, ConverterType::EDIT)->getData();
+        $question = ConverterManager::convert($question, ConverterType::EDIT)
+                                    ->getData();
 
         return view('questions.edit', compact('test', 'question'));
     }
@@ -79,7 +92,10 @@ class QuestionsController extends Controller
      * @param  int                      $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Test $test, Question $question, EditQuestionServices $services) {
+    public function update(
+        Request $request, Test $test, Question $question,
+        EditQuestionServices $services
+    ) {
         $this->authorize('edit', Test::class);
         $services->updateQuestionById($question->id, $request->all());
     }
@@ -96,7 +112,8 @@ class QuestionsController extends Controller
         return response(200);
     }
 
-    public function updateOrder(Request $request, EditQuestionServices $services) {
+    public function updateOrder(Request $request, EditQuestionServices $services
+    ) {
         $this->authorize('edit', Test::class);
 
         foreach ($request->all() as $question) {

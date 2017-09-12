@@ -14,7 +14,7 @@
 
                 <div class="panel-body">
                     <h4>Questions</h4>
-                    <question_list :initial-questions="{{$questions}}" :test-id="{{$test->id}}"></question_list>
+                    <question_list :test-id="{{$test->id}}"></question_list>
                 </div>
                 <div class="panel-footer">
                     <a href="{{route('tests.index')}}" class="btn btn-block btn-info">Back</a>

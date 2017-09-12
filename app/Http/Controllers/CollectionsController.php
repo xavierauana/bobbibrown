@@ -131,10 +131,11 @@ class CollectionsController extends Controller
         $this->authorize('edit', $collection);
 
         if ($request->wantsJson()) {
-            $lessons = Lesson::select(["id", 'title'])->get();
+            $fields = ["id", 'title'];
+            $lessons = Lesson::select($fields)->get();
             $collection->load([
-                'lessons' => function ($query) {
-                    return $query->select(['id', 'title']);
+                'lessons' => function ($query) use ($fields) {
+                    return $query->select($fields);
                 }
             ]);
 

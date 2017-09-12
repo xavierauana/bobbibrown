@@ -13,7 +13,7 @@
                 </div>
 
                 <div class="panel-body">
-                    <products_table :initial-products="{{$products}}"></products_table>
+                    <products_table></products_table>
                 </div>
             </div>
         </div>

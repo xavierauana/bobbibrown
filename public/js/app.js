@@ -3220,32 +3220,36 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
 
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: {
-    initialProducts: {
-      type: Array,
-      required: true
-    }
-  },
   data: function data() {
     return {
       urls: __WEBPACK_IMPORTED_MODULE_0__endpoints__["h" /* Products */],
-      products: JSON.parse(JSON.stringify(this.initialProducts))
+      products: []
     };
+  },
+  created: function created() {
+    var _this = this;
+
+    axios.get(window.location.href + "?ajax=true").then(function (_ref) {
+      var data = _ref.data;
+      return _this.products = data;
+    });
   },
 
   methods: {
     deleteLine: function deleteLine(index) {
-      var _this = this;
+      var _this2 = this;
 
       var product = this.products[index],
           url = this.urls.delete(product.id);
       if (confirm('going to delete' + product.name)) {
         axios.delete(url).then(function (response) {
-          return _this.products.splice(index, 1);
+          return _this2.products.splice(index, 1);
         }).catch(function (response) {
           return console.log(response);
         });
@@ -3285,6 +3289,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+
 
 
 
@@ -3293,10 +3301,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
   props: {
     testId: {
       type: Number,
-      required: true
-    },
-    initialQuestions: {
-      type: Array,
       required: true
     }
   },
@@ -3314,39 +3318,26 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     }
   },
   created: function created() {
-    var _iteratorNormalCompletion = true;
-    var _didIteratorError = false;
-    var _iteratorError = undefined;
+    var _this = this;
 
-    try {
-      for (var _iterator = this.initialQuestions[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-        var q = _step.value;
+    axios.get(window.location.href + "?ajax=true").then(function (_ref) {
+      var data = _ref.data;
 
-        this.questions.push(new __WEBPACK_IMPORTED_MODULE_1__models_Question__["a" /* default */](q));
-      }
-    } catch (err) {
-      _didIteratorError = true;
-      _iteratorError = err;
-    } finally {
-      try {
-        if (!_iteratorNormalCompletion && _iterator.return) {
-          _iterator.return();
-        }
-      } finally {
-        if (_didIteratorError) {
-          throw _iteratorError;
-        }
-      }
-    }
-  },
-  mounted: function mounted() {
-    this.el = document.getElementById(this.listId);
-    __WEBPACK_IMPORTED_MODULE_0_sortablejs___default.a.create(this.el, {
-      handle: ".fa.fa-bars"
+      _this.questions = data;
+
+      Vue.nextTick(function () {
+        _this.initSortableList();
+      });
     });
   },
 
   methods: {
+    initSortableList: function initSortableList() {
+      this.el = document.getElementById(this.listId);
+      __WEBPACK_IMPORTED_MODULE_0_sortablejs___default.a.create(this.el, {
+        handle: ".fa.fa-bars"
+      });
+    },
     updateOrder: function updateOrder() {
       this.createQuestionOrderData();
       axios.post('/admin/questions/updateOrder', this.questions).then(function () {
@@ -3358,13 +3349,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     createQuestionOrderData: function createQuestionOrderData() {
       var counter = 0;
 
-      var _iteratorNormalCompletion2 = true;
-      var _didIteratorError2 = false;
-      var _iteratorError2 = undefined;
+      var _iteratorNormalCompletion = true;
+      var _didIteratorError = false;
+      var _iteratorError = undefined;
 
       try {
-        for (var _iterator2 = this.el.getElementsByTagName('li')[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
-          var li = _step2.value;
+        for (var _iterator = this.el.getElementsByTagName('li')[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+          var li = _step.value;
 
           var question = _.find(this.questions, { id: parseInt(li.dataset.id) });
           if (question) {
@@ -3373,32 +3364,32 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
           counter += 1;
         }
       } catch (err) {
-        _didIteratorError2 = true;
-        _iteratorError2 = err;
+        _didIteratorError = true;
+        _iteratorError = err;
       } finally {
         try {
-          if (!_iteratorNormalCompletion2 && _iterator2.return) {
-            _iterator2.return();
+          if (!_iteratorNormalCompletion && _iterator.return) {
+            _iterator.return();
           }
         } finally {
-          if (_didIteratorError2) {
-            throw _iteratorError2;
+          if (_didIteratorError) {
+            throw _iteratorError;
           }
         }
       }
     },
     deleteQuestion: function deleteQuestion(index) {
-      var _this = this;
+      var _this2 = this;
 
       if (confirm('Are you sure you want to delete the question?')) {
         var question = this.questions[index],
             url = this.urls.delete(this.testId, question.id);
 
         axios.delete(url).then(function () {
-          _this.questions.splice(index, 1);
+          _this2.questions.splice(index, 1);
           alert("Question deleted");
         }).then(function () {
-          return _this.questions.splice(index, 1);
+          return _this2.questions.splice(index, 1);
         });
       }
     }
@@ -59180,7 +59171,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "row"
   }, [_c('div', {
     staticClass: "col-xs-12"
-  }, [_c('ul', {
+  }, [(_vm.questions.length) ? _c('ul', {
     staticClass: "list-unstyled",
     attrs: {
       "id": _vm.listId
@@ -59216,7 +59207,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         "innerHTML": _vm._s(question.content)
       }
     })])
-  })), _vm._v(" "), _c('button', {
+  })) : _vm._e(), _vm._v(" "), _c('button', {
     staticClass: "btn btn-primary btn-block",
     on: {
       "click": function($event) {
@@ -59384,7 +59375,7 @@ if (false) {
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('table', {
     staticClass: "table"
-  }, [_vm._m(0), _vm._v(" "), _c('tbody', _vm._l((_vm.products), function(product, index) {
+  }, [_vm._m(0), _vm._v(" "), (_vm.products.length) ? _c('tbody', _vm._l((_vm.products), function(product, index) {
     return _c('tr', [_c('td', {
       domProps: {
         "textContent": _vm._s(product.name)
@@ -59403,7 +59394,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         }
       }
     }, [_vm._v("Delete")])])])
-  }))])
+  })) : _vm._e()])
 },staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('thead', [_c('th', [_vm._v("Name")]), _vm._v(" "), _c('th', [_vm._v("Actions")])])
 }]}

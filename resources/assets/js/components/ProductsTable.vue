@@ -4,12 +4,14 @@
             <th>Name</th>
             <th>Actions</th>
        </thead>
-       <tbody>
+       <tbody v-if="products.length">
                <tr v-for="(product, index) in products">
                    <td v-text="product.name"></td>
                     <td>
-                        <a :href="urls.edit(product.id)" class="btn btn-sm btn-info">Edit</a>
-                        <button class="btn btn-sm btn-danger" @click.prevent="deleteLine(index)">Delete</button>
+                        <a :href="urls.edit(product.id)"
+                           class="btn btn-sm btn-info">Edit</a>
+                        <button class="btn btn-sm btn-danger"
+                                @click.prevent="deleteLine(index)">Delete</button>
                     </td>
                </tr>
        </tbody>
@@ -20,17 +22,15 @@
     import {Products as urls} from "../endpoints"
 
     export default {
-      props  : {
-        initialProducts: {
-          type    : Array,
-          required: true
-        }
-      },
       data() {
         return {
           urls    : urls,
-          products: JSON.parse(JSON.stringify(this.initialProducts))
+          products: []
         }
+      },
+      created() {
+        axios.get(window.location.href + "?ajax=true")
+             .then(({data}) => this.products = data)
       },
       methods: {
         deleteLine(index) {
