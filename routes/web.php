@@ -11,7 +11,6 @@
 |
 */
 
-
 Route::get('/', function () {
     return auth()->check() ? redirect('home') : view('auth.login');
 })->name('home');
@@ -23,7 +22,7 @@ Route::get('register/verify/{confirmationCode}', [
 
 Auth::routes();
 
-include_once(app_path('Http/routes/backend.php'));
+include (app_path('Http/routes/backend.php'));
 
 Route::group(['middleware' => "auth"], function () {
 
