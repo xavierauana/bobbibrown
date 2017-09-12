@@ -26,7 +26,6 @@ class UpdatePermissionRequest extends FormRequest
         return [
             'label' => 'required',
             'code'  => [
-                "required",
                 "alpha_dash",
                 Rule::unique('permissions')->ignore($this->route('permission')->id),
             ]

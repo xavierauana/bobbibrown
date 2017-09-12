@@ -80,7 +80,6 @@ class PermissionsController extends Controller
     public function update(UpdatePermissionRequest $request, Permission $permission) {
         $permission->update([
             'label' => $request->get('label'),
-            'code'  => $request->get('code'),
         ]);
 
         return redirect()->route('permissions.index');
