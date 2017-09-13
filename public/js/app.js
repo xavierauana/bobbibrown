@@ -2867,7 +2867,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     updateOrder: function updateOrder() {
       this.createLessonOrderData();
       axios.post(this.urls.lessons_order(this.collectionId), this.lessons).then(function () {
-        return alert('Question Order Updated!');
+        return alert('Lessons Order Updated!');
       }).catch(function (response) {
         return console.log(response);
       });

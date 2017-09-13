@@ -48,7 +48,7 @@
         updateOrder(){
           this.createLessonOrderData()
           axios.post(this.urls.lessons_order(this.collectionId), this.lessons)
-               .then(() => alert('Question Order Updated!'))
+               .then(() => alert('Lessons Order Updated!'))
                .catch(response => console.log(response))
         },
         createLessonOrderData(){
