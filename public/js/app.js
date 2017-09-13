@@ -2970,6 +2970,31 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -3021,29 +3046,27 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     }
   },
   methods: {
-    goToTestPage: function goToTestPage(index) {
-      var lesson = this.lessons[index];
+    goToTestPage: function goToTestPage(lesson) {
       window.location.href = this.urls.tests(lesson.id);
     },
-    goToEditPage: function goToEditPage(index) {
-      var lesson = this.lessons[index];
+    goToEditPage: function goToEditPage(lesson) {
       window.location.href = this.urls.edit(lesson.id);
     },
-    deleteLesson: function deleteLesson(index) {
+    deleteLesson: function deleteLesson(lesson) {
       var _this3 = this;
 
-      var lesson = this.lessons[index],
-          url = this.urls.delete(lesson.id);
+      var url = this.urls.delete(lesson.id);
       if (confirm('going to delete' + lesson.title)) {
         axios.delete(url).then(function (response) {
-          return _this3.lessons.splice(index, 1);
+          return _this3.lessons.splice(_.findIndex(_this3.lessons, function (les) {
+            return les.id === lesson.id;
+          }), 1);
         }).catch(function (response) {
           return console.log(response);
         });
       }
     },
-    goToUserPage: function goToUserPage(index) {
-      var lesson = this.lessons[index];
+    goToUserPage: function goToUserPage(lesson) {
       window.location.href = this.urls.users(lesson.id);
     },
     upDownOrNone: function upDownOrNone(key) {
@@ -58212,7 +58235,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.sortBy('is_new')
       }
     }
-  }, [_vm._v("New")]), _vm._v(" "), _c('th', [_vm._v("Actions")])]), _vm._v(" "), _c('tbody', _vm._l((_vm.refinedLessons), function(lesson, index) {
+  }, [_vm._v("New")]), _vm._v(" "), _c('th', [_vm._v("Actions")])]), _vm._v(" "), _c('tbody', _vm._l((_vm.refinedLessons), function(lesson) {
     return _c('tr', [_c('td', {
       domProps: {
         "textContent": _vm._s(lesson.title)
@@ -58227,13 +58250,83 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       class: {
         'label-success': lesson.is_new, 'label-warning': !lesson.is_new
       }
-    }, [_vm._v(_vm._s(lesson.is_new ? 'New' : 'Not New'))])]), _vm._v(" "), _c('td', [_c('button-group', {
+    }, [_vm._v(_vm._s(lesson.is_new ? 'New' : 'Not New'))])]), _vm._v(" "), _c('td', [_c('div', [_c('div', {
+      staticClass: "btn-group btn-group-sm hidden-xs hidden-sm",
       attrs: {
-        "labels": _vm.labels,
-        "on-click-functions": _vm.onClickFunctions,
-        "row-number": index
+        "role": "group",
+        "aria-label": "..."
       }
-    })], 1)])
+    }, [_c('button', {
+      staticClass: "btn btn-sm btn-default",
+      on: {
+        "click": function($event) {
+          $event.preventDefault();
+          _vm.goToTestPage(lesson)
+        }
+      }
+    }, [_vm._v("Test")]), _vm._v(" "), _c('button', {
+      staticClass: "btn btn-sm btn-primary",
+      on: {
+        "click": function($event) {
+          $event.preventDefault();
+          _vm.goToUserPage(lesson)
+        }
+      }
+    }, [_vm._v("User")]), _vm._v(" "), _c('button', {
+      staticClass: "btn btn-sm btn-info",
+      on: {
+        "click": function($event) {
+          $event.preventDefault();
+          _vm.goToEditPage(lesson)
+        }
+      }
+    }, [_vm._v("Edit")]), _vm._v(" "), _c('button', {
+      staticClass: "btn btn-sm btn-danger",
+      on: {
+        "click": function($event) {
+          $event.preventDefault();
+          _vm.deleteLesson(lesson)
+        }
+      }
+    }, [_vm._v("Delete")])]), _vm._v(" "), _c('div', {
+      staticClass: "btn-group-vertical btn-group-sm hidden-md hidden-lg",
+      attrs: {
+        "role": "group",
+        "aria-label": "..."
+      }
+    }, [_c('button', {
+      staticClass: "btn btn-sm btn-default",
+      on: {
+        "click": function($event) {
+          $event.preventDefault();
+          _vm.goToTestPage(lesson)
+        }
+      }
+    }, [_vm._v("Test")]), _vm._v(" "), _c('button', {
+      staticClass: "btn btn-sm btn-primary",
+      on: {
+        "click": function($event) {
+          $event.preventDefault();
+          _vm.goToUserPage(lesson)
+        }
+      }
+    }, [_vm._v("User")]), _vm._v(" "), _c('button', {
+      staticClass: "btn btn-sm btn-info",
+      on: {
+        "click": function($event) {
+          $event.preventDefault();
+          _vm.goToEditPage(lesson)
+        }
+      }
+    }, [_vm._v("Edit")]), _vm._v(" "), _c('button', {
+      staticClass: "btn btn-sm btn-danger",
+      on: {
+        "click": function($event) {
+          $event.preventDefault();
+          _vm.deleteLesson(lesson)
+        }
+      }
+    }, [_vm._v("Delete")])])])])])
   }))]) : _vm._e()])
 },staticRenderFns: []}
 module.exports.render._withStripped = true

@@ -14,7 +14,7 @@
             <th>Actions</th>
        </thead>
        <tbody>
-               <tr v-for="(lesson, index) in refinedLessons">
+               <tr v-for="lesson in refinedLessons">
                    <td v-text="lesson.title"></td>
                    <td>
                        <span class="label"
@@ -26,9 +26,34 @@
                              :class="{'label-success':lesson.is_new,'label-warning':!lesson.is_new}">{{lesson.is_new?'New':'Not New'}}</span>
                    </td>
                     <td>
-                        <button-group :labels="labels"
-                                      :on-click-functions="onClickFunctions"
-                                      :row-number="index"></button-group>
+                        <div>
+                             <div class="btn-group btn-group-sm hidden-xs hidden-sm"
+                                  role="group" aria-label="...">
+                                <button class="btn btn-sm btn-default"
+                                        @click.prevent="goToTestPage(lesson)">Test</button>
+                                <button class="btn btn-sm btn-primary"
+                                        @click.prevent="goToUserPage(lesson)">User</button>
+                                <button class="btn btn-sm btn-info"
+                                        @click.prevent="goToEditPage(lesson)">Edit</button>
+                                <button class="btn btn-sm btn-danger"
+                                        @click.prevent="deleteLesson(lesson)">Delete</button>
+                             </div>
+
+                            <div class="btn-group-vertical btn-group-sm hidden-md hidden-lg"
+                                 role="group" aria-label="...">
+                                 <button class="btn btn-sm btn-default"
+                                         @click.prevent="goToTestPage(lesson)">Test</button>
+                                <button class="btn btn-sm btn-primary"
+                                        @click.prevent="goToUserPage(lesson)">User</button>
+                                <button class="btn btn-sm btn-info"
+                                        @click.prevent="goToEditPage(lesson)">Edit</button>
+                                <button class="btn btn-sm btn-danger"
+                                        @click.prevent="deleteLesson(lesson)">Delete</button>
+                            </div>
+                        </div>
+                        <!--<button-group :labels="labels"-->
+                        <!--:on-click-functions="onClickFunctions"-->
+                        <!--:row-number="index"></button-group>-->
                     </td>
                </tr>
        </tbody>
@@ -88,25 +113,21 @@
         },
       },
       methods   : {
-        goToTestPage(index) {
-          const lesson = this.lessons[index]
+        goToTestPage(lesson) {
           window.location.href = this.urls.tests(lesson.id);
         },
-        goToEditPage(index) {
-          const lesson = this.lessons[index]
+        goToEditPage(lesson) {
           window.location.href = this.urls.edit(lesson.id);
         },
-        deleteLesson(index) {
-          let lesson = this.lessons[index],
-              url    = this.urls.delete(lesson.id)
+        deleteLesson(lesson) {
+          const url = this.urls.delete(lesson.id)
           if (confirm('going to delete' + lesson.title)) {
             axios.delete(url)
-                 .then(response => this.lessons.splice(index, 1))
+                 .then(response => this.lessons.splice(_.findIndex(this.lessons, les => les.id === lesson.id), 1))
                  .catch(response => console.log(response))
           }
         },
-        goToUserPage(index) {
-          const lesson = this.lessons[index]
+        goToUserPage(lesson) {
           window.location.href = this.urls.users(lesson.id)
         },
         upDownOrNone(key) {

@@ -39,7 +39,10 @@ $factory->define(App\Event::class, function (Faker\Generator $faker) {
         'body'           => $faker->paragraph(3),
         'vacancies'      => $faker->numberBetween(1, 20),
         'start_datetime' => $now->addDays($getRandomDays()),
-        'end_datetime'   => $now->addDays($getRandomDays())
+        'end_datetime'   => $now->addDays($getRandomDays()),
+        'permission_id'  => function () {
+            return factory(\App\Permission::class)->create()->id;
+        }
     ];
 });
 $factory->define(App\Permission::class, function (Faker\Generator $faker) {

@@ -6,6 +6,7 @@ use App\Collection;
 use App\Lesson;
 use App\Permission;
 use App\Test;
+use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Tests\TestCase;
 // TODO:: going to finished user model test
