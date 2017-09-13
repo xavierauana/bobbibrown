@@ -178,7 +178,7 @@ class HomeController extends Controller
     public function gradeCollectionTest(
         Request $request, Collection $collection, GradingService $service
     ) {
-        if ($test = $collection->test and $request->get('answers') and $request->get("questionIds")) {
+        if ($test = $collection->test and $request->has('answers') and $request->has("questionIds")) {
 
             $service->grade($test, $request->get('answers'),
                 $request->get('questionIds'));
