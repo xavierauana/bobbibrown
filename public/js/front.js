@@ -3053,39 +3053,33 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
           return category;
         });
       } else {
+        console.log('call hide product');
+        this.hideAllProducts();
         return copy;
       }
     }
   },
   methods: {
+    getAllCollapseIds: function getAllCollapseIds() {
+      var ids = [];
+      _.forEach(this.initialCategories, function (category) {
+        ids.push('collapse' + category.id);
+        _.forEach(category.lines, function (line) {
+          ids.push("list_group_" + line.id);
+        });
+      });
+      return ids;
+    },
     showAllProducts: function showAllProducts() {
-      var els = document.getElementsByClassName('collapse');
-      var _iteratorNormalCompletion = true;
-      var _didIteratorError = false;
-      var _iteratorError = undefined;
 
-      try {
-        for (var _iterator = els[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-          var dom = _step.value;
-
-          if (dom.getAttribute('id') != "app-navbar-collapse") {
-            $(dom).collapse('show');
-          }
-        }
-      } catch (err) {
-        _didIteratorError = true;
-        _iteratorError = err;
-      } finally {
-        try {
-          if (!_iteratorNormalCompletion && _iterator.return) {
-            _iterator.return();
-          }
-        } finally {
-          if (_didIteratorError) {
-            throw _iteratorError;
-          }
-        }
-      }
+      _.forEach(this.getAllCollapseIds(), function (id) {
+        return $("#" + id).collapse('show');
+      });
+    },
+    hideAllProducts: function hideAllProducts() {
+      _.forEach(this.getAllCollapseIds(), function (id) {
+        return $("#" + id).collapse('hide');
+      });
     },
     toggleCategory: function toggleCategory(category) {
       this.hideCategoryId = this.hideCategoryId != category.id ? category.id : null;

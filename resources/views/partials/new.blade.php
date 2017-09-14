@@ -1,4 +1,4 @@
-<div class="row featured_section">
+<div class="row new_section">
 	<h2>{{__("New")}}</h2>
 	@foreach($new as $item)
 		@if($item instanceof App\Collection)
@@ -10,7 +10,7 @@
 				<a href="{{route('show.event.detail', $item->id)}}">
 					<div class="collection_item">
 					</div>
-					<span class="title">{{$item->title}}</span>
+					<span class="event title">{{$item->title}}</span>
 				</a>
 			</div>
 		@endif

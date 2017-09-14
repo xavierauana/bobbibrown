@@ -65,18 +65,29 @@
               return category
             })
           } else {
+            console.log('call hide product')
+            this.hideAllProducts()
             return copy
           }
         }
       },
       methods   : {
+        getAllCollapseIds() {
+          let ids = []
+          _.forEach(this.initialCategories, category => {
+            ids.push('collapse' + category.id)
+            _.forEach(category.lines, line => {
+              ids.push("list_group_" + line.id)
+            })
+          })
+          return ids
+        },
         showAllProducts() {
-          let els = document.getElementsByClassName('collapse')
-          for (let dom of els) {
-            if (dom.getAttribute('id') != "app-navbar-collapse") {
-              $(dom).collapse('show')
-            }
-          }
+
+          _.forEach(this.getAllCollapseIds(), id => $("#" + id).collapse('show'))
+        },
+        hideAllProducts() {
+          _.forEach(this.getAllCollapseIds(), id => $("#" + id).collapse('hide'))
         },
         toggleCategory(category) {
           this.hideCategoryId = this.hideCategoryId != category.id ? category.id : null
