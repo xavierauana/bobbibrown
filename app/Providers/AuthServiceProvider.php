@@ -3,12 +3,14 @@
 namespace App\Providers;
 
 use Anacreation\Etvtest\Models\Test;
+use Anacreation\MultiAuth\Model\Admin;
 use App\Category;
 use App\Collection;
 use App\Event;
 use App\Lesson;
 use App\Line;
 use App\Permission;
+use App\Policies\AdminPolicy;
 use App\Policies\CategoryPolicy;
 use App\Policies\CollectionPolicy;
 use App\Policies\EventPolicy;
@@ -38,6 +40,7 @@ class AuthServiceProvider extends ServiceProvider
         Role::class       => RolePolicy::class,
         Test::class       => TestPolicy::class,
         User::class       => UserPolicy::class,
+        Admin::class      => AdminPolicy::class,
         Event::class      => EventPolicy::class,
         Lesson::class     => LessonPolicy::class,
         Setting::class    => SettingPolicy::class,

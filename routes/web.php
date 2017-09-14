@@ -22,7 +22,7 @@ Route::get('register/verify/{confirmationCode}', [
 
 Auth::routes();
 
-include (app_path('Http/routes/backend.php'));
+include(app_path('Http/routes/backend.php'));
 
 Route::group(['middleware' => "auth"], function () {
 

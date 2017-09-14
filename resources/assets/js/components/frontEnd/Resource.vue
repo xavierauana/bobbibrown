@@ -1,28 +1,41 @@
 <template lang="html">
     <div class="resources">
-        <input v-model="filterString" class="form-control" :placeholder="__('Filter By') + '...'">
-        <ul class="list-unstyled categories">
-            <li v-for="category in filteredCategories">
-                <span @click.prevent="toggleCategory(category)">{{category.name}}</span>
-                <ul class="list-unstyled lines" v-if=" category.lines && category.lines.length"
-                    v-show="category.id != hideCategoryId">
-                    <li v-for="line in category.lines">
-                         <span @click.prevent="toggleLine(line)">{{line.name}}</span>
-                        <ul class="list-unstyled products" v-if="line.products && line.products.length"
-                            v-show="line.id != hideLineId">
-                            <a v-for="product in line.products" :href="'/products/'+product.id">{{product.name}}</a>
-                        </ul>
-                    </li>
-                </ul>
-            </li>
-        </ul>
+        <input v-model="filterString" class="form-control"
+               :placeholder="__('Filter By') + '...'">
+        <br>
+        <div v-for="category in filteredCategories" class="panel-group"
+             id="accordion" role="tablist" aria-multiselectable="true">
+          <div class="panel panel-default">
+            <div class="panel-heading" role="tab" :id="'heading_'+category.id">
+              <h4 class="category panel-title">
+                <a role="button" data-toggle="collapse" data-parent="#accordion"
+                   :href="'#collapse'+category.id" aria-expanded="false"
+                   :aria-controls="'collapse'+category.id"
+                   v-text="category.name">
+                </a>
+              </h4>
+            </div>
+            <div :id="'collapse'+category.id" class="panel-collapse collapse"
+                 role="tabpanel" :saria-labelledby="'heading_'+category.id">
+              <div class="panel-body">
+                <list-group v-for="line in category.lines" :key="line.id"
+                            :line="line"></list-group>
+              </div>
+            </div>
+          </div>
+        </div>
     </div>
 </template>
 
 <script type="text/babel">
+    import ListGroup from "./components/LineAndProductList.vue"
+
     export default {
-      name    : "resources",
-      props   : {
+      name      : "resources",
+      components: {
+        ListGroup
+      },
+      props     : {
         initialCategories: {
           type    : Array,
           required: true
@@ -36,10 +49,11 @@
           hideLineId    : null,
         }
       },
-      computed: {
+      computed  : {
         filteredCategories() {
           let copy = JSON.parse(JSON.stringify(this.initialCategories))
           if (this.filterString.length) {
+            this.showAllProducts()
             return copy.map(category => {
               category.lines = category.lines.map(line => {
                 line.products = line.products.filter(product => {
@@ -55,7 +69,15 @@
           }
         }
       },
-      methods : {
+      methods   : {
+        showAllProducts() {
+          let els = document.getElementsByClassName('collapse')
+          for (let dom of els) {
+            if (dom.getAttribute('id') != "app-navbar-collapse") {
+              $(dom).collapse('show')
+            }
+          }
+        },
         toggleCategory(category) {
           this.hideCategoryId = this.hideCategoryId != category.id ? category.id : null
         },
@@ -66,7 +88,7 @@
     }
 </script>
 <style>
-    .categories {
+    .resources h4.panel-title.category {
         font-size: 1.5em;
         font-weight: bold;
     }
