@@ -326,27 +326,33 @@ class HomeController extends Controller
         return redirect()->route('home');
     }
 
-    public function getProgress() {
-        $collections = auth()->user()->collections;
-        $lessonsStatus = new \Illuminate\Support\Collection();
-        $collections->each(function (\App\Collection $collection) use (
-            &$lessonsStatus
-        ) {
-            $collection->lessons->each(function (Lesson $lesson) use (
+    public function getProgress(Request $request) {
+
+        if ($request->wantsJson()) {
+            $collections = auth()->user()->collections;
+            $lessonsStatus = new \Illuminate\Support\Collection();
+            $collections->each(function (\App\Collection $collection) use (
                 &$lessonsStatus
             ) {
-                if ($test = $lesson->test) {
-                    $lessonsStatus->put($test->id, [
-                        'is_overdue'   => $lesson->isOverDue(auth()->user()),
-                        'due_in_days'  => $lesson->dueInDays(auth()->user()),
-                        'is_completed' => auth()->user()->passTest($test),
-                    ]);
-                }
+                $collection->lessons->each(function (Lesson $lesson) use (
+                    &$lessonsStatus
+                ) {
+                    if ($test = $lesson->test) {
+                        $lessonsStatus->put($test->id, [
+                            'is_overdue'   => $lesson->isOverDue(auth()->user()),
+                            'due_in_days'  => $lesson->dueInDays(auth()->user()),
+                            'is_completed' => auth()->user()->passTest($test),
+                        ]);
+                    }
+                });
             });
-        });
+
+            return response()->json(compact('collections', 'lessonsStatus'));
+
+        }
 
 
-        return view("progress", compact('collections', "lessonsStatus"));
+        return view("progress");
     }
 
     #region Private methods

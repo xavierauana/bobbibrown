@@ -14,23 +14,18 @@
     components: {
       LessonList
     },
-    props     : {
-      initialCollections: {
-        type    : Array,
-        required: true
-      },
-      lessonsStatus     : {
-        type    : Object,
-        required: true
-      }
-    },
     data() {
       return {
-        collections: null
+        collections  : [],
+        lessonsStatus: []
       }
     },
-    mounted() {
-      this.collections = JSON.parse(JSON.stringify(this.initialCollections))
+    created() {
+      axios.get(window.location.href + "?ajax=true")
+           .then(({data}) => {
+             this.collections = data.collections
+             this.lessonsStatus = data.lessonsStatus
+           })
     }
   }
 </script>

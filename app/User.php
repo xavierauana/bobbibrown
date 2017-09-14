@@ -57,13 +57,15 @@ class User extends Authenticatable
     public function getCollectionsAttribute(): Collection {
         // this user has permission
         $permission_ids = $this->permissions->pluck('id')->toArray();
-        //        dd( $this->permissions);
 
         // this user can attempt test with its permission
         return \App\Collection::whereIn('permission_id', $permission_ids)
                               ->with([
-                                  'lessons' => function ($query) {
+                                  'lessons' => function ($query) use (
+                                      $permission_ids
+                                  ) {
                                       return $query->orderBy('order')
+                                                   ->wherePermissionId($permission_ids)
                                                    ->with('tests');
                                   },
                                   "tests"
@@ -153,9 +155,9 @@ class User extends Authenticatable
 
     public function logEventActivity($type, Event $event, Request $request) {
         $this->eventActivities()->create([
-            'type'     => $type,
+            'type' => $type,
             'event_id' => $event->id,
-            'ip'       => $request->ip()
+            'ip' => $request->ip()
         ]);
     }
 

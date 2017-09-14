@@ -90,10 +90,10 @@
           _.forEach(this.getAllCollapseIds(), id => $("#" + id).collapse('hide'))
         },
         toggleCategory(category) {
-          this.hideCategoryId = this.hideCategoryId != category.id ? category.id : null
+          this.hideCategoryId = this.hideCategoryId !== category.id ? category.id : null
         },
         toggleLine(line) {
-          this.hideLineId = this.hideLineId != line.id ? line.id : null
+          this.hideLineId = this.hideLineId !== line.id ? line.id : null
         }
       }
     }

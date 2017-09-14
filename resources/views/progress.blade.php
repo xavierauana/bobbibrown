@@ -8,7 +8,7 @@
 			
 	        <div class="panel-heading">{{__("My Progress")}}</div>
 	        <div class="panel-body">
-		       <my_progress  :initial-collections="{{$collections}}" :lessons-status="{{$lessonsStatus}}"></my_progress>
+		       <my_progress></my_progress>
 	        </div>
 			<div class="panel-footer">
 				<a href="/" class="btn btn-sm btn-info">Back</a>

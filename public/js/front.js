@@ -2952,23 +2952,21 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
   components: {
     LessonList: __WEBPACK_IMPORTED_MODULE_0__LessonList_vue___default.a
   },
-  props: {
-    initialCollections: {
-      type: Array,
-      required: true
-    },
-    lessonsStatus: {
-      type: Object,
-      required: true
-    }
-  },
   data: function data() {
     return {
-      collections: null
+      collections: [],
+      lessonsStatus: []
     };
   },
-  mounted: function mounted() {
-    this.collections = JSON.parse(JSON.stringify(this.initialCollections));
+  created: function created() {
+    var _this = this;
+
+    axios.get(window.location.href + "?ajax=true").then(function (_ref) {
+      var data = _ref.data;
+
+      _this.collections = data.collections;
+      _this.lessonsStatus = data.lessonsStatus;
+    });
   }
 });
 
@@ -3082,10 +3080,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       });
     },
     toggleCategory: function toggleCategory(category) {
-      this.hideCategoryId = this.hideCategoryId != category.id ? category.id : null;
+      this.hideCategoryId = this.hideCategoryId !== category.id ? category.id : null;
     },
     toggleLine: function toggleLine(line) {
-      this.hideLineId = this.hideLineId != line.id ? line.id : null;
+      this.hideLineId = this.hideLineId !== line.id ? line.id : null;
     }
   }
 });
@@ -5630,7 +5628,7 @@ exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/cs
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
