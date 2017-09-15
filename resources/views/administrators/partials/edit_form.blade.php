@@ -1,18 +1,18 @@
-<form class="form" action="{{route('administrators.update', $user->id)}}" method="POST">
+<form class="form" action="{{route('administrators.update', $administrator->id)}}" method="POST">
 	{{csrf_field()}}
 	<input type='hidden' name="_method" value="PATCH">
 	@include('elements.inputs.text',
 	[
 	'label'=>"Name",
 	'field'=>'name',
-	'value'=>$user->name,
+	'value'=>$administrator->name,
 	'autofocus'=>true,
 	])
 	@include('elements.inputs.text',
 	[
 	'label'=>"Email",
 	'field'=>'email',
-	'value'=>$user->email,
+	'value'=>$administrator->email,
 	])
 	<div class="form-group{{ $errors->has("role_ids") ? ' has-error' : '' }}">
     <label for="role_ids">Roles</label>
@@ -20,7 +20,7 @@
 		<option value="">-- Please Select One --</option>
 		@foreach($roles as $role)
 			<option value="{{$role->id}}"
-			        @if(in_array($role->id, $user->roles->pluck('id')->toArray())) selected @endif>{{$role->label}}</option>
+			        @if(in_array($role->id, $administrator->roles->pluck('id')->toArray())) selected @endif>{{$role->label}}</option>
 		@endforeach
 	</select>
 		@if ($errors->has("role_ids"))

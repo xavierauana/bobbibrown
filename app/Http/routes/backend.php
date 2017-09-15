@@ -6,12 +6,6 @@
  */
 
 use Anacreation\Etvtest\Models\QuestionType;
-use App\Http\Controllers\AdministratorsController;
-use App\Http\Controllers\PermissionsController;
-use App\Http\Controllers\QuestionsController;
-use App\Http\Controllers\RolesController;
-use App\Http\Controllers\TestsController;
-use App\Http\Controllers\UsersController;
 
 Route::group([
     'middleware' => "auth:admin",

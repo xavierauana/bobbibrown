@@ -32,6 +32,9 @@ class AdminPolicy
     public function edit(Admin $admin): bool {
         return $admin->hasPermission("edit" . $this->className);
     }
+    public function update(Admin $admin): bool {
+        return $admin->hasPermission("update" . $this->className);
+    }
 
     public function delete(Admin $admin): bool {
         return $admin->hasPermission("delete" . $this->className);

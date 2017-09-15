@@ -15,9 +15,7 @@ class AdminUserApiTest extends TestCase
 
     public function test_get_admin() {
 
-        $admin = $this->create_new_admin("indexAdmin");
-
-        $this->actingAs($admin, 'admin');
+        $this->createAndActingAs("indexAdmin");
 
         $response = $this->get('/admin/administrators');
         $response->assertStatus(200);
@@ -27,9 +25,7 @@ class AdminUserApiTest extends TestCase
 
     public function test_get_create() {
 
-        $admin = $this->create_new_admin("createAdmin");
-
-        $this->actingAs($admin, 'admin');
+        $this->createAndActingAs("createAdmin");
 
         $response = $this->get('/admin/administrators/create');
         $response->assertStatus(200);
@@ -39,9 +35,7 @@ class AdminUserApiTest extends TestCase
 
     public function test_get_edit() {
 
-        $admin = $this->create_new_admin("editAdmin");
-
-        $this->actingAs($admin, 'admin');
+        $admin = $this->createAndActingAs("editAdmin");
 
         $response = $this->get("/admin/administrators/{$admin->id}/edit");
         $response->assertStatus(200);
@@ -49,6 +43,55 @@ class AdminUserApiTest extends TestCase
         $response->assertViewHas(["roles", "administrator"]);
     }
 
+    public function test_update_admin() {
+
+        $this->createAndActingAs("updateAdmin");
+        $target = $this->create_new_admin("somethingElse");
+
+        $data = [
+            'name'  => 'test name',
+            'email' => 'abc_testing@abc_testing.com',
+        ];
+        $response = $this->patch(route('administrators.update', $target->id),
+            $data);
+        $response->assertRedirect(route("administrators.index"));
+        $this->assertDatabaseHas('administrators', [
+            'id'    => $target->id,
+            'name'  => $data['name'],
+            'email' => $data['email'],
+        ]);
+    }
+
+    public function test_delete_admin() {
+
+        $this->createAndActingAs("deleteAdmin");
+        $target = $this->create_new_admin("others");
+
+        $response = $this->delete(route('administrators.destroy', $target->id));
+        $response->assertRedirect(route("administrators.index"));
+
+        $this->assertNull(Admin::find($target->id));
+    }
+
+    public function test_delete_admin_ajax() {
+
+        $this->createAndActingAs("deleteAdmin");
+        $target = $this->create_new_admin("others");
+
+        $response = $this->json("DELETE",
+            route('administrators.destroy', $target->id));
+        $response->assertStatus(200);
+
+        $this->assertNull(Admin::find($target->id));
+    }
+
+
+    private function createAndActingAs(string $permission): Admin {
+        $admin = $this->create_new_admin($permission);
+        $this->actingAs($admin, 'admin');
+
+        return $admin;
+    }
 
     private function create_new_admin(string $permissionCode): Admin {
         $admin = factory(Admin::class)->create();

@@ -74781,7 +74781,7 @@ var Products = {
     return "/admin/products/" + productId;
   },
   delete: function _delete(productId) {
-    return "/admin/products/" + prodcutId;
+    return "/admin/products/" + productId;
   }
 };
 var Tests = {

@@ -40,7 +40,8 @@ class FrontEndApiTest extends TestCase
     public function test_progress() {
         $response = $this->get(route("progress"));
         $response->assertViewIs('progress');
-        $response->assertViewHas(['collections', 'lessonsStatus']);
+        $ajaxResponse = $this->json("get", "progress");
+        $ajaxResponse->assertJsonStructure(['collections', 'lessonsStatus']);
     }
 
     public function test_profile() {

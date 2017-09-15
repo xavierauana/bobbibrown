@@ -58,7 +58,7 @@ export const Lines = {
 export const Products = {
   edit  : productId => "/admin/products/" + productId + "/edit",
   update: productId => "/admin/products/" + productId,
-  delete: productId => "/admin/products/" + prodcutId,
+  delete: productId => "/admin/products/" + productId,
 }
 export const Tests = {
   edit  : testId => "/admin/tests/" + testId + "/edit",
