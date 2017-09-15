@@ -3,7 +3,8 @@
 	<style href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker.min.css"></style>
 @endsection
 
-<form class="form" action="{{route('events.update', $event->id)}}" method="POST" enctype="multipart/form-data">
+<form class="form" action="{{route('events.update', $event->id)}}" method="POST"
+      enctype="multipart/form-data">
 	
 	{{csrf_field()}}
 	<input hidden name="_method" value="PATCH">
@@ -37,6 +38,17 @@
 	'autofocus'=>true,
 	'value'=>$event->title
 	])
+	
+	
+	@include('elements.inputs.select',[
+	'field'=>'permission_id',
+	'label'=>'Permission',
+	'options'=>$permissions,
+	'key'=>"label",
+	'value'=>$event->permission_id,
+	'required'=>true,
+	])
+	
 	@include('elements.inputs.text',[
 	'field'=>'venue',
 	'label'=>'Venue',
@@ -61,7 +73,8 @@
 	<div class="form-group">
 		<label>Event Start Date and Time</label>
 		<div class='input-group date' id='start_datetime'>
-            <input type='text' name="start_datetime" class="form-control" required />
+            <input type='text' name="start_datetime" class="form-control"
+                   required />
             <span class="input-group-addon">
                 <span class="glyphicon glyphicon-calendar"></span>
             </span>
@@ -71,7 +84,8 @@
 	<div class="form-group">
 		<label>Event End Date and Time</label>
 		<div class='input-group date' id='end_datetime'>
-            <input type='text' name="end_datetime" class="form-control" required />
+            <input type='text' name="end_datetime" class="form-control"
+                   required />
             <span class="input-group-addon">
                 <span class="glyphicon glyphicon-calendar"></span>
             </span>
