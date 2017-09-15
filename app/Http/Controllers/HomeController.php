@@ -300,24 +300,23 @@ class HomeController extends Controller
             'lines' => function ($query) {
                 return $query->with([
                     'products' => function ($query) {
-                        return $query->whereIn('permission_id',
-                            auth()->user()->permissions->pluck('id')
-                                                       ->toArray())->select([
-                            'id',
-                            'name',
-                            'keywords',
-                            'permission_id'
-                        ]);
+                        return $query->permittedProducts(auth()->user())
+                                     ->select([
+                                         'id',
+                                         'name',
+                                         'keywords',
+                                         'permission_id'
+                                     ]);
                     }
                 ]);
             }
         ])->get();
 
-
         return view('resources', compact("categories"));
     }
 
     public function showProduct(Product $product) {
+
         if (in_array($product->permission_id,
             auth()->user()->permissions->pluck('id')->toArray())) {
             return view('product', compact("product"));

@@ -115,6 +115,10 @@ class ProductsController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function destroy(Product $product) {
-        //
+        $this->authorize('delete', Product::class);
+
+        $product->delete();
+
+        return response()->json('completed');
     }
 }
