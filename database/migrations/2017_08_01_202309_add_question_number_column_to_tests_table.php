@@ -13,7 +13,7 @@ class AddQuestionNumberColumnToTestsTable extends Migration
      */
     public function up() {
         Schema::table('tests', function (Blueprint $table) {
-            $table->integer('question_number')->nullalbe();
+            $table->integer('question_number')->default(0);
         });
     }
 

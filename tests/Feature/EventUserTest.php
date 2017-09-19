@@ -6,12 +6,13 @@ use App\Event;
 use App\Events\UserSuccessfullyRegisterEvent;
 use App\User;
 use Carbon\Carbon;
+use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Tests\TestCase;
 
 class EventUserTest extends TestCase
 {
-    use DatabaseTransactions;
+    use DatabaseMigrations;
 
     public function test_authenticated_user_with_right_permission_event_registration(
     ) {

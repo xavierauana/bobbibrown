@@ -5,13 +5,14 @@ namespace Tests\Feature;
 use Anacreation\MultiAuth\Model\Admin;
 use Anacreation\MultiAuth\Model\AdminPermission;
 use Anacreation\MultiAuth\Model\AdminRole;
+use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Tests\TestCase;
 
 class AdminUserApiTest extends TestCase
 {
 
-    use DatabaseTransactions;
+    use DatabaseMigrations;
 
     public function test_get_admin() {
 

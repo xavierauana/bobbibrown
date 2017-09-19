@@ -12,7 +12,7 @@ use Tests\TestCase;
 // TODO:: going to finished user model test
 class UserModelTest extends TestCase
 {
-    use DatabaseTransactions;
+    use DatabaseMigrations;
 
     public function test_pass_collection() {
 

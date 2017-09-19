@@ -7,12 +7,13 @@ use App\LessonSchedule;
 use App\Services\LessonDeadlineCalculator;
 use App\User;
 use Carbon\Carbon;
+use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Tests\TestCase;
 
 // TODO: haven't finisehed
 class DeadlineCalculatorTest extends TestCase
 {
-
+    use DatabaseMigrations;
 
     public function test_schedule_compare_user_with_new_user() {
 

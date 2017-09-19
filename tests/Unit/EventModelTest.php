@@ -6,12 +6,13 @@ use App\Event;
 use App\Permission;
 use App\Role;
 use App\User;
+use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Tests\TestCase;
 
 class EventModelTest extends TestCase
 {
-    use DatabaseTransactions;
+    use DatabaseMigrations;
 
     public function test_remove_user() {
         $user = factory(User::class)->create();
