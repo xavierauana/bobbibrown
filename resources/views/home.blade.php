@@ -11,5 +11,5 @@
 		        @include('partials.lessons_section')
 	        </div>
 	    </div>
-</div>
+	</div>
 @endsection

@@ -3,9 +3,12 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1, minimal-ui">
-    <link rel="apple-touch-icon" sizes="180x180" href="/imgs/icons/App_Icon_2_3x.png">
-    <link rel="apple-touch-icon" sizes="167x167" href="/imgs/icons/App_Icon_2_3x.png">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1, minimal-ui">
+    <link rel="apple-touch-icon" sizes="180x180"
+          href="/imgs/icons/App_Icon_2_3x.png">
+    <link rel="apple-touch-icon" sizes="167x167"
+          href="/imgs/icons/App_Icon_2_3x.png">
 	
 	<!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
@@ -25,13 +28,15 @@
     </style>
 </head>
 <body>
+    @include('analyticstracking')
     <div id="app">
         <nav class="navbar navbar-default navbar-static-top">
             <div class="container">
                 <div class="navbar-header">
 
                     <!-- Collapsed Hamburger -->
-                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+                    <button type="button" class="navbar-toggle collapsed"
+                            data-toggle="collapse"
                             data-target="#app-navbar-collapse">
                         <span class="sr-only">Toggle Navigation</span>
                         <span class="icon-bar"></span>
@@ -40,8 +45,10 @@
                     </button>
 
                     <!-- Branding Image -->
-                    <a class="navbar-brand" href="{{ url('/home') }}" style="position: relative">
-                        <img src="{{asset('imgs/logo_white.svg')}}" class="img-responsive" width="100"
+                    <a class="navbar-brand" href="{{ url('/home') }}"
+                       style="position: relative">
+                        <img src="{{asset('imgs/logo_white.svg')}}"
+                             class="img-responsive" width="100"
                              style="display: inline">
                     </a>
                 </div>
@@ -64,9 +71,11 @@
 		                    <li><a href="{{ route('register') }}">{{__("Register")}}</a></li>
 	                    @else
 		                    <li class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
+                                <a href="#" class="dropdown-toggle"
+                                   data-toggle="dropdown" role="button"
                                    aria-expanded="false">
-                                    {{ Auth::user()->name }} <span class="caret"></span>
+                                    {{ Auth::user()->name }} <span
+			                                class="caret"></span>
                                 </a>
 
                                 <ul class="dropdown-menu" role="menu">
@@ -80,7 +89,9 @@
                                             {{__("Logout")}}
                                         </a>
 
-                                        <form id="logout-form" action="{{ route('logout') }}" method="POST"
+                                        <form id="logout-form"
+                                              action="{{ route('logout') }}"
+                                              method="POST"
                                               style="display: none;">
                                             {{ csrf_field() }}
                                         </form>
