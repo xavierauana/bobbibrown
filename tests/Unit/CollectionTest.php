@@ -67,16 +67,35 @@ class CollectionTest extends TestCase
 
     }
 
-    public function test_collection_has_test() {
+    public function test_collection_hasTest_no_collection_and_lesson_test() {
         $collection = factory(Collection::class)->create();
+        $lesson = factory(Lesson::class)->create();
+        $collection->lessons()->save($lesson);
+        $this->assertFalse($collection->hasTest());
+    }
+
+    public function test_collection_hasTest_with_lesson_test_only() {
+        $collection = factory(Collection::class)->create();
+        $lesson = factory(Lesson::class)->create();
+        $lesson->tests()->save(factory(Test::class)->create());
+        $collection->lessons()->save($lesson);
+        $this->assertTrue($collection->hasTest());
+    }
+
+    public function test_collection_hasTest_with_collection_test_only() {
+        $collection = factory(Collection::class)->create();
+        $lesson = factory(Lesson::class)->create();
+        $collection->lessons()->save($lesson);
         $collection->tests()->save(factory(Test::class)->create());
         $this->assertTrue($collection->hasTest());
     }
 
-    public function test_collection_has_test_with_lesson_test_only() {
-        $collection = factory(Collection::class)->create();
+    public function test_collection_hasTest_with_both_collection_and_lesson_test(
+    ) {
         $lesson = factory(Lesson::class)->create();
+        $collection = factory(Collection::class)->create();
         $lesson->tests()->save(factory(Test::class)->create());
+        $collection->tests()->save(factory(Test::class)->create());
         $collection->lessons()->save($lesson);
         $this->assertTrue($collection->hasTest());
     }

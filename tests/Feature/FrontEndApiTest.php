@@ -74,7 +74,6 @@ class FrontEndApiTest extends TestCase
 
     public function test_show_collection_test() {
 
-
         $collection = factory(Collection::class)->create();
 
         $response = $this->get(route("show.collection.test", $collection->id));
@@ -96,15 +95,28 @@ class FrontEndApiTest extends TestCase
         $collection = factory(Collection::class)->create();
         $response = $this->post(route("grade.collection.test",
             $collection->id));
-        $response->assertStatus(404);
+        $response->assertStatus(200);
 
         $test = factory(Test::class)->create();
         $collection->tests()->save($test);
 
         $response = $this->post(route("grade.collection.test",
             $collection->id));
-        $response->assertStatus(404);
+        $response->assertStatus(200);
+    }
 
+    public function test_lesson_test() {
+        $lesson = factory(Lesson::class)->create();
+        $response = $this->post(route("grade.lesson.test",
+            $lesson->id));
+        $response->assertStatus(200);
+
+        $test = factory(Test::class)->create();
+        $lesson->tests()->save($test);
+
+        $response = $this->post(route("grade.lesson.test",
+            $lesson->id));
+        $response->assertStatus(200);
     }
 
     public function test_user_show_collection_without_permission() {

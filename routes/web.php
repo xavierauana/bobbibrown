@@ -22,8 +22,6 @@ Route::get('register/verify/{confirmationCode}', [
 
 Auth::routes();
 
-include(app_path('Http/routes/backend.php'));
-
 Route::group(['middleware' => "auth"], function () {
 
     Route::get('progress', 'HomeController@getProgress')->name('progress');
@@ -32,10 +30,15 @@ Route::group(['middleware' => "auth"], function () {
          ->name('profile.update');
 
 
-    Route::get('/collections/{collection}/test',
-        'HomeController@showCollectionTest')->name("show.collection.test");
     Route::post('/collections/{collection}/test',
         'HomeController@gradeCollectionTest')->name("grade.collection.test");
+    Route::post('/lessons/{lesson}/test', 'HomeController@gradeLessonTest')
+         ->name("grade.lesson.test");
+
+    Route::get('/collections/{collection}/test',
+        'HomeController@showCollectionTest')->name("show.collection.test");
+
+
 
     Route::get('/collections/{collection}', 'HomeController@showCollection')
          ->name("show.collection");
@@ -47,8 +50,6 @@ Route::group(['middleware' => "auth"], function () {
          ->name("show.lesson");
     Route::get('/lessons/{lesson}/test', 'HomeController@showLessonTest')
          ->name("show.lesson.test");
-    Route::post('/lessons/{lesson}/test', 'HomeController@gradeLessonTest')
-         ->name("grade.lesson.test");
     Route::get('/home', 'HomeController@index')->name('home');
 
     Route::get('/resources', "HomeController@showResources")
@@ -73,3 +74,5 @@ Route::group(['middleware' => "auth"], function () {
     Route::post('/events/{event}/register', 'HomeController@registerEvent')
          ->name('register.event');
 });
+
+include(app_path('Http/routes/backend.php'));

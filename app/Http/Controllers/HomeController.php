@@ -167,8 +167,7 @@ class HomeController extends Controller
             return response()->json([
                 'result'    => $service->result,
                 'summary'   => $service->summary,
-                'is_passed' => ($service->summary["correct"] / count($service->result)) > (intval(Setting::whereCode('test_passing_rate')
-                                                                                                         ->first()->value) / 100)
+                'is_passed' => ($service->summary["correct"] / count($service->result)) > (intval(Setting::whereCode('test_passing_rate')->first()->value) / 100)
             ]);
         }
 

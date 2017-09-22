@@ -34,7 +34,7 @@ class Collection extends Model
     }
 
     public function hasTest(): bool {
-        return ($this->tests->count() or $this->lessons->first->hasTest()) ? true : false;
+        return ($this->tests->count() or !!$this->lessons->first->hasTest());
     }
 
     // Mutators
