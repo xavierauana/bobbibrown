@@ -215,9 +215,7 @@ class HomeController extends Controller
 
     public function registration(EventRegistrationRequest $request, Event $event
     ) {
-
-        $user = auth()->user();
-        if ($user->matchEventPermission($event) and $user->register($event)) {
+        if (auth()->user()->registerEvent($event)) {
             event(new UserSuccessfullyRegisterEvent(auth()->user(), $event,
                 $request));
 

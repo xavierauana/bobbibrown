@@ -40,12 +40,11 @@ class Lesson extends Model implements TestableInterface
         return $this->belongsTo(Permission::class);
     }
 
-    public function menus(): Relation {
-        return $this->morphMany(Menu::class, 'has_menu');
-    }
-
     public function hasTest(): bool {
         return $this->tests->count() > 0;
+    }
+    public function hasNoTest(): bool {
+        return !$this->hasTest();
     }
 
     public function getTestAttribute(): ?Test {
@@ -58,14 +57,16 @@ class Lesson extends Model implements TestableInterface
 
     public function isOverDue(User $user): bool {
 
-        $service = new LessonDeadlineCalculator($this);
+        $service = app(LessonDeadlineCalculator::class);
+        $service->setLesson($this);
 
         return $service->isOverDue($user);
     }
 
     public function dueInDays(User $user): int {
 
-        $service = new LessonDeadlineCalculator($this);
+        $service = app(LessonDeadlineCalculator::class);
+        $service->setLesson($this);
 
         return $service->dueInDate($user);
     }
@@ -77,6 +78,10 @@ class Lesson extends Model implements TestableInterface
 
         return $query->select(array_diff($this->getAllTableColumns(),
             $columns));
+    }
+
+    public function scopeOrdered($query): Builder {
+        return $query->orderBy('collection_lesson.order');
     }
 
     // Helper Functions

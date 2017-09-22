@@ -55,6 +55,10 @@ class Event extends Model
         return $this->hasMany(EventActivity::class);
     }
 
+    public function permission(): Relation {
+        return $this->belongsTo(Permission::class);
+    }
+
     #endregion
 
     #region Scope

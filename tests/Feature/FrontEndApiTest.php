@@ -352,12 +352,12 @@ class FrontEndApiTest extends TestCase
     public function test_registration_without_permission() {
 
         list($permission, $role) = $this->createPermissionAndRole();
+        list($permission1, $role) = $this->createPermissionAndRole();
 
         $event = factory(Event::class)->create([
-            'permission_id' => $permission->id,
+            'permission_id' => $permission1->id,
             'vacancies'     => 10,
         ]);
-
 
         $this->post(route("user.event.registration", $event->id))
              ->assertStatus(501);

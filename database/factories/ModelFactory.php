@@ -78,6 +78,20 @@ $factory->define(App\Test::class, function (Faker\Generator $faker) {
         'question_number' => 2
     ];
 });
+
+
+$factory->define(Anacreation\Etvtest\Models\Test::class,
+    function (Faker\Generator $faker) {
+        return [
+            'title' => $faker->sentence,
+        ];
+    });
+$factory->define(Anacreation\Etvtest\Models\Attempt::class,
+    function (Faker\Generator $faker) {
+        return [
+            'attempt' => serialize($faker->words),
+        ];
+    });
 $factory->define(App\Product::class, function (Faker\Generator $faker) {
     return [
         'name'     => $faker->sentence,
@@ -89,6 +103,17 @@ $factory->define(\App\LessonSchedule::class, function (Faker\Generator $faker) {
     return [
         'compare' => "user",
         'days'    => 10,
+    ];
+});
+$factory->define(\App\EventActivity::class, function (Faker\Generator $faker) {
+    $types = ['singin', 'registration', 'cancel'];
+
+    return [
+        'ip'        => $faker->ipv4,
+        'type'      => $types[rand(0, 2)],
+        'latitude'  => $faker->latitude,
+        'token'     => $faker->uuid,
+        'longitude' => $faker->longitude,
     ];
 });
 

@@ -33,12 +33,8 @@ class Collection extends Model
         return $this->belongsTo(Permission::class);
     }
 
-    public function menus(): Relation {
-        return $this->morphMany(Menu::class, 'has_menu');
-    }
-
     public function hasTest(): bool {
-        return $this->tests->count() > 0;
+        return ($this->tests->count() or $this->lessons->first->hasTest()) ? true : false;
     }
 
     // Mutators

@@ -45,12 +45,14 @@ class User extends Authenticatable
     #region Accessors
 
     public function getAvailableLessonsAttribute(): Collection {
+
+        $lesson = app(Lesson::class);
         // this user has permission
         $permission_ids = $this->permissions->pluck('id')->toArray();
         //        dd( $this->permissions);
 
         // this user can attempt test with its permission
-        return Lesson::whereIn('permission_id', $permission_ids)->get();
+        return $lesson->whereIn('permission_id', $permission_ids)->get();
 
     }
 
@@ -155,9 +157,9 @@ class User extends Authenticatable
 
     public function logEventActivity($type, Event $event, Request $request) {
         $this->eventActivities()->create([
-            'type' => $type,
+            'type'     => $type,
             'event_id' => $event->id,
-            'ip' => $request->ip()
+            'ip'       => $request->ip()
         ]);
     }
 
@@ -193,17 +195,18 @@ class User extends Authenticatable
     }
 
     public function registerEvent(Event $event): bool {
-        if ($event->hasVacancy) {
-            $this->events()->attach($event->id);
+        if (!$this->canRegisterEvent($event)) {
 
-            return true;
+            return false;
         }
 
-        return false;
+        $this->events()->attach($event->id);
+
+        return true;
     }
 
     public function canRegisterEvent(Event $event): bool {
-        if ($event->hasVacancy) {
+        if ($event->hasVacancy and $this->hasEventPermission($event)) {
             return $event->users()->where('user_id', $this->id)
                          ->first() ? false : true;
         }
@@ -216,7 +219,7 @@ class User extends Authenticatable
     }
 
     public function hasEventPermission(Event $event): bool {
-        return $this->hasObjectCollection($event);
+        return $this->hasPermission($event->permission->code);
     }
 
     public function hasCollectionPermission(\App\Collection $collection): bool {
@@ -232,8 +235,7 @@ class User extends Authenticatable
     }
 
     public function matchEventPermission(Event $event): bool {
-        return in_array($event->permission_id,
-            $this->permissions->pluck('id')->toArray());
+        return $this->hasPermission($event->permission->code);
     }
 
     public function showEventSingInTimestamp(Event $event) {
@@ -261,5 +263,13 @@ class User extends Authenticatable
     private function hasObjectCollection(Model $model): bool {
         return in_array($model->permission_id,
             $this->permissions->pluck('id')->toArray());
+    }
+
+    public function hasPermission($permissionCode): bool {
+        $permissionCode = is_array($permissionCode) ? $permissionCode : [$permissionCode];
+        $userPermissionCodes = $this->permissions->pluck('code')->toArray();
+
+        return count(array_intersect($permissionCode,
+                $userPermissionCodes)) > 0;
     }
 }

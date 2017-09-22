@@ -24,15 +24,15 @@ class AdminUserApiTest extends TestCase
         $response->assertViewHas("administrators");
     }
 
-    public function test_get_create() {
-
-        $this->createAndActingAs("createAdmin");
-
-        $response = $this->get('/admin/administrators/create');
-        $response->assertStatus(200);
-        $response->assertViewIs("administrators.create");
-        $response->assertViewHas("roles");
-    }
+//    public function test_get_create() {
+//
+//        $this->createAndActingAs("createAdmin");
+//
+//        $response = $this->get('/admin/administrators/create');
+//        $response->assertStatus(200);
+//        $response->assertViewIs("administrators.create");
+//        $response->assertViewHas("roles");
+//    }
 
     public function test_get_edit() {
 

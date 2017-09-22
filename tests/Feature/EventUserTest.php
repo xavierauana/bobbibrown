@@ -2,12 +2,13 @@
 
 namespace Tests\Feature;
 
+use App\Collection;
 use App\Event;
 use App\Events\UserSuccessfullyRegisterEvent;
 use App\User;
 use Carbon\Carbon;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Mockery\Mock;
 use Tests\TestCase;
 
 class EventUserTest extends TestCase
@@ -25,8 +26,10 @@ class EventUserTest extends TestCase
         ]);
         $this->actingAs($user);
 
-        $this->post(route('user.event.registration', $event->id))
-             ->assertStatus(200);
+        $this->expectsEvents(UserSuccessfullyRegisterEvent::class);
+
+        $this->post(route('user.event.registration', $event->id));
+
         $this->assertDatabaseHas('event_user',
             ['user_id' => $user->id, 'event_id' => $event->id]);
     }
@@ -53,7 +56,7 @@ class EventUserTest extends TestCase
     }
 
     // User has correct permission but not vacancy
-    public function test_user_cannot_register_event_when_no_vacancy() {
+    public function test_user_can_register() {
         list($role, $permission) = $this->createRoleAndPermission();
 
         $event = factory(Event::class)->create([
@@ -61,24 +64,34 @@ class EventUserTest extends TestCase
             'permission_id' => $permission->id
         ]);
 
-        $users = factory(User::class, 2)->create();
-        foreach ($users as $index => $user) {
-            $user->roles()->save($role);
-            $this->actingAs($user);
-            $response = $this->post(route('user.event.registration',
-                $event->id));
+        $user = factory(User::class)->create();
+        $user->roles()->save($role);
+        $this->actingAs($user);
 
-            if ($index == 0) {
-                $response->assertStatus(200);
-                $this->assertDatabaseHas('event_user',
-                    ['user_id' => $user->id, 'event_id' => $event->id]);
-            } else {
-                $response->assertStatus(501);
-                $this->assertDatabaseMissing('event_user',
-                    ['user_id' => $user->id, 'event_id' => $event->id]);
-            }
-        }
+        $this->expectsEvents(UserSuccessfullyRegisterEvent::class);
+        $response = $this->post(route('user.event.registration',
+            $event->id));
+        $response->assertJsonStructure(['status', 'user']);
+    }
 
+    public function test_user_cannot_register() {
+        list($role, $permission) = $this->createRoleAndPermission();
+        list($role1, $permission1) = $this->createRoleAndPermission();
+
+        $event = factory(Event::class)->create([
+            'vacancies'     => 0,
+            'permission_id' => $permission1->id
+        ]);
+
+        $user = factory(User::class)->create();
+        $user->roles()->save($role);
+        $this->actingAs($user);
+        $response = $this->post(route('user.event.registration',
+            $event->id));
+
+        $response->assertStatus(501);
+        $this->assertEquals("Cannot register!",
+            $response->baseResponse->getContent());
     }
 
     public function test_user_after_event_registration_trigger_event() {

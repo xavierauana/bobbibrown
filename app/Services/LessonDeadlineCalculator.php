@@ -23,7 +23,7 @@ class LessonDeadlineCalculator
      * LessonDeadlineCalculator constructor.
      * @param \App\Lesson $lesson
      */
-    public function __construct(Lesson $lesson) {
+    public function __construct(Lesson $lesson = null) {
         $this->lesson = $lesson;
     }
 
@@ -95,6 +95,13 @@ class LessonDeadlineCalculator
         }
 
         return Carbon::now();
+    }
+
+    /**
+     * @param \App\Lesson $lesson
+     */
+    public function setLesson(\App\Lesson $lesson) {
+        $this->lesson = $lesson;
     }
 
     #endregion
