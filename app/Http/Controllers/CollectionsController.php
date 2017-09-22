@@ -24,8 +24,8 @@ class CollectionsController extends Controller
      */
     public function index() {
         $this->authorize('view', Collection::class);
-
-        $collections = Collection::all();
+        $collection = app(Collection::class);
+        $collections = $collection->all();
 
         return view('collections.index', compact('collections'));
     }
@@ -171,7 +171,11 @@ class CollectionsController extends Controller
 
         $this->authorize('edit', Collection::class);
 
-        $tests = Test::whereIsActive(true)->get();
+        $test = app(Test::class);
+
+        $tests = $test->whereIsActive(true)->get();
+
+        $collection->load('tests');
 
         return view('collections.edit_test', compact('tests', 'collection'));
     }

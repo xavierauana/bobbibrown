@@ -13,5 +13,5 @@ Route::get("collections/{collection}/lessons/edit", "CollectionsController@editL
 Route::post("collections/{collection}/lessons", "CollectionsController@updateLessons")
      ->name('collections.lessons.update');;
 
-Route::get("collections/{collection}/tests", "CollectionsController@editTests");
+Route::get("collections/{collection}/tests", "CollectionsController@editTests")->name('collections.test.edit');
 Route::post("collections/{collection}/tests", "CollectionsController@updateTests");

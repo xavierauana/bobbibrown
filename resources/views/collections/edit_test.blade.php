@@ -16,7 +16,7 @@
 		                    <option value="">-- Select Test--</option>
 			                     @foreach($tests as $test)
 				                     <option value="{{$test->id}}"
-				                             @if($collection->hasTest() and $collection->tests->first()->id  === $test->id) selected @endif>{{$test->title}}</option>
+				                             @if($collection->tests->count() and $collection->tests->first()->id  === $test->id) selected @endif>{{$test->title}}</option>
 			                     @endforeach
 	                    </select>
 	                    </div>
