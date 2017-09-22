@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use Anacreation\Etvtest\Services\GradingService;
 use App\Collection;
 use App\Event;
 use App\Events\UserCancelEventRegistration;
@@ -11,11 +12,14 @@ use App\Lesson;
 use App\Permission;
 use App\Product;
 use App\Role;
+use App\Services\AttemptService;
+use App\Setting;
 use App\Test;
 use App\User;
 use Carbon\Carbon;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Mockery;
+use Mockery\MockInterface;
 use Tests\TestCase;
 
 class FrontEndApiTest extends TestCase
@@ -91,31 +95,92 @@ class FrontEndApiTest extends TestCase
         $response->assertJsonStructure(['test', 'questionTypes', 'previous']);
     }
 
-    public function test_grade_collection_test() {
+    public function test_grade_collection_test_but_no_test() {
         $collection = factory(Collection::class)->create();
         $response = $this->post(route("grade.collection.test",
             $collection->id));
-        $response->assertStatus(200);
+        $response->assertStatus(404);
+    }
 
+    public function test_grade_collection_test_without_data() {
+        $collection = factory(Collection::class)->create();
         $test = factory(Test::class)->create();
         $collection->tests()->save($test);
 
         $response = $this->post(route("grade.collection.test",
             $collection->id));
+
+        $response->assertStatus(404);
+    }
+
+    public function test_grade_collection_test_with_data() {
+        $collection = factory(Collection::class)->create();
+        $test = factory(Test::class)->create();
+        $collection->tests()->save($test);
+
+        $data = [
+            'answers'     => [],
+            'questionIds' => [],
+        ];
+
+        $serviceMock = $this->createMockClass(GradingService::class);
+        $settingMock = $this->createMockClass(Setting::class);
+        $attemptServiceMock = $this->createMockClass(AttemptService::class);
+
+        $settingMock->shouldReceive("getAttribute")->andReturn(0.7);
+
+        $serviceMock->shouldReceive("grade")->once();
+        $serviceMock->result = [1, 2, 3, 4, 5, 6, 7];
+        $serviceMock->summary = ['correct' => 2];
+
+        $attemptServiceMock->shouldReceive("createUserAttemptRecord")->once();
+
+
+        $response = $this->post(route("grade.collection.test",
+            $collection->id), $data);
+
         $response->assertStatus(200);
     }
 
-    public function test_lesson_test() {
+    public function test_lesson_test_but_no_test() {
         $lesson = factory(Lesson::class)->create();
         $response = $this->post(route("grade.lesson.test",
             $lesson->id));
-        $response->assertStatus(200);
+        $response->assertStatus(404);
+    }
 
+    public function test_lesson_test_has_test_but_no_answer_and_questionIds() {
+        $lesson = factory(Lesson::class)->create();
         $test = factory(Test::class)->create();
         $lesson->tests()->save($test);
-
         $response = $this->post(route("grade.lesson.test",
             $lesson->id));
+        $response->assertStatus(404);
+    }
+
+    public function test_lesson_test_has_test_and_answer() {
+        $lesson = factory(Lesson::class)->create();
+        $test = factory(Test::class)->create();
+        $lesson->tests()->save($test);
+        $data = [
+            'answers'     => [],
+            'questionIds' => [],
+        ];
+
+        $serviceMock = $this->createMockClass(GradingService::class);
+        $settingMock = $this->createMockClass(Setting::class);
+        $attemptServiceMock = $this->createMockClass(AttemptService::class);
+
+        $settingMock->shouldReceive("getAttribute")->andReturn(0.7);
+
+        $serviceMock->shouldReceive("grade")->once();
+        $serviceMock->result = [1, 2, 3, 4, 5, 6, 7];
+        $serviceMock->summary = ['correct' => 2];
+
+        $attemptServiceMock->shouldReceive("createUserAttemptRecord")->once();
+
+        $response = $this->post(route("grade.lesson.test",
+            $lesson->id), $data);
         $response->assertStatus(200);
     }
 
@@ -470,6 +535,16 @@ class FrontEndApiTest extends TestCase
         return factory(Event::class)->create([
             'permission_id' => $permission->id
         ]);
+    }
+
+    /**
+     * @param string $class
+     * @return \Mockery\MockInterface
+     */
+    private function createMockClass(string $class): MockInterface {
+        $mock = Mockery::mock($class);
+        $this->app->instance($class, $mock);
+        return $mock;
     }
 
     #endregion

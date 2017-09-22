@@ -17,6 +17,7 @@ use App\Http\Requests\EventRegistrationRequest;
 use App\Http\Requests\Users\UpdateProfileRequest;
 use App\Lesson;
 use App\Product;
+use App\Services\AttemptService;
 use App\Setting;
 use App\User;
 use Carbon\Carbon;
@@ -156,18 +157,22 @@ class HomeController extends Controller
     }
 
     public function gradeLessonTest(
-        Request $request, Lesson $lesson, GradingService $service
+        Request $request, Lesson $lesson, GradingService $service,
+        AttemptService $attemptService, Setting $setting
     ) {
-        if ($test = $lesson->test and $request->get('answers') and $request->get('questionIds')) {
+        /** @var Test $test */
+        if ($test = $lesson->tests()
+                           ->first() and $request->has('answers') and $request->has('questionIds')) {
 
             $service->grade($test, $request->get('answers'),
                 $request->get('questionIds'));
-            $this->createUserAttemptRecord($test, $service, auth()->user());
+            $attemptService->createUserAttemptRecord($test, $service,
+                auth()->user());
 
             return response()->json([
                 'result'    => $service->result,
                 'summary'   => $service->summary,
-                'is_passed' => ($service->summary["correct"] / count($service->result)) > (intval(Setting::whereCode('test_passing_rate')->first()->value) / 100)
+                'is_passed' => ($service->summary["correct"] / count($service->result)) > $setting->passingRate
             ]);
         }
 
@@ -175,19 +180,21 @@ class HomeController extends Controller
     }
 
     public function gradeCollectionTest(
-        Request $request, Collection $collection, GradingService $service
+        Request $request, Collection $collection, GradingService $service,
+        AttemptService $attemptService,
+        Setting $setting
     ) {
         if ($test = $collection->test and $request->has('answers') and $request->has("questionIds")) {
 
             $service->grade($test, $request->get('answers'),
                 $request->get('questionIds'));
-            $this->createUserAttemptRecord($test, $service, auth()->user());
+            $attemptService->createUserAttemptRecord($test, $service,
+                auth()->user());
 
             return response()->json([
                 'result'    => $service->result,
                 'summary'   => $service->summary,
-                'is_passed' => ($service->summary["correct"] / count($service->result)) > (intval(Setting::whereCode('test_passing_rate')
-                                                                                                         ->first()->value) / 100)
+                'is_passed' => ($service->summary["correct"] / count($service->result)) > $setting->passingRate
             ]);
         }
 
@@ -359,13 +366,14 @@ class HomeController extends Controller
      * @param $service
      */
     private function createUserAttemptRecord(
-        Test $test, GradingService $service, User $user = null
+        Test $test, GradingService $service, User $user = null,
+        AttemptService $attemptService
     ): Attempt {
 
         $attempt_data = [];
 
         if ($user) {
-            $attempt_data = $this->createAttemptData($test, $service);
+            $attempt_data = $attemptService->createAttemptData($service, $test);
 
             return $user->attempts()->create($attempt_data);
         }
@@ -378,16 +386,16 @@ class HomeController extends Controller
      * @param \Anacreation\Etvtest\Services\GradingService $service
      * @return array
      */
-    private function createAttemptData(Test $test, GradingService $service
-    ): array {
-        $attempt_data = [
-            "test_id" => $test->id,
-            "attempt" => $service->result,
-            "score"   => $service->summary['correct'] / count($service->result),
-        ];
-
-        return $attempt_data;
-    }
+    //    private function createAttemptData(Test $test, GradingService $service
+    //    ): array {
+    //        $attempt_data = [
+    //            "test_id" => $test->id,
+    //            "attempt" => $service->result,
+    //            "score"   => $service->summary['correct'] / count($service->result),
+    //        ];
+    //
+    //        return $attempt_data;
+    //    }
 
     private function randomPickTestQuestions(
         array &$testData, int $question_number
@@ -462,10 +470,6 @@ class HomeController extends Controller
         $featured = $featured_collections->merge($featured_lessons);
 
         return $featured;
-    }
-
-    private function grade() {
-
     }
 
     #endregion

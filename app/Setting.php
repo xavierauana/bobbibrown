@@ -10,4 +10,9 @@ class Setting extends Model
         'label',
         'value'
     ];
+
+    public function getPassingRateAttribute(): float {
+        return $this->whereCode('test_passing_rate')
+                    ->first()->value / 100;
+    }
 }
