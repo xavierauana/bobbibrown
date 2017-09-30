@@ -2,12 +2,13 @@
 
 namespace App;
 
+use Anacreation\Etvtest\Contracts\TestableInterface;
 use Anacreation\Etvtest\Contracts\TestableTraits;
 use App\Scopes\WithinPermissions;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\Relation;
 
-class Collection extends Model
+class Collection extends Model implements TestableInterface
 {
     use WithinPermissions, TestableTraits;
 

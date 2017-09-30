@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Anacreation\Etvtest\Contracts\TestableInterface;
 use Anacreation\Etvtest\Converters\ConverterManager;
 use Anacreation\Etvtest\Models\Attempt;
 use Anacreation\Etvtest\Models\Test;
@@ -161,8 +162,7 @@ class HomeController extends Controller
         AttemptService $attemptService, Setting $setting
     ) {
         /** @var Test $test */
-        if ($test = $lesson->tests()
-                           ->first() and $request->has('answers') and $request->has('questionIds')) {
+        if ($test = $this->hasTestAndProperInput($request, $lesson)) {
 
             $service->grade($test, $request->get('answers'),
                 $request->get('questionIds'));
@@ -184,7 +184,7 @@ class HomeController extends Controller
         AttemptService $attemptService,
         Setting $setting
     ) {
-        if ($test = $collection->test and $request->has('answers') and $request->has("questionIds")) {
+        if ($test = $this->hasTestAndProperInput($request, $collection)) {
 
             $service->grade($test, $request->get('answers'),
                 $request->get('questionIds'));
@@ -470,6 +470,22 @@ class HomeController extends Controller
         $featured = $featured_collections->merge($featured_lessons);
 
         return $featured;
+    }
+
+    /**
+     * @param \Illuminate\Http\Request $request
+     * @param \App\Lesson              $lesson
+     * @return bool
+     */
+    private function hasTestAndProperInput(
+        Request $request, TestableInterface $testable
+    ): ?Test {
+        if ($test = $testable->tests()
+                             ->first() and $request->has('answers') and $request->has('questionIds')) {
+            return $test;
+        };
+
+        return null;
     }
 
     #endregion
