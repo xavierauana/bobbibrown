@@ -152,10 +152,15 @@ class LessonsController extends Controller
     }
 
     public function getUsersForTest(Lesson $lesson) {
-        $test = $lesson->test;
+
         $users = User::all();
 
-        return view('tests.users', compact("users", "test", "lesson"));
+        if ($test = $lesson->test) {
+
+            return view('tests.users', compact("users", "test", "lesson"));
+        }
+
+        return view('tests.users', compact("users", "lesson"));
 
     }
 

@@ -1,7 +1,8 @@
 @extends("MultiAuth::layouts.admin")
 
 @section("content")
-	<div class="container">
+	@if (isset($test))
+		<div class="container">
         <div class="panel panel-default">
             <div class="panel-heading" style="line-height: 36px">
                Users for Test: {{$test->title}}
@@ -46,8 +47,10 @@
                                     {{$lesson->dueInDays($user)}}
                                 </td>
                                 <td>
-                                    <button class="btn btn-primary btn-sm" data-userId="{{$user->id}}"
-                                            onclick="sendReminder(event)" @if($pass) disabled @endif>Reminder</button>
+                                    <button class="btn btn-primary btn-sm"
+                                            data-userId="{{$user->id}}"
+                                            onclick="sendReminder(event)"
+                                            @if($pass) disabled @endif>Reminder</button>
                                 </td>
                             </tr>
                         @endforeach
@@ -56,6 +59,15 @@
             </div>
         </div>
 </div>
+	@else
+		<div class="container">
+            <div class="panel panel-default">
+                <div class="panel-heading" style="line-height: 36px">
+                   There is no test for this lesson
+                </div>
+            </div>
+        </div>
+	@endif
 @endsection
 
 @section('scripts')
