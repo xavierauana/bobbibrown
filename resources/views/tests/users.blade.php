@@ -16,6 +16,7 @@
                         <th>Number Of Attempts</th>
                         <th>Last Attempt</th>
                         <th>Overdue</th>
+                        <th>Remaining Days</th>
                         <th>Actions</th>
                     </thead>
                     <tbody>
@@ -51,6 +52,8 @@
                                             data-userId="{{$user->id}}"
                                             onclick="sendReminder(event)"
                                             @if($pass) disabled @endif>Reminder</button>
+                                    <a href="{{route("lessons.user.test.records", [$lesson->id, $user->id])}}"
+                                       class="btn btn-info btn-sm">Records</a>
                                 </td>
                             </tr>
                         @endforeach

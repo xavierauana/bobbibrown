@@ -164,6 +164,14 @@ class LessonsController extends Controller
 
     }
 
+    public function getUserTestRecords(Lesson $lesson, User $user) {
+
+        $test = $lesson->tests()->first();
+        $attempts = $user->attempts()->latest()->whereTestId($test->id)->get();
+
+        return view('tests.user_records', compact('user', 'test', 'attempts'));
+    }
+
     public function sendLessonReminder(Lesson $lesson, User $user) {
         $job = new SendLessonReminder($lesson, $user);
         $this->dispatch($job);
