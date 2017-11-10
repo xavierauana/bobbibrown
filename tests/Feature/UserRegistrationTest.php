@@ -48,14 +48,14 @@ class UserRegistrationTest extends TestCase
 
         $data = [
             'name'                  => "Xavier Au",
-            'email'                 => "xavier.au@gmail.com",
-            'employee_id'           => "123456",
+            'email'                 => "xavier.au+for_unit_testing@gmail.com",
+            'employee_id'           => "123456_unitTesting",
             'password'              => "password",
             'password_confirmation' => "password",
         ];
 
         factory(User::class)->create([
-            'employee_id'           => "123456"
+            'employee_id'           => "123456_unitTesting"
         ]);
         $response = $this->post("/register", $data);
 
