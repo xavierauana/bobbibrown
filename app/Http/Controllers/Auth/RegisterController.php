@@ -86,7 +86,7 @@ class RegisterController extends Controller
         auth()->logout();
 
         session()->flash('message',
-            'Thank for registration! A confirmation email will send to you shortly. Please confirm!');
+            config('text.successfulUserRegistrationText'));
 
         return redirect($this->redirectPath());
     }
