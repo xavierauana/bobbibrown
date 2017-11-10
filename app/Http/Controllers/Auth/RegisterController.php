@@ -91,9 +91,11 @@ class RegisterController extends Controller
         return redirect($this->redirectPath());
     }
 
-    public function verify(Request $request, string $confirmation_code) {
+    public function verify(
+        Request $request, string $confirmation_code, User $userModel
+    ) {
 
-        $user = User::where([
+        $user = $userModel->where([
             'email'       => $request->get('email'),
             'email_token' => $confirmation_code,
         ])->first();
