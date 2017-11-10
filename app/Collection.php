@@ -64,6 +64,9 @@ class Collection extends Model implements TestableInterface
         }
 
         return true;
+    }
 
+    public function getTestAttribute() {
+        return $this->tests()->first();
     }
 }
