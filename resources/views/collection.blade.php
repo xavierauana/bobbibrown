@@ -22,6 +22,7 @@
 					@else
 						<a href="{{route('show.collection.test', $collection->id)}}" class="btn btn-sm btn-primary">Test</a>
 					@endif
+					<p>There is test</p>
 				@endif
 			</div>
 	    </div>
