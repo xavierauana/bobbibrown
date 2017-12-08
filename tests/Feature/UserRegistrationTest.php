@@ -30,15 +30,13 @@ class UserRegistrationTest extends TestCase
             'password'              => "password",
             'password_confirmation' => "password",
         ];
-        $response = $this->post("/register", $data);
+        $this->post("/register", $data);
         $record = [
             'name'        => "Xavier Au",
             'email'       => "xavier.au@gmail.com",
             'employee_id' => "123456",
         ];
         $this->assertDatabaseHas('users', $record);
-        $response->assertSessionHas("message",
-            config('text.successfulUserRegistrationText'));
     }
 
     /**

@@ -91,16 +91,7 @@
             </span>
         </div>
 	</div>
-	
-	@include('elements.inputs.select',[
-	'field'=>'permission_id',
-	'label'=>'Permission',
-	'options'=>$permissions,
-	'value'=>$event->permission_id,
-	'key'=>'label',
-	'required'=>true,
-	])
-	
+
 	<div class="form-group">
 		<input type="submit" class="btn btn-success btn-block" value="Update">
 	</div>
