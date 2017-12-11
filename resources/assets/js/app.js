@@ -60,6 +60,7 @@ Vue.component('create_question', require('./questions/components/CreateQuestionP
 Vue.component('edit_question', require('./questions/EditQuestion/components/main.vue'))
 Vue.component('menu_table', require('./components/MenuTable.vue'))
 Vue.component('user_table', require('./components/UsersTable.vue'))
+Vue.component('trashed-user-table', require('./components/TrashedUserTable.vue'))
 Vue.component('role_table', require('./components/RolesTable.vue'))
 Vue.component('role_permissions', require('./components/RolePermissions.vue'))
 Vue.component('test', require('./attempt/components/attempt.vue'))

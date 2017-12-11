@@ -14,6 +14,7 @@ export const Users = {
   update : userId => "/admin/users/" + userId,
   delete : userId => "/admin/users/" + userId,
   approve: userId => "/admin/users/" + userId + "/approve",
+  restore: userId => "/admin/users/" + userId + "/restore",
 }
 export const Menus = {
   update: menuId => "/admin/events/" + menuId,

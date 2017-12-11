@@ -51,6 +51,9 @@
 	        @if(auth('admin')->user()->hasPermission('showUserPermission'))
 		        <li><a href="{{route("permissions.index")}}">Permissions</a></li>
 	        @endif
+	        @if(auth('admin')->user()->hasPermission('editUser'))
+		        <li><a href="{{route("users.trashed")}}">Restore User</a></li>
+	        @endif
         </ul>
 </li>
 	{{--<li class="dropdown">--}}

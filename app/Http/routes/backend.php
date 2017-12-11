@@ -23,6 +23,10 @@ Route::group([
     Route::resource('products', 'ProductsController');
 
     // Not completed
+    Route::get("users/trashed", "UsersController@showDeletedUsers")
+         ->name('users.trashed');
+    Route::post("users/{user}/restore", "UsersController@restore")
+         ->name('users.restore');
     Route::resource("users", "UsersController");
     Route::post("users/{user}/approve", "UsersController@approve");
     Route::resource("permissions", "PermissionsController");

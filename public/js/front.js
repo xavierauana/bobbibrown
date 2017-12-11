@@ -62278,6 +62278,9 @@ var Users = {
   },
   approve: function approve(userId) {
     return "/admin/users/" + userId + "/approve";
+  },
+  restore: function restore(userId) {
+    return "/admin/users/" + userId + "/restore";
   }
 };
 var Menus = {

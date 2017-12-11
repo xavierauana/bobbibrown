@@ -5,11 +5,12 @@
         @include("partials.alert")
 		<div class="panel panel-default">
             <div class="panel-heading" style="line-height: 36px">
-                Users
+                Deleted Users
             </div>
 
             <div class="panel-body">
-                <user_table :initial-users="{{$users}}"></user_table>
+                <trashed-user-table
+		                :initial-users="{{$deletedUsers}}"></trashed-user-table>
             </div>
         </div>
 </div>

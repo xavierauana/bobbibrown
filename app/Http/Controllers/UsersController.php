@@ -100,6 +100,24 @@ class UsersController extends Controller
         return redirect()->route('users.index');
     }
 
+    public function restore($userId, User $userRepo) {
+        if ($user = $userRepo->onlyTrashed()->find($userId)) {
+            $user->restore();
+
+            return redirect()->route('users.index')
+                             ->withMessage($user->name . " has been restored!");
+        };
+
+        return redirectback()->withMessage('User is invalid!');
+
+    }
+
+    public function showDeletedUsers(User $userRepo) {
+        $deletedUsers = $userRepo->onlyTrashed()->get();
+
+        return view('users.trashed', compact('deletedUsers'));
+    }
+
     public function approve(User $user) {
         $this->authorize('edit', User::class);
 
