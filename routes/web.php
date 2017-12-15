@@ -29,7 +29,6 @@ Route::group(['middleware' => "auth"], function () {
     Route::post('profile', 'HomeController@postProfile')
          ->name('profile.update');
 
-
     Route::post('/collections/{collection}/test',
         'HomeController@gradeCollectionTest')->name("grade.collection.test");
     Route::post('/lessons/{lesson}/test', 'HomeController@gradeLessonTest')
@@ -37,8 +36,6 @@ Route::group(['middleware' => "auth"], function () {
 
     Route::get('/collections/{collection}/test',
         'HomeController@showCollectionTest')->name("show.collection.test");
-
-
 
     Route::get('/collections/{collection}', 'HomeController@showCollection')
          ->name("show.collection");
@@ -56,8 +53,7 @@ Route::group(['middleware' => "auth"], function () {
          ->name("show.resources");
     Route::get('/products/{product}', "HomeController@showProduct")
          ->name("show.product");
-
-
+    
     Route::get('/events', 'HomeController@showEvents')->name('show.events');
     Route::get('/myEvents', 'HomeController@showMyEvents')
          ->name('show.myevents');
