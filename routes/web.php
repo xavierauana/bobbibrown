@@ -53,7 +53,7 @@ Route::group(['middleware' => "auth"], function () {
          ->name("show.resources");
     Route::get('/products/{product}', "HomeController@showProduct")
          ->name("show.product");
-    
+
     Route::get('/events', 'HomeController@showEvents')->name('show.events');
     Route::get('/myEvents', 'HomeController@showMyEvents')
          ->name('show.myevents');
