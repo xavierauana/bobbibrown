@@ -252,7 +252,7 @@ class User extends Authenticatable
         $record = $this->getEventSingInRecord($event);
         if ($record and $record->longitude and $record->latitude) {
             $lon = number_format((float)$record->longitude, 6);
-            $lat = number_format((float)$record->longitude, 6);
+            $lat = number_format((float)$record->latitude, 6);
 
             return "http://maps.google.com/maps?q=loc:{$lon},{$lat}&z=17";
         }
