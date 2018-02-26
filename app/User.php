@@ -254,7 +254,8 @@ class User extends Authenticatable
             $lon = number_format((float)$record->longitude, 6);
             $lat = number_format((float)$record->latitude, 6);
 
-            return "http://maps.google.com/maps?q=loc:{$lon},{$lat}&z=17";
+            return "http://maps.google.com/maps?q={$lon},{$lat}";
+
         }
 
         return null;
