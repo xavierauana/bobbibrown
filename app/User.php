@@ -251,7 +251,10 @@ class User extends Authenticatable
     public function getGoogleMapUrlForSingIn(Event $event): ?string {
         $record = $this->getEventSingInRecord($event);
         if ($record and $record->longitude and $record->latitude) {
-            return "http://maps.google.com/maps?q=loc:{$record->longitude},{$record->latitude}&z=17";
+            $lon = number_format((float)$record->longitude, 6);
+            $lat = number_format((float)$record->longitude, 6);
+
+            return "http://maps.google.com/maps?q=loc:{$lon},{$lat}&z=17";
         }
 
         return null;
