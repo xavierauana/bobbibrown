@@ -314,12 +314,16 @@ class UserTest extends TestCase
         ]);
 
         $activity = factory(EventActivity::class)->create([
-            'user_id'  => $this->user->id,
-            'event_id' => $event->id,
-            'type'     => 'singin'
+            'user_id'   => $this->user->id,
+            'event_id'  => $event->id,
+            'type'      => 'singin',
+            'longitude' => "22.3964",
+            'latitude'  => "114.1095",
         ]);
 
-        $this->assertEquals("http://maps.google.com/maps?q=loc:{$activity->longitude},{$activity->latitude}&z=17",
+        $lon = number_format((float)$activity->longitude, 6);
+        $lat = number_format((float)$activity->latitude, 6);
+        $this->assertEquals("http://maps.google.com/maps?q=loc:{$lon},{$lat}&z=17",
             $this->user->getGoogleMapUrlForSingIn($event));
 
     }
