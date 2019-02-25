@@ -51,6 +51,7 @@
           if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(this.success, this.handleError);
           } else {
+            this.submit()
             console.log("Geolocation is not supported by this browser.");
           }
         },

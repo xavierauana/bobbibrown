@@ -43,6 +43,7 @@ class Lesson extends Model implements TestableInterface
     public function hasTest(): bool {
         return $this->tests->count() > 0;
     }
+
     public function hasNoTest(): bool {
         return !$this->hasTest();
     }

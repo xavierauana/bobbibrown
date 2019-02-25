@@ -14,6 +14,8 @@ class VerifyCsrfToken extends BaseVerifier
     protected $except = [
         "/login",
         "/admin/login",
-        "/logout"
+        "/logout",
+        "password/email",
+        "password/reset",
     ];
 }
