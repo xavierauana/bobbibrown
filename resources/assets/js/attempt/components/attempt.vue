@@ -1,21 +1,24 @@
 <template lang="html">
     <div id="test-section">
-        <div class="question" v-if="questions.length > 0" v-for="(question, index) in questions">
+        <div class="question" v-if="questions.length > 0"
+             v-for="(question, index) in questions">
             <component
                     :is="getComponent(question.question_type_id)"
                     :index="computeIndex(index)"
                     :on-answer-change="updateAnswer"
                     :question="question"
                     :previous="get_previous_attempt(question)"
-                    v-show="current_page == question.page_number"
+                    v-show="current_page === question.page_number"
             ></component>
             <hr>
         </div>
         <div class="row">
-            <button class="pull-left btn btn-default" v-show="has_previous_page" @click.prevent="current_page--">
+            <button class="pull-left btn btn-default" v-show="has_previous_page"
+                    @click.prevent="current_page--">
                 previous
             </button>
-            <button class="pull-right btn btn-default" v-show="has_next_page" @click.prevent="current_page++">
+            <button class="pull-right btn btn-default" v-show="has_next_page"
+                    @click.prevent="current_page++">
                 next
             </button>
         </div>
@@ -29,14 +32,14 @@
 <script type="text/babel">
     import _ from "lodash"
     import InlineMultipleChoice from "./InlineMultipleChoiceQuestionView.vue"
-    import MultipleMultipleChoice from "./MultipleMultipleChoiceQuestionView.vue"
+    import MultipleMultipleChoice
+      from "./MultipleMultipleChoiceQuestionView.vue"
     import SingleMultipleChoice from "./SingleMultipleChoiceQuestionView.vue"
     import SingleFillInBlanks from "./SingleFillInBlanksQuestionView.vue"
     import MultipleFillInBlanks from "./MultipleFillInBlanksQuestionView.vue"
     import ReOrder from "./ReOrderQuestionView.vue"
     import Comprehension from "./ComprehensionQuestionView.vue"
     import InlineFillInBlanks from "./InlineFillInBlanksQuestionView.vue"
-    import {Tests as urls} from "./../../endpoints"
 
     export default {
       created() {
@@ -136,6 +139,7 @@
           return window.location.href + "?ajax=1"
         },
         updateAnswer(questionId, updateAnswer) {
+          console.log(questionId, updateAnswer)
           updateAnswer = _.isArray(updateAnswer) ? updateAnswer : [updateAnswer]
 
           let answer = _.find(this.answers, {"id": questionId})
@@ -158,7 +162,7 @@
 
         submit() {
           const uri = window.location.href
-          if (this.answers.length === this.numberOfMarks || confirm("You still have question haven't filled, you are sure to submit"+'?')) {
+          if (this.answers.length === this.numberOfMarks || confirm("You still have question haven't filled, you are sure to submit" + '?')) {
             let data = {
               questionIds: this.questions.map(question => question.id),
               answers    : this.answers,

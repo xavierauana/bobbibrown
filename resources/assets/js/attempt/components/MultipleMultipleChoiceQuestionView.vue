@@ -13,7 +13,7 @@
                     <li v-for="choice in randomChoices">
                         <label>
                             <input class="" type="checkbox" :value="choice.id" v-model="answers"
-                                   @click="updateAnswer">
+                                   @change="updateAnswer">
                             <span v-html="choice.content"></span>
                         </label>
                     </li>

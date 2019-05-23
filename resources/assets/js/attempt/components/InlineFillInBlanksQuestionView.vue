@@ -12,7 +12,7 @@
                 <ul class="list-unstyled  pull-right">
                     <li v-for="(sub_question, index) in question.sub_questions" class="inline-fill-in-li">
                             {{computedIndex(index)}}. <input class="form-control" :data-id="sub_question.id"
-                                                             @change="updateAnswer">
+                                                             @change.prevent="updateAnswer">
                     </li>
                 </ul>
             </div>

@@ -12,8 +12,10 @@
                 <ul class="list-unstyled pull-right">
                     <li v-for="choice in randomChoices">
                         <label>
-                            <input class="" type="radio" :value="choice.id" v-model="answer"
-                                   @click="updateAnswer">
+                            <input class="" type="radio"
+                                   :value="choice.id"
+                                   v-model="answer"
+                                   @change.prevent="updateAnswer">
                             <span v-html="choice.content"></span>
                         </label>
                     </li>
@@ -24,7 +26,7 @@
 </template>
 
 <script type="text/babel">
-    export default{
+    export default {
       props   : {
         index         : {
           type   : String,
@@ -42,24 +44,24 @@
           type: Object
         }
       },
-      data(){
+      data() {
         return {
           answer: ""
         }
       },
       computed: {
-        randomChoices(){
+        randomChoices() {
           return _.shuffle(this.question.choices)
         }
       },
-      mounted(){
+      mounted() {
         if (this.previous) {
           this.answer = this.previous.answer[0]
           this.updateAnswer()
         }
       },
       methods : {
-        updateAnswer(){
+        updateAnswer() {
           this.onAnswerChange(this.question.id, this.answer)
         }
       }
