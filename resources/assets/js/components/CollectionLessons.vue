@@ -45,6 +45,7 @@ export default {
   methods   : {
     updateSelection(value) {
       console.log('update value is, ', value);
+      console.log('this selected, ', this.selected);
     },
     updateLessons() {
       axios.post(this.urls.lessons(this.collectionId), this.selected)
