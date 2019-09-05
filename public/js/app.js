@@ -2595,7 +2595,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
   methods: {
     updateSelection: function updateSelection(value) {
       console.log('update value is, ', value);
-      console.log('this selected, ', this.selected);
+      this.selected = value;
     },
     updateLessons: function updateLessons() {
       var _this2 = this;
